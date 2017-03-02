@@ -1,0 +1,16 @@
+
+form{
+    text-align: right;
+    font-size: 1.2em;
+}
+label{
+    font-size: 1.2em;
+    
+}
+
+.center-block {
+    margin: auto;
+}
+input{
+    display: inline-block;
+}

@@ -1,0 +1,44 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+  cursor: pointer;
+}
+
+a:hover,
+a:active {
+  color: #00B7FF;
+  text-decoration: underline;
+}
+
+a.danger {
+  color: red;
+}
+
+.spacing {
+  margin-bottom: 20px;
+}
+input[type="button"] {
+    width: 120px;
+    margin-left: 35px;
+    display: block;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+form,article{
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+
+@media screen and (min-width: 840px) {
+    form ,article{
+        width: 680px;
+        margin: auto;
+    }
+}

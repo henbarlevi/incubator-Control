@@ -1,0 +1,48 @@
+ <!--admin add new user form-->
+ <form (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
+   <div class="panel panel-primary">
+      <div class="panel-body">
+        <!-- first name--> 
+        <div class="form-group ">
+        <label for="firstName" class="cols-sm-2 control-label">שם פרטי</label>  
+        <input type="text" name="firstName" [(ngModel)]="signupUser.firstName"
+          placeholder="שם פרטי  " style="width: 20%;" required>
+        </div>     
+        <!--last name-->
+         <div class="form-group ">                  
+        <label for="lastName" class="cols-sm-2 control-label">שם משפחה</label>
+        <input type="text" name="lastName" [(ngModel)]="signupUser.lastName"
+          placeholder=" שם משפחה" style="width: 20%;" required>
+         </div>          
+        <!--email-->              
+         <div class="form-group "> 
+        <label for="email" class="cols-sm-2 control-label">אימייל</label>
+        <input type="email" name="email" [(ngModel)]="signupUser.email"
+          placeholder=" מייל" style="width: 20%;" required>
+         </div>          
+        <!--password-->           
+         <div class="form-group ">   
+        <label for="password" class="cols-sm-2 control-label">סיסמא</label>  
+        <input type="password" name="password" [(ngModel)]="signupUser.password"
+          placeholder=" סיסמא" style="width: 20%;" required>
+         </div>
+        <!--Role (watcher/editor)-->                 
+         <div class="form-div form-group col-xs-2">
+             <label for="status" class="cols-sm-2 control-label form-label"> : תפקיד </label>
+             <select class="form-control " name="role" [ngModel]="signupUser.role" (ngModelChange)="signupUser.role=$event"  required>
+                    <option [value]="'editor'">
+                     עורך
+                    </option>
+                    <option  [value]="'watcher'">
+                     רגיל
+                    </option>
+            </select>
+         </div> 
+      </div>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary  btn-lg slk center-block ">הוסף משתמש</button>
+    </div>
+ 
+  </form>
+  <div class="container">
+    <users></users> 
+  </div>

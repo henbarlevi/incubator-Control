@@ -1,0 +1,45 @@
+
+    
+ <section id="login">
+    <div class="container">
+    	<div class="row">
+            <div class="panel-heading">                                
+                <div class="row-fluid user-row">
+                     <img src="http://www.gold-ventures.com/wp-content/uploads/2014/08/logo-home.png" class="img-responsive" alt="Conxole Admin"/>
+                 </div>
+            </div>
+    	    <div class="col-xs-12">
+        	    <div class="form-wrap">
+                <h1>התחבר עם המייל שלך</h1>
+                        <div class="form-group">
+                            
+                            <label for="email" class="sr-only">מייל</label>
+                            <!--<input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com">-->
+                            <input type="email"  name="email" id="email"  [(ngModel)]="email" class="form-control" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">סיסמא</label>
+                            <!--<input type="password" name="key" id="key" class="form-control" placeholder="Password">-->
+                            <input type="password" name="password" id="password"  [(ngModel)]="password" class="form-control" placeholder="Password" #passwordField>
+                        </div>
+
+                        <!--<input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Log in">-->
+                         <button (click)="login()" id="btn-login" class="btn btn-custom btn-lg btn-block">Login</button>
+                    <a href="javascript:;" class="forget" data-toggle="modal" data-target=".forget-modal">Forgot your password?</a>
+                    <hr>
+        	    </div>
+    		</div> <!-- /.col-xs-12 -->
+    	</div> <!-- /.row -->
+    </div> <!-- /.container -->
+</section>   
+    <!--footer-->
+    <footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>GVI © - 2017</p>
+                <p>created by <strong><a href="https://github.com/henbarlevi" target="_blank">Hen Bar Levi</a></strong></p>
+            </div>
+        </div>
+    </div>
+    </footer>

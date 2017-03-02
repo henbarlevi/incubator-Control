@@ -1,0 +1,20 @@
+How to use:
+
+1) Navigate into the folder (in the command line/ terminal)
+2) Run "npm install" to install all required dependencies
+3) Run "npm run build" to run the development build script => Keep this process running! It recompiles your files upon changes.
+4) Run "npm start" in a new command line/ terminal window => Keep this process running as well, it's your NodeJS server. 
+
+//---------mongodb---------------
+to see values in mongodb DB:
+1. use the mongo shell and in the cmd:
+use IncubatorDB - to switch to the incubatorDB
+show collections  //output every collection
+  OR
+show tables
+  OR
+db.getCollectionNames() //shows all collections as a list
+
+db.users.find() - show records in the users schema
+db.users.remove({}) - remove all records in the users schema
+db.users.insert({firstName:"hen" ,lastName:"barlevi" , password:"123"}) - insert record

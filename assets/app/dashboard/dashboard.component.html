@@ -1,0 +1,56 @@
+<!--header-->
+    <header>
+    <template [ngIf] = "role==='admin'">
+    <admin-nav-bar></admin-nav-bar>
+    </template>
+    <template [ngIf] = "role==='editor'">
+    <editor-nav-bar></editor-nav-bar>    
+    </template>
+    <template [ngIf] = "role==='watcher'">
+    <watcher-nav-bar></watcher-nav-bar>    
+    </template>
+    </header>
+<!--main-->
+    <router-outlet></router-outlet>
+    
+<!--Footer-->
+<footer class="page-footer blue center-on-small-only">
+
+    <!--Footer Links-->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!--First column-->
+            <div class="col-md-6" align="left">
+                <h5 class="title">About Gold Ventures Incubator</h5>
+                <p>Gold Ventures Incubator is more than an acceleration program for Start-ups. The unique concept we created offers a fresh view of Entrepreneurship and a broad understanding of what an early stage venture really needs to succeed.
+So GVI became the home for visionaries, dreamers and even serial entrepreneurs. Our moto is – even if you are boot-strapped, it doesn’t mean you can’t have it all.</p>
+            </div>
+            <!--/.First column-->
+
+            <!--Second column-->
+            <div class="col-md-6">
+                <h5 class="title">Links</h5>
+                <ul>
+                    <li><a href="#!">Link 1</a></li>
+                    <li><a href="#!">Link 2</a></li>
+                    <li><a href="#!">Link 3</a></li>
+                    <li><a href="#!">Link 4</a></li>
+                </ul>
+            </div>
+            <!--/.Second column-->
+        </div>
+    </div>
+    <!--/.Footer Links-->
+
+    <!--Copyright-->
+    <div class="footer-copyright">
+        <div class="container-fluid">
+           © Copyright 2015-2016 Gold Ventures Incubator by Gold Training Solutions LTD. All Rights Reserved.  <a href="https://github.com/henbarlevi"> Created with ♥ by Hen Bar Levi </a>
+
+        </div>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->

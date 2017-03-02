@@ -1,0 +1,55 @@
+<!--page that let the admin change the values that will be display in the project form comboboxes-->
+<!--https://v4-alpha.getbootstrap.com/components/input-group/
+    http://getbootstrap.com/2.3.2/base-css.html - help for desing-->
+
+<!--Add option to combobox section-->
+<div class="form-inline ">
+    <label for="optionName" class="control-label">שם תגית</label>
+    <div class="input-append">
+        <input type="text" class="form-control " name="optionName" [(ngModel)]="option" placeholder="שם תגית  " style="width: 20%;" required>
+        <button class="btn btn-default inline-block" (click)="addOption()"> <span  class="glyphicon glyphicon-plus"></span></button>
+    </div>
+    
+<div class="form-div input-group col-xs-6 col-md-4">
+    <label for="comboboxName" class="cols-sm-2 control-label form-label"> : בחר קומבו-בוקס </label>
+    <select class="form-control " name="comboboxName" [(ngModel)]="comboboxName" required>
+                    <option [value]="'source'">
+                     מקור
+                    </option>
+                    <option  [value]="'status'">
+                     סטטוס
+                    </option>
+                    <option  [value]="'domain'">
+                     תחום
+                    </option>
+            </select>
+</div>
+
+</div>
+
+<!--Display status combobox options with button for delete-->
+<div class="form-group ">
+    <h3><span class="label label-default">ערכים קיימים בקומבו-בוקס סטטוס</span></h3>
+    <div *ngFor="let option of statusOptions" class="d-inline">
+        {{option}}
+        <button class=" btn-danger" (click)="deleteStatus(option,'status')"> <span  class="glyphicon glyphicon-remove"></span></button>
+    </div>
+</div>
+
+<!--Display domain combobox options with button for delete-->
+<div class="form-group ">
+    <h3><span class="label label-default">ערכים קיימים בקומבו-בוקס תחום</span></h3>
+    <div class="optionsDiv" *ngFor="let option of domainOptions">
+        {{option}}
+        <button class=" btn-danger"  (click)="deleteStatus(option,'domain')"> <span  class="glyphicon glyphicon-remove"></span></button>
+    </div>
+</div>
+
+<!--Display source combobox options with button for delete-->
+<div class="form-group ">
+    <h3><span class="label label-default">ערכים קיימים בקומבו-בוקס מקור</span></h3>
+    <div class="optionsDiv" *ngFor="let option of sourcesOptions">
+        {{option}}
+        <button class=" btn-danger"  (click)="deleteStatus(option,'source')"> <span  class="glyphicon glyphicon-remove"></span></button>
+    </div>
+</div>

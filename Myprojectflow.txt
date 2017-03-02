@@ -1,0 +1,47 @@
+1.installing client-sessions in server side
+2.implement session middleware and using it in the routes/app.js - login post request
+3.adding roles to the app : editor, watcher , admin
+4.adding middleware to the editor,watcher,admin routes
+5.adding navigation bar shared component and dashboard to each role
+6.adding project form component
+7.creating project service
+8.server doesnt get the project json object
+9.installed gulp globally - but i dont use it eventually
+10.added connect-busboy pack (npm install connect-busboy --save) in order to get uploaded files
+11.dir="rtl" To the Html Tag of the app to fit the direction to hebrew
+12.npm install zip-folder --save - package that compress folder to zip
+13. installing file saver - FileSaver.js implements the saveAs() FileSaver interface in browsers that do not natively support it.
+    (basically it help me save the files after they have been recieved from server)
+    npm install file-saver --save
+    npm install @types/file-saver --save
+    http://stackoverflow.com/questions/40240796/angular-2-best-approach-to-use-filesaver-js
+    http://stackoverflow.com/questions/39670360/angular2-filesaver-js-cannot-find-module-file-saver
+    http://stackoverflow.com/questions/40782331/use-filesaver-js-with-angular2
+14.added the MDB bootstrap meterial desing and JQuery (currently MDB link and Jquery causing an error of  Cannot read property 'swing' of undefined
+    at mdb.min.js:1)
+//---------rememberToFIx---------------
+-use the globalvariables service where it should
+-fix the issue with users that 
+change the login page so that it will login when pressing enter
+-TODO the project db model
+-TODO model project should contain files and multiDomains
+-TODO check the schemas validation
+-TODO prevent O(n) in the crew component by using member index O(1)
+-Fix - (currently MDB link and Jquery causing an error of  Cannot read property 'swing' of undefined
+    at mdb.min.js:1)
+-Fix issue with crew component, happens when playing unexpectedly with buttons - can fixed by using the angular 2 from ground up approach /HTTP folder
+-use barrels to minimize the imports lines
+-add select options of project form to the globalvariables service
+-use password hashing in the server, check :https://www.youtube.com/watch?v=yvviEA1pOXw to see what package he use
+-add private to props where should
+-TODO did a checkLoign in the loginService but didnt use it to make already logged user to skip login from into the dashboard
+-TODO make the search project input display auto complete
+-TODO check for memory leaks
+-TODO change the project-edit and project-form components to more reusable hierarchy
+-TODO maybe use the localstorage instead of globalvariablesService for userdetails etc?
+-TODO handle situation session on server expierd - suppose to route to the login page
+-TODO use mongoose population instead of one big model in DB
+-TODO on project-list the onEdit event should happen from outside using @output
+-TODO currently sending to much http requests to get combooptions that already been loaded => maybe should send only 1 combobox load req per page that need the options and make the 
+nested component of the form bind directly to the globalvariablesService.option prop
+-TODO add to globalvariablesService geters and setters for the combooptions

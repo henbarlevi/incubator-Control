@@ -1,0 +1,26 @@
+[0124/175743:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0124/175743:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0125/000617:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0125/000617:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0125/134428:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0125/134428:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0125/224424:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0125/224424:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0131/002745:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0131/002745:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0202/142536:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0202/142536:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0206/125138:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0206/125138:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0207/094934:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0207/094934:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0207/153549:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0207/153549:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0207/225005:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0207/225005:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0208/140007:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0208/140007:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0213/151948:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0213/151948:ERROR:node_debugger.cc(86)] Cannot start debugger server
+[0214/123021:ERROR:tcp_listen_socket.cc(76)] Could not bind socket to 127.0.0.1:6004
+[0214/123021:ERROR:node_debugger.cc(86)] Cannot start debugger server

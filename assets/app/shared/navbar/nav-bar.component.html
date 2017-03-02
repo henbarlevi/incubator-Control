@@ -1,0 +1,25 @@
+ <nav role="navigation" class="navbar navbar-dark bg-primary">
+        <div  class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="	glyphicon glyphicon-menu-down"></span>
+                    תפריט
+                </button>
+                <a class="navbar-brand" [routerLink]="['home']">Gold Ventures Incubator</a>
+            </div>
+             <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li *ngFor="let navLink of navLinks" class="nav-item">
+                <a [routerLink]="navLink.routerLink">{{navLink.content}}</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <li *ngFor="let navElement of navElements" class="nav-item" >
+                <a [innerHTML] ="navElement.content" [routerLink]="navElement.routerLink"></a>
+                </li>
+                <li class="nav-item"><a   (click)="logout()" ><span class="glyphicon glyphicon-log-out"></span> התנתק</a></li>
+            </ul>
+             </div>
+        </div>
+        
+    </nav>
