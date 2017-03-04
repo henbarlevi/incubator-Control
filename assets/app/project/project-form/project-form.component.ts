@@ -32,7 +32,7 @@ export class ProjectFormComponent implements OnInit {
 
     project: Project;// project model, will contain all the submit values
     programSuggestions: string[]//options of the programSuggestions multiselect combo box
-    //eventReferences = [];//event references of the project
+    eventReferences = [];//event references of the project
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
     constructor(private projectService: ProjectService,
@@ -106,7 +106,7 @@ export class ProjectFormComponent implements OnInit {
         console.log(this.project); //DEBUG
 
         //post project to server
-        this.projectService.addProject(this.project).then(res => {
+        this.projectService.addProject(this.project,this.eventReferences).then(res => {
             console.log('project added :')
             console.log(res.json());//DEBUG
             if (res.ok) {//if the post project to server succeded:

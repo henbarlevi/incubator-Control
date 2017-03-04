@@ -48,8 +48,8 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //POST HTTP REQUEST -add new project  
-  addProject(project) {
-    const json = JSON.stringify(project); //convert project to json
+  addProject(project,eventReferences) {
+    const json = JSON.stringify({project:project , eventReferences:eventReferences}); //convert project to json
     console.log(json);//DEBUG
     const headers = new Headers({ 'content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/${this.role()}/project`, json, { headers: headers }).toPromise()

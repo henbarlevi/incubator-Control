@@ -1,5 +1,5 @@
 /*methods that get used by the routes folder files (app.js , admin.js etc..)*/
-var Project = require('../models/project'); //import 'Project' schema model
+var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' schema model
 var Member = require('../models/member'); //import 'Member' schema model
 var User = require('../models/user'); //import 'User' schema model
 var ProjectFile = require('../models/project-files'); //import 'File' schema model that contain the path and the fieldname of a project's file
@@ -55,22 +55,11 @@ function requireLogin(req, res, next) {
 function projectPostHandler(req, res, next) {
     console.log('project as been posted:');
     console.log(req.body);
-    if (req.body && req.body.projectName) { //check if project exist in the request boy
+    if (req.body && req.body.project) { //check if project exist in the request boy
         //insert record mongoDB:
-        var projectReq = req.body; //the project posted
-        var project = new Project({
-            projectName: projectReq.projectName,
-            source: projectReq.source,
-            petitionDate: projectReq.petitionDate,
-            crew: projectReq.crew,
-            status: projectReq.status,
-            projectDomain: projectReq.projectDomain, //TODO should be get multi vals
-            filledPitch: projectReq.filledPitch,
-            filledQuestions: projectReq.filledQuestions,
-            signedFinder: projectReq.signedFinder,
-            programSuggested: projectReq.programSuggested
-        });
-        project.save(function (err, proj) { //saving new project record
+        var projectReq = req.body.project; //the project posted
+        var eventReferencesReq = req.body.eventReferences;//the eventReferences posted
+        ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG
             console.log(err);
             console.log('the doc');
@@ -88,6 +77,8 @@ function projectPostHandler(req, res, next) {
                 res.status(201).json(proj);
             }
         });
+  
+      
     }
     else { //new project doesnt exist in  the request body
         res.status(400).json({ message: ' bad project post' }); //bad request response
@@ -100,7 +91,7 @@ function projectGetHandler(req, res, next) {
     var queryString = req.query; //contain the query stirng values
     if (queryString.name) {
 
-        Project.find({ projectName: { $regex: queryString.name, $options: 'i' } },
+        ProjectRep.findByName(queryString.name,
             function (err, proj) {
                 if (err) return handleError(err);
                 console.log(proj);
@@ -110,7 +101,7 @@ function projectGetHandler(req, res, next) {
             });
     }
     else if (queryString.domain) {
-        Project.find({ projectDomain: { $regex: queryString.domain, $options: 'i' } },
+        ProjectRep.findByDomain(queryString.domain,
             function (err, proj) {
                 if (err) return handleError(err);
                 console.log(proj);
@@ -121,7 +112,7 @@ function projectGetHandler(req, res, next) {
     }
     else {
 
-        Project.find({}, function (err, projects) {
+        ProjectRep.findAll(function (err, projects) {
             console.log(projects);
             if (err) {
                 return res.status(502).send('error in DB!');
@@ -138,7 +129,7 @@ function projectPatchHandler(req, res, next) {
     console.log(req.body);
     if (projectId) {
 
-        Project.findByIdAndUpdate(projectId, { $set: req.body },
+        ProjectRep.UpdateById(projectId, req.body ,
             function (err, proj) {
                 //if (err) return handleError(err);
                 if (err) {
@@ -162,7 +153,7 @@ function projectDeleteHandler(req, res, next) {
     console.log('project id is ' + req.params.id + ' , and trying to delete it');//DEBUG
     if (projectId) {
 
-        Project.findByIdAndRemove(projectId,
+        ProjectRep.DeleteById(projectId,
             function (err, proj) {
                 //if (err) return handleError(err);
                 if (err) {

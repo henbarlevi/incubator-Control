@@ -19,6 +19,7 @@
     http://stackoverflow.com/questions/40782331/use-filesaver-js-with-angular2
 14.added the MDB bootstrap meterial desing and JQuery (currently MDB link and Jquery causing an error of  Cannot read property 'swing' of undefined
     at mdb.min.js:1)
+15.adding repository to each db model
 //---------rememberToFIx---------------
 -use the globalvariables service where it should
 -fix the issue with users that 
