@@ -17,16 +17,24 @@ var path = require('path');//help with files path
 
 var methods = require('../methods.js') //contain a resuable Middlewares and other functions (requireLogin etc..)
 var requireLogin = methods.requireLogin; //Middleware that filters unauthenticated users
+//project methods:
 var projectPostHandler = methods.projectPostHandler; /*Handle with project POST request*/
 var projectGetHandler = methods.projectGetHandler; /*Handle with project GET request*/
 var projectPatchHandler = methods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = methods.projectDeleteHandler; /*Handle project "DELETE" request  */
+//files methods:
 var projctUploadedFilesHandler = methods.projctUploadedFilesHandler; /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 var projectDownloadFilesHandler = methods.projectDownloadFilesHandler;
 var projectDownloadSpecificFileHandler = methods.projectDownloadSpecificFileHandler;/*handle with download a project specific file (pitchfile/finderfile etc..)*/
+//combo-box methods
+var comboOptionsPostHandler = methods.comboOptionsPostHandler; /*Handle with POST new combobox-option request*/
+var comboOptionsDeleteHandler = methods.comboOptionsDeleteHandler; /*Handle with DELETE comboboxes-options request*/   
+var comboOptionsGetHandler = methods.comboOptionsGetHandler; /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
+//user methods:
 var usersGetHandler = methods.usersGetHandler; /*Handle with GET users Request*/
 var userDeleteHandler = methods.userDeleteHandler;  /*Handle with DELETE user Request*/
 var userPatchHandler = methods.userPatchHandler; /*Handle with PATCH user Request*/
+
 /*Middleware that filter users that are not Authorized (not authenticated or not in 'admin' role)*/
 router.use('/', requireLogin, function (req, res, next) {
     if ((!req.user) || (req.user.role !== 'admin')) {
@@ -90,133 +98,10 @@ router.get('/project/file/:id',projectDownloadSpecificFileHandler);
 
 
 /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
-router.get('/comboboxes-options', function (req, res) {
-    SourcesOptions.find({}, function (err, srcOptions) {
-        console.log(typeof srcOptions);
-        if (err) {
-            res.status(502).send('couldnt find options of combobox source')
-        }
-        else {
-            StatusOptions.find({}, function (err, stsOptions) {
-                console.log(typeof stsOptions);
-                if (err) {
-                    res.status(502).send('couldnt find options of combobox status')
-                }
-                else {
-                    DomainOptions.find({}, function (err, dmnOptions) {
-                        console.log(typeof srcOptions);
-                        if (err) {
-                            res.status(502).send('couldnt find options of combobox domain')
-                        }
-                        else {
-                            res.status(200).json({ SourcesOptions: srcOptions, StatusOptions: stsOptions, DomainOptions: dmnOptions });
-                        }
-                    })
-                }
-            })
-        }
-    })
-})
+router.get('/comboboxes-options', comboOptionsGetHandler);
 /*Handle with POST comboboxes-options request - changing form structure requests - the admin can change the new project form structure
 by changing the comboboxes options (combo boxes options are saved in the DB in the 'project-enums.js schemas) */
-router.post('/comboboxes-options/:comboboxname', function (req, res) {
-    console.log(req.params);
-    var comboboxName = req.params.comboboxname;//getting the comboboxname paramter from url
-    var newOption = req.body.option;// getting the option property from the request body json obj
-    if (comboboxName) {
-        if (comboboxName === 'status') {
-            //add new option to the StatusOptions schema
-            var statusOption = new StatusOptions({
-                option: newOption
-            })
-            statusOption.save(function (err) {
-                if (err) {//didnt add the new option to DB
-                    res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
-                }
-                else {//no errors with DB
-                    res.status(201).json({ message: 'new option added' }); //OK option added
-                }
-            })
-        }
-        else if (comboboxName === 'domain') {
-            //add new option to the DomainOptions schema
-            var domainOption = new DomainOptions({
-                option: newOption
-            })
-            domainOption.save(function (err) {
-                if (err) {//didnt add the new option to DB
-                    res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
-                }
-                else {//no errors with DB
-                    res.status(201).json({ message: 'new option added' }); //OK option added
-                }
-            })
-        }
-        else if (comboboxName === 'source') {
-            //add new option to the SourcesOptions schema           
-            var sourceOption = new SourcesOptions({
-                option: newOption
-            })
-            sourceOption.save(function (err) {
-                if (err) {//didnt add the new option to DB
-                    res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
-                }
-                else {//no errors with DB
-                    res.status(201).json({ message: 'new option added' }); //OK option added
-                }
-            })
-        }
-        else {
-            res.status(400).send('client didnt send a proper comboboxname as parameter in the url');
-
-        }
-
-    } else {
-        //response 400 Bad Request
-        res.status(400).send('client didnt send comboboxname as parameter in the url');
-    }
-});
+router.post('/comboboxes-options/:comboboxname', comboOptionsPostHandler);
 /*Handle with DELETE comboboxes-options request*/
-router.delete('/comboboxes-options/:comboboxname', function (req, res) {
-    var comboboxName = req.params.comboboxname;//getting the comboboxname paramter from url
-    var queryString = req.query; //contain the query stirng values
-    if (comboboxName && queryString.option) {
-        if (comboboxName === 'status') {
-            StatusOptions.findOneAndRemove({ option: queryString.option }, function (err) {
-                if (err) {
-                    res.status(502).send('couldnt delte the option')
-                }
-                else {
-                    res.status(200).send('option deleted succesfully')
-                }
-            })
-        }
-        else if (comboboxName === 'domain') {
-            DomainOptions.findOneAndRemove({ option: queryString.option }, function (err) {
-                if (err) {
-                    res.status(502).send('couldnt delte the option')
-                }
-                else {
-                    res.status(200).send('option deleted succesfully')
-                }
-            })
-        }
-        else if (comboboxName === 'source') {
-            SourcesOptions.findOneAndRemove({ option: queryString.option }, function (err) {
-                if (err) {
-                    res.status(502).send('couldnt delte the option')
-                }
-                else {
-                    res.status(200).send('option deleted succesfully')
-                }
-            })
-        }
-        else {
-            res.status(400).send('bad request : comboboxname doesnt contain valid value')
-
-        }
-    } else {
-        res.status(400).send('bad request : request doesnt contain the option in or the comboboxname')
-    }
-});
+router.delete('/comboboxes-options/:comboboxname',comboOptionsDeleteHandler);
 module.exports = router; //export the router to be used in the app.js 

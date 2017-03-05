@@ -1,12 +1,12 @@
 /*methods that get used by the routes folder files (app.js , admin.js etc..)*/
-var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' schema model
+var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var Member = require('../models/member'); //import 'Member' schema model
 var User = require('../models/user'); //import 'User' schema model
 var ProjectFile = require('../models/project-files'); //import 'File' schema model that contain the path and the fieldname of a project's file
 var comboboxesModels = require('../models/project-enums');//import all comboboxes options schema models - each schema contain the options in one of the comboboxes in the project form
-var SourcesOptions = comboboxesModels.SourcesOptions; //schema that contain the options in the source 'מקור' comboboxe
-var StatusOptions = comboboxesModels.StatusOptions;//schema that contain the options in the status 'סטטוס' comboboxe
-var DomainOptions = comboboxesModels.DomainOptions;//schema that contain the options in the domain 'תחום' comboboxe
+var SourcesOptionsRep = require('../models/repositories/project-enums/source-options-rep');//repository of schema that contain the options in the source 'מקור' comboboxe
+var StatusOptionsRep = require('../models/repositories/project-enums/status-options-rep');//repository of schema that contain the options in the status 'סטטוס' comboboxe
+var DomainOptionsRep = require('../models/repositories/project-enums/domain-options-rep');//repository of schema that contain the options in the domain 'תחום' comboboxe
 
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
@@ -190,7 +190,7 @@ function projctUploadedFilesHandler(req, res, next) {
         req.busboy.on('file', function (fieldname, file, filename) {//for each uploaded file:
             console.log(file);//DEBUG
             console.log('the field name : %s filename : %s', fieldname, filename);//DEBUG
-            console.log("Uploading: " + filename);//DEBUG
+            console.log("Uploading: " + filename);//DEBUG.
             fstream = fs.createWriteStream(projectFilesFolder + '/' + filename);//create write stream to project folder
             file.pipe(fstream);//pipe the uploaded file into the project folder
             fstream.on('close', function () {
@@ -278,19 +278,19 @@ function projectDownloadSpecificFileHandler(req, res, next) {
 
 /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
 function comboOptionsGetHandler(req, res, next) {
-    SourcesOptions.find({}, function (err, srcOptions) {
+    SourcesOptionsRep.findAll(function (err, srcOptions) {
         console.log(typeof srcOptions);
         if (err) {
             res.status(502).send('couldnt find options of combobox source')
         }
         else {
-            StatusOptions.find({}, function (err, stsOptions) {
+            StatusOptionsRep.findAll(function (err, stsOptions) {
                 console.log(typeof stsOptions);
                 if (err) {
                     res.status(502).send('couldnt find options of combobox status')
                 }
                 else {
-                    DomainOptions.find({}, function (err, dmnOptions) {
+                    DomainOptionsRep.findAll(function (err, dmnOptions) {
                         console.log(typeof srcOptions);
                         if (err) {
                             res.status(502).send('couldnt find options of combobox domain')
@@ -314,10 +314,7 @@ function comboOptionsPostHandler(req, res, next) {
     if (comboboxName) {
         if (comboboxName === 'status') {
             //add new option to the StatusOptions schema
-            var statusOption = new StatusOptions({
-                option: newOption
-            })
-            statusOption.save(function (err) {
+            StatusOptionsRep.add(newOption,function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -328,10 +325,7 @@ function comboOptionsPostHandler(req, res, next) {
         }
         else if (comboboxName === 'domain') {
             //add new option to the DomainOptions schema
-            var domainOption = new DomainOptions({
-                option: newOption
-            })
-            domainOption.save(function (err) {
+            DomainOptionsRep.add(newOption,function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -342,10 +336,7 @@ function comboOptionsPostHandler(req, res, next) {
         }
         else if (comboboxName === 'source') {
             //add new option to the SourcesOptions schema           
-            var sourceOption = new SourcesOptions({
-                option: newOption
-            })
-            sourceOption.save(function (err) {
+            SourcesOptionsRep.add(newOption,function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -371,7 +362,7 @@ function comboOptionsDeleteHandler(req, res, next) {
     var queryString = req.query; //contain the query stirng values
     if (comboboxName && queryString.option) {
         if (comboboxName === 'status') {
-            StatusOptions.findOneAndRemove({ option: queryString.option }, function (err) {
+            StatusOptionsRep.deleteOption(queryString.option, function (err) {
                 if (err) {
                     res.status(502).send('couldnt delte the option')
                 }
@@ -381,7 +372,7 @@ function comboOptionsDeleteHandler(req, res, next) {
             })
         }
         else if (comboboxName === 'domain') {
-            DomainOptions.findOneAndRemove({ option: queryString.option }, function (err) {
+            DomainOptionsRep.deleteOption(queryString.option , function (err) {
                 if (err) {
                     res.status(502).send('couldnt delte the option')
                 }
@@ -391,7 +382,7 @@ function comboOptionsDeleteHandler(req, res, next) {
             })
         }
         else if (comboboxName === 'source') {
-            SourcesOptions.findOneAndRemove({ option: queryString.option }, function (err) {
+            SourcesOptionsRep.deleteOption(queryString.option, function (err) {
                 if (err) {
                     res.status(502).send('couldnt delte the option')
                 }
