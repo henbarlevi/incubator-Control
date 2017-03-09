@@ -1,15 +1,16 @@
-/*methods that get used by the routes folder files (app.js , admin.js etc..)*/
+/*reusable methods that get used by the routes folder files (app.js , admin.js etc..)*/
 var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var Member = require('../models/member'); //import 'Member' schema model
-var User = require('../models/user'); //import 'User' schema model
+var UserRep = require('../models/repositories/user-rep'); //import 'User' schema model
 var ProjectFile = require('../models/project-files'); //import 'File' schema model that contain the path and the fieldname of a project's file
-var comboboxesModels = require('../models/project-enums');//import all comboboxes options schema models - each schema contain the options in one of the comboboxes in the project form
+var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
 var SourcesOptionsRep = require('../models/repositories/project-enums/source-options-rep');//repository of schema that contain the options in the source 'מקור' comboboxe
 var StatusOptionsRep = require('../models/repositories/project-enums/status-options-rep');//repository of schema that contain the options in the status 'סטטוס' comboboxe
 var DomainOptionsRep = require('../models/repositories/project-enums/domain-options-rep');//repository of schema that contain the options in the domain 'תחום' comboboxe
 
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
+var rimraf = require('rimraf'); //module that can delete folder with all its files
 
 //-----------------------------------------------------------------------------
 /*method that check user authenticatation by :
@@ -22,7 +23,7 @@ function checkUserAuthentication(req, res, next) {
     if (req.session && req.session.user) {
         var email = req.session.user.email;
         var password = req.session.user.password;
-        User.findOne({ email: email }, function (err, user) {
+       UserRep.findOneByEmail(email, function (err, user) {
             if (err) { //if error in db happend
                 res.status(401).send('Error! : ' + err);
             }
@@ -31,7 +32,7 @@ function checkUserAuthentication(req, res, next) {
             }
             else { //user is authenticated:
                 req.user = user;
-                req.user.password = null; //delete password from session for security reasons              
+                req.user.password = null; //delete password from details for security reasons              
                 console.log("THE SESSION:" + req.user);//DEBUG
                 next();
             }
@@ -73,6 +74,15 @@ function projectPostHandler(req, res, next) {
 
                 if (!fs.existsSync(dir)) {//if the foler not exist
                     fs.mkdirSync(dir);//create the folder
+                }
+                //adding event references to db:
+                if(eventReferencesReq){
+                    EventRefRep.addMulti(eventReferencesReq,proj._id,function(err,events){
+                       if(!err){
+
+                        console.log('even-ref added');
+                       }
+                    })
                 }
                 res.status(201).json(proj);
             }
@@ -162,7 +172,12 @@ function projectDeleteHandler(req, res, next) {
 
                     console.log(proj);
                     console.log('the delete result %s.', proj);
-                    res.status(200).json(proj);
+                    //deleting project files folder:
+                     var projectDir = path.join(__dirname, '../uploads/', proj._id.toString());
+                    rimraf(projectDir, function () {
+                         console.log('project folder deleted'); 
+                            res.status(200).json(proj);
+                        });
                 }
             });
     } else {
@@ -196,7 +211,7 @@ function projctUploadedFilesHandler(req, res, next) {
             fstream.on('close', function () {
                 console.log('File [' + fieldname + '] Finished');
                 //save the file path to the DB project files schema:
-                Project.findById(projectId, function (err, project) {
+                ProjectRep.findById(projectId, function (err, project) {
                     if (err) {
                         res.status(502).end('couldnt find project in DB when uploading the files');
                     }
@@ -407,7 +422,7 @@ function comboOptionsDeleteHandler(req, res, next) {
 /*Handle with GET users Request*/
 function usersGetHandler(req, res, next) {
     console.log('client get users');//DEBUG
-    User.find({ role: { $ne: "admin" } }, function (err, users) { //get all users records except users with the 'role' 'admin'
+    UserRep.findAllExceptAdmin(function (err, users) { //get all users records except users with the 'role' 'admin'
         if (err) {
             res.status(502).send('couldnt find users records');
         } else {
@@ -416,13 +431,31 @@ function usersGetHandler(req, res, next) {
         }
     })
 }
+/*Handle with POST new user Request*/
+function userPostHandler(req, res, next) {
+
+    UserRep.add(req.body,function (err) {
+        if (err) {//if error acquired
+            let error;
+            console.log(err.code);
+            if (err.code === 11000) { //11000 - the email input is already exist in DB
+                error = 'this email is already taken';//TODO NOT WORKING the user never get that error
+            } else {
+                error = 'user fields didnt filled correctly , try again';
+            }
+            res.status(400).send(error);//bad request
+        } else {
+            res.status(201).send('user created')
+        }
+    });
+}
 /*Handle with DELETE user Request*/
 function userDeleteHandler(req, res, next) {
     var userId = req.params.id;//getting the id paramter from url
     console.log('user id is ' + req.params.id + ' , and trying to delete it');//DEBUG
     if (userId) {
 
-        User.findByIdAndRemove(userId,
+        UserRep.deleteById(userId,
             function (err, user) {
                 //if (err) return handleError(err);
                 if (err) {
@@ -444,7 +477,7 @@ function userPatchHandler(req, res, next) {
     console.log('trying to update user..');
     if (userId) {
 
-        User.findByIdAndUpdate(userId, { $set: req.body },
+        UserRep.updateById(userId, req.body,
             function (err, user) {
                 //if (err) return handleError(err);
                 if (err) {
@@ -480,6 +513,7 @@ module.exports = {
     comboOptionsDeleteHandler: comboOptionsDeleteHandler, /*Handle with DELETE comboboxes-options request*/
     /*Users functions*/
     usersGetHandler: usersGetHandler, /*Handle with GET users Request*/
+    userPostHandler : userPostHandler, /*Handle with POST new user Request*/
     userDeleteHandler: userDeleteHandler, /*Handle with DELETE user Request*/
     userPatchHandler: userPatchHandler /*Handle with PATCH user Request*/
 }

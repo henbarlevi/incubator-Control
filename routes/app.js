@@ -89,14 +89,6 @@ router.get('/role',requireLogin, function (req, res, next) {
         res.status(200).json({ role: req.user.role });
 });
 
-// router.get('/watcher', function (req, res, next) {
-//     if (req.session && req.session.user) {
-//         res.status(200).json({ message: 'OK you are authorized' });
-//     } else {
-//         req.session.reset();
-//         res.redirect('/');
-//     }
-// });
 
 function requireLogin(req,res,next){
     if(!req.user){

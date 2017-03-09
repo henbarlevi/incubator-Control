@@ -21,7 +21,10 @@ function add(projectReq, callback) {
 function findAll(callback){
  Project.find({}, callback);
 }
-
+/*Find projects by id: */
+function findById(projectId,callback){
+    Project.findById(projectId,callback);
+}
 /*Find projects that their names include the name arg string DB: */
 function findByName(name, callback) {
     Project.find({ projectName: { $regex: name, $options: 'i' } },
@@ -48,6 +51,7 @@ function DeleteById(projectId, callback) {
 module.exports = {
     add: add,
     findAll : findAll,
+    findById :  findById,
     findByName: findByName,
     findByDomain : findByDomain,
     UpdateById : UpdateById,

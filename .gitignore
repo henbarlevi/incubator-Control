@@ -1,1 +1,8 @@
+#ignore the packages folder
 node_modules/
+
+
+# exclude everything from uploads folder (folder that contain projects files)
+uploads/*
+# exception to the rule
+!uploads/.gitkeep

@@ -32,6 +32,7 @@ var comboOptionsDeleteHandler = methods.comboOptionsDeleteHandler; /*Handle with
 var comboOptionsGetHandler = methods.comboOptionsGetHandler; /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
 //user methods:
 var usersGetHandler = methods.usersGetHandler; /*Handle with GET users Request*/
+var userPostHandler = methods.userPostHandler; /*Handle with POST new user Request*/
 var userDeleteHandler = methods.userDeleteHandler;  /*Handle with DELETE user Request*/
 var userPatchHandler = methods.userPatchHandler; /*Handle with PATCH user Request*/
 
@@ -48,30 +49,7 @@ router.use('/', requireLogin, function (req, res, next) {
 /*Handle with GET users requests*/
 router.get('/users',usersGetHandler);
 /*Handle add-user "POST" requests - when admin want to create new watcher/editor users */
-router.post('/add-user', function (req, res, next) {
-
-    var user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: req.body.password,
-        email: req.body.email,
-        role: req.body.role
-    });
-    user.save(function (err) {
-        if (err) {//if error acquired
-            let error;
-            console.log(err.code);
-            if (err.code === 11000) { //11000 - the email input is already exist in DB
-                error = 'this email is already taken';//TODO NOT WORKING the user never get that error
-            } else {
-                error = 'user fields didnt filled correctly , try again';
-            }
-            res.status(400).send(error);//bad request
-        } else {
-            res.status(201).send('user created')
-        }
-    });
-});
+router.post('/add-user',userPostHandler );
 /*Handle with DELETE user Request*/
 router.delete('/user/:id',userDeleteHandler);
 /*Handle user "Patch" request , modify existing user */
