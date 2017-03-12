@@ -32,6 +32,7 @@ export class ProjectFormComponent implements OnInit {
 
     project: Project;// project model, will contain all the submit values
     eventReferences = [];//event references of the project
+    businessDevelopment = [];//business development of the project
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
     constructor(private projectService: ProjectService,

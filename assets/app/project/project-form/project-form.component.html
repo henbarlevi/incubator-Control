@@ -67,7 +67,7 @@
         </template>
         <!--אם היזם בוחר בפיתוח עיסקי-->
         <template [ngIf]="isProjectProgramContains('פיתוח עסקי')">
-            פיתוח עסקי
+            <bussiness-development [businesses]="businessDevelopment"></bussiness-development>
         </template>
         <!--אם היזם בוחר בהפנייה לארועים-->
         <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">

@@ -43,7 +43,8 @@ import {InboxComponent } from './inbox/inbox.component';
             import {EventEditComponent } from './project/project-form/shared/events-reference/event-edit/event-edit.component';
             import {EventListComponent } from './project/project-form/shared/events-reference/event-list.component';
             import {EventStatusSelectComponent } from './project/project-form/shared/events-reference/event-select.component';
-            
+            //project-form shared/bussines-development/:
+            import { BusinessesComponent,BusinessEditComponent,BusinessListComponent,BusinessStatusSelectComponent} from './project/project-form/shared/business-development';
     //project shared:
     import { ProjectService} from './project/shared/project.service';
 //control-panel:
@@ -93,6 +94,11 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
                         EventEditComponent,
                         EventListComponent,
                         EventStatusSelectComponent,
+                        //business-development:
+                        BusinessesComponent,
+                        BusinessEditComponent,
+                        BusinessListComponent,
+                        BusinessStatusSelectComponent,
                     SourceSelectComponent,
                     StatusSelectComponent,
                     DomainSelectComponent,

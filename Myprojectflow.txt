@@ -49,3 +49,4 @@ change the login page so that it will login when pressing enter
 -TODO currently sending to much http requests to get combooptions that already been loaded => maybe should send only 1 combobox load req per page that need the options and make the 
 nested component of the form bind directly to the globalvariablesService.option prop
 -TODO add to globalvariablesService geters and setters for the combooptions
+-crew , bussiness development and  event ref features have a similar structure. should create a common abstract components for them

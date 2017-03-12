@@ -15,7 +15,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
       <div class="panel-body">
         שם האירוע
         <input type="text" [(ngModel)]="event.name"
-          placeholder="שם האירוע  " >
+          placeholder="שם האירוע  " required #eventNameField="ngModel">
         תאריך התחלה
         <input type="date" [(ngModel)]="event.startDate"
           placeholder=" תאריך התחלה" >
@@ -26,7 +26,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
         <input type="text" [(ngModel)]="event.location"
           placeholder=" מקום האירוע" >
         <event-status-select [(selected)] = "event.status"></event-status-select>
-        <button type="button" (click)="onSave()" class="btn btn-primary">שמור</button>
+        <button type="button" [disabled]="eventNameField.invalid" (click)="onSave()" class="btn btn-primary">שמור</button>
       </div>
     </div>
   `,
