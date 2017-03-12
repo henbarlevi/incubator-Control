@@ -66,9 +66,9 @@
             אינקובציה
         </template>
         <!--אם היזם בוחר בפיתוח עיסקי-->
-        <template [ngIf]="isProjectProgramContains('פיתוח עסקי')">
+        <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
             <bussiness-development [businesses]="businessDevelopment"></bussiness-development>
-        </template>
+        </div>
         <!--אם היזם בוחר בהפנייה לארועים-->
         <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
             הפנייה לארועים

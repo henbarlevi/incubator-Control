@@ -45,8 +45,8 @@ export class BusinessEditComponent implements OnInit {
   
  //Raise every time clicking on save button.
   onSave() {
-       console.log(this.bussiness);//DEBUG  
-    this.save.emit(this.bussiness);
+       console.log(this.business);//DEBUG  
+    this.save.emit(this.business);
     //clearing the inputs, in order to clear the refrence and point to new member:
   }
 }
