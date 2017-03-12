@@ -60,14 +60,7 @@
             </div>
         </div>
         <!--התוכנית המוצעת ליזם-->
-        <div class=" form-group">
-            <label for="programSuggested" class="cols-sm-2 control-label form-label"> : תוכנית המוצעת ליזם  </label>
-            <select multiple class="form-control" name="programSuggested" [(ngModel)]="project.programSuggested" required>
-                    <option *ngFor="let program of programSuggestions" [value]="program">
-                    {{program}} 
-                    </option>
-                </select>
-        </div>
+        <program-multi-select [(selected)]="project.programSuggested"></program-multi-select>
         <!--אם היזם בוחר באינקובציה-->
         <template [ngIf]="isProjectProgramContains('אינקובציה')">
             אינקובציה

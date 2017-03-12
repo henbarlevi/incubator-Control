@@ -31,7 +31,6 @@ import { Router } from '@angular/router'; //to navigate to other page when Post 
 export class ProjectFormComponent implements OnInit {
 
     project: Project;// project model, will contain all the submit values
-    programSuggestions: string[]//options of the programSuggestions multiselect combo box
     eventReferences = [];//event references of the project
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
@@ -56,9 +55,7 @@ export class ProjectFormComponent implements OnInit {
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
         }
-        //load all comboxes values:
-        this.programSuggestions = this.globalVariablesService.programSuggestions; //load the programSuggestions combobox options 
-
+     
     }
     //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
     // Myself using node.js and multipart handler middleware multer get the data as follows:

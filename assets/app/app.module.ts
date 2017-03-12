@@ -32,11 +32,12 @@ import {InboxComponent } from './inbox/inbox.component';
     import { ProjectFormComponent} from './project/project-form/project-form.component';
         //project-form shared:
         import {CrewComponent} from './project/project-form/shared/crew/crew.component';
-        import {SourceSelectComponent} from './project/project-form/shared/source-select.component';
-        import {StatusSelectComponent} from './project/project-form/shared/status-select.component';
-        import { DomainSelectComponent} from './project/project-form/shared/domain-multi-select.component';
         import {MemberEditComponent } from './project/project-form/shared/crew/member-edit.component';   
         import {MemberListComponent } from './project/project-form/shared/crew/member-list.component';
+        import {SourceSelectComponent} from './project/project-form/shared/source-select.component';
+        import {StatusSelectComponent} from './project/project-form/shared/status-select.component';
+        import {DomainSelectComponent} from './project/project-form/shared/domain-multi-select.component';
+        import {ProgramSelectComponent } from './project/project-form/shared/program-multi-select.component';            
             //project-form shard/events-reerence/:
             import {EventsComponent } from './project/project-form/shared/events-reference/events.component';
             import {EventEditComponent } from './project/project-form/shared/events-reference/event-edit/event-edit.component';
@@ -95,6 +96,7 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
                     SourceSelectComponent,
                     StatusSelectComponent,
                     DomainSelectComponent,
+                    ProgramSelectComponent,
                 //project-search:
                 ProjectSearchPageComponent,
                 SearchSelectComponent,

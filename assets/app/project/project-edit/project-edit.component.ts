@@ -19,7 +19,6 @@ import { Router } from '@angular/router'; //to navigate to other page when Post 
 export class ProjectEditComponent implements OnInit {
 
     project ;// project model, will contain all the project details pulled from server
-    programSuggestions: string[]//options of the programSuggestions multiselect combo box
 
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
@@ -45,9 +44,7 @@ export class ProjectEditComponent implements OnInit {
             programSuggested: [],// multiple select
         }
         this.project = this.globalVariablesService.routingReservationData;
-         //load program suggetions comboxes values:
-        this.programSuggestions = this.globalVariablesService.programSuggestions; //load the programSuggestions combobox options 
-
+      
 }
     //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
     // Myself using node.js and multipart handler middleware multer get the data as follows:
