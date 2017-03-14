@@ -1,4 +1,4 @@
-/*contain in DB all the files paths that related to each project (pitch file, finder file etc..)*/
+/*the events-references that related to a project*/
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
