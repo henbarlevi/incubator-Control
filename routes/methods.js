@@ -23,7 +23,7 @@ function checkUserAuthentication(req, res, next) {
     if (req.session && req.session.user) {
         var email = req.session.user.email;
         var password = req.session.user.password;
-       UserRep.findOneByEmail(email, function (err, user) {
+        UserRep.findOneByEmail(email, function (err, user) {
             if (err) { //if error in db happend
                 res.status(401).send('Error! : ' + err);
             }
@@ -76,19 +76,20 @@ function projectPostHandler(req, res, next) {
                     fs.mkdirSync(dir);//create the folder
                 }
                 //adding event references to db:
-                if(eventReferencesReq){
-                    EventRefRep.addMulti(eventReferencesReq,proj._id,function(err,events){
-                       if(!err){
+                if (eventReferencesReq) {
+                    EventRefRep.addMulti(eventReferencesReq, proj._id, function (err, event) {
+                        if (!err) {
 
-                        console.log('even-ref added');
-                       }
+                            console.log('even-ref added');
+                        }
+                        ProjectRep.pushEventsRef(proj._id, event);
                     })
                 }
                 res.status(201).json(proj);
             }
         });
-  
-      
+
+
     }
     else { //new project doesnt exist in  the request body
         res.status(400).json({ message: ' bad project post' }); //bad request response
@@ -131,6 +132,14 @@ function projectGetHandler(req, res, next) {
         });
     }
 }
+/*Handle with project GET by Id request*/
+function projectGetByIdHandler(req, res, next) {
+    console.log(req.params.id);
+    ProjectRep.findById(req.params.id, function (err, proj) {
+        console.log(proj);
+        res.status(200).json(proj);
+    })
+}
 /*Handle project "Patch" request , modify existing project */
 function projectPatchHandler(req, res, next) {
     var projectId = req.params.id;//getting the id paramter from url
@@ -139,7 +148,7 @@ function projectPatchHandler(req, res, next) {
     console.log(req.body);
     if (projectId) {
 
-        ProjectRep.UpdateById(projectId, req.body ,
+        ProjectRep.UpdateById(projectId, req.body,
             function (err, proj) {
                 //if (err) return handleError(err);
                 if (err) {
@@ -173,11 +182,11 @@ function projectDeleteHandler(req, res, next) {
                     console.log(proj);
                     console.log('the delete result %s.', proj);
                     //deleting project files folder:
-                     var projectDir = path.join(__dirname, '../uploads/', proj._id.toString());
+                    var projectDir = path.join(__dirname, '../uploads/', proj._id.toString());
                     rimraf(projectDir, function () {
-                         console.log('project folder deleted'); 
-                            res.status(200).json(proj);
-                        });
+                        console.log('project folder deleted');
+                        res.status(200).json(proj);
+                    });
                 }
             });
     } else {
@@ -278,7 +287,7 @@ function projectDownloadSpecificFileHandler(req, res, next) {
                     //sending the requested file:
                     var filePath = path.join(__dirname, '/../uploads/', projectId.toString(), '/', file.fileName);
                     res.sendFile(filePath);
-                }else{
+                } else {
                     res.status(400).send('sory that file doesnt exist');
                 }
             })
@@ -329,7 +338,7 @@ function comboOptionsPostHandler(req, res, next) {
     if (comboboxName) {
         if (comboboxName === 'status') {
             //add new option to the StatusOptions schema
-            StatusOptionsRep.add(newOption,function (err) {
+            StatusOptionsRep.add(newOption, function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -340,7 +349,7 @@ function comboOptionsPostHandler(req, res, next) {
         }
         else if (comboboxName === 'domain') {
             //add new option to the DomainOptions schema
-            DomainOptionsRep.add(newOption,function (err) {
+            DomainOptionsRep.add(newOption, function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -351,7 +360,7 @@ function comboOptionsPostHandler(req, res, next) {
         }
         else if (comboboxName === 'source') {
             //add new option to the SourcesOptions schema           
-            SourcesOptionsRep.add(newOption,function (err) {
+            SourcesOptionsRep.add(newOption, function (err) {
                 if (err) {//didnt add the new option to DB
                     res.status(502).send('error in DB! ,couldnt save new option'); //gateway error response
                 }
@@ -387,7 +396,7 @@ function comboOptionsDeleteHandler(req, res, next) {
             })
         }
         else if (comboboxName === 'domain') {
-            DomainOptionsRep.deleteOption(queryString.option , function (err) {
+            DomainOptionsRep.deleteOption(queryString.option, function (err) {
                 if (err) {
                     res.status(502).send('couldnt delte the option')
                 }
@@ -434,7 +443,7 @@ function usersGetHandler(req, res, next) {
 /*Handle with POST new user Request*/
 function userPostHandler(req, res, next) {
 
-    UserRep.add(req.body,function (err) {
+    UserRep.add(req.body, function (err) {
         if (err) {//if error acquired
             let error;
             console.log(err.code);
@@ -501,6 +510,7 @@ module.exports = {
     /*project GET,POST,DELETE,PATCH functions*/
     projectPostHandler: projectPostHandler, /*Handle with project POST request*/
     projectGetHandler: projectGetHandler,   /*Handle with project GET request*/
+    projectGetByIdHandler: projectGetByIdHandler,
     projectPatchHandler: projectPatchHandler, /*Handle project "Patch" request , modify existing project */
     projectDeleteHandler: projectDeleteHandler, /*Handle project "DELETE" request  */
     /*Project Files Functions*/
@@ -513,7 +523,7 @@ module.exports = {
     comboOptionsDeleteHandler: comboOptionsDeleteHandler, /*Handle with DELETE comboboxes-options request*/
     /*Users functions*/
     usersGetHandler: usersGetHandler, /*Handle with GET users Request*/
-    userPostHandler : userPostHandler, /*Handle with POST new user Request*/
+    userPostHandler: userPostHandler, /*Handle with POST new user Request*/
     userDeleteHandler: userDeleteHandler, /*Handle with DELETE user Request*/
     userPatchHandler: userPatchHandler /*Handle with PATCH user Request*/
 }

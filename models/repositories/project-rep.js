@@ -21,14 +21,15 @@ function add(projectReq, callback) {
 function findAll(callback){
  Project.find({}, callback);
 }
-/*Find projects by id: */
+/*Find projects by id: and populate all its related details - eventsRef, business devlopment etc */
 function findById(projectId,callback){
-    Project.findById(projectId,callback);
+    Project.findById(projectId).populate('eventsRef')
+        .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */
 function findByName(name, callback) {
-    Project.find({ projectName: { $regex: name, $options: 'i' } },
-        callback);
+    Project.find({ projectName: { $regex: name, $options: 'i' } },callback);
+
 }
 
 /*Find projects that their domain include the domain arg string DB: */
@@ -48,6 +49,14 @@ function DeleteById(projectId, callback) {
         callback);
 }
 
+//------------------------------
+function pushEventsRef(projectId,eventRef){
+    Project.findById(projectId,function(err,proj){
+        proj.eventsRef.push(eventRef)
+        proj.save();
+    })
+}
+
 module.exports = {
     add: add,
     findAll : findAll,
@@ -55,6 +64,7 @@ module.exports = {
     findByName: findByName,
     findByDomain : findByDomain,
     UpdateById : UpdateById,
-    DeleteById :  DeleteById
+    DeleteById :  DeleteById,
+    pushEventsRef :pushEventsRef
 
 };

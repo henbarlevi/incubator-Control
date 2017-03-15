@@ -20,6 +20,7 @@ var requireLogin = methods.requireLogin; //Middleware that filters unauthenticat
 //project methods:
 var projectPostHandler = methods.projectPostHandler; /*Handle with project POST request*/
 var projectGetHandler = methods.projectGetHandler; /*Handle with project GET request*/
+var projectGetByIdHandler = methods.projectGetByIdHandler;
 var projectPatchHandler = methods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = methods.projectDeleteHandler; /*Handle project "DELETE" request  */
 //files methods:
@@ -59,6 +60,8 @@ router.patch('/user/:id', userPatchHandler);
 router.post('/project', projectPostHandler);
 /*Handle project "GET" request (asking for all projects/projects by name) */
 router.get('/project', projectGetHandler);
+//-----------------------
+router.get('/project/:id',projectGetByIdHandler);
 /*Handle project "Patch" request , modify existing project */
 router.patch('/project/:id', projectPatchHandler);
 /*Handle project "DELETE" request  */

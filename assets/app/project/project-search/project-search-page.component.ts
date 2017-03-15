@@ -44,7 +44,7 @@ export class ProjectSearchPageComponent {
     //send to server request to get all projects that fit to the search value and bind result to the  'projects' prop    
     search() {
         if (this.searchBy === 'name') {
-            this.projectService.getProjectsByName(this.searchfield).then(res => this.projects = res);
+            this.projectService.getProjectsByName(this.searchfield).then(res => this.projects = res).then(res=>console.log(res));
         }
         else if(this.searchBy ==='domain'){
             this.projectService.getProjectsByDomain(this.searchfield).then(res => this.projects = res);     
@@ -68,7 +68,10 @@ export class ProjectSearchPageComponent {
     }
     //when clicking on the "ערוך" button on one of the projects- reserve the project into the routingReservationData var and navigate to the project-edit component
     edit(project) {
-        this.globalVariablesService.routingReservationData = project;
-        this.router.navigate(['dashboard/project-edit']);
+       // this.globalVariablesService.routingReservationData = project;
+        this.projectService.getProjectById(project).then(res=>{
+            console.log(res);
+        })
+        //this.router.navigate(['dashboard/project-edit']);
     }
 }

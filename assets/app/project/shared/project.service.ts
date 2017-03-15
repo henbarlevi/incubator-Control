@@ -27,6 +27,14 @@ export class ProjectService {
       .then(response => response.json().projects)
       .catch(this.errorHandler);
   }
+  //GET HTTP REQUEST - get project by id  (with full details)
+  getProjectById(project){
+        //console.log(project);//DEBUG
+    //console.log(json);//DEBUG    
+    const headers = new Headers({ 'content-Type': 'application/json' });
+    return this.http.get(`${this.baseUrl}/${this.role()}/project/${project._id}`, { headers: headers })
+      .toPromise();
+  }
   //GET HTTP REQUEST - get projects by name
   getProjectsByName(name) {
     //setting name as a queryString parameter:

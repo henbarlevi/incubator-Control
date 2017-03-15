@@ -66,7 +66,7 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
 @NgModule({
     //modules
     imports: [BrowserModule, FormsModule , HttpModule,routing],
-    //Components
+    //Components and pipes
     declarations: [ 
         AppComponent,
         //login
