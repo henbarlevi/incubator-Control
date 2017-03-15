@@ -1,4 +1,5 @@
 /*reusable methods that get used by the routes folder files (app.js , admin.js etc..)*/
+
 var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var Member = require('../models/member'); //import 'Member' schema model
 var UserRep = require('../models/repositories/user-rep'); //import 'User' schema model
@@ -510,7 +511,7 @@ module.exports = {
     /*project GET,POST,DELETE,PATCH functions*/
     projectPostHandler: projectPostHandler, /*Handle with project POST request*/
     projectGetHandler: projectGetHandler,   /*Handle with project GET request*/
-    projectGetByIdHandler: projectGetByIdHandler,
+    projectGetByIdHandler: projectGetByIdHandler, /*Handle with project GET by Id request*/
     projectPatchHandler: projectPatchHandler, /*Handle project "Patch" request , modify existing project */
     projectDeleteHandler: projectDeleteHandler, /*Handle project "DELETE" request  */
     /*Project Files Functions*/

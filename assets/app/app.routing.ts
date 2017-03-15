@@ -38,7 +38,7 @@ export const routing = RouterModule.forRoot([
             {path: 'new-project', component: ProjectFormComponent},
             {path: 'inbox', component: InboxComponent},                             
             {path: 'project-search-page', component:ProjectSearchPageComponent},
-            {path: 'project-edit', component:ProjectEditComponent},                 
+            {path: 'project-edit/:projectId', component:ProjectEditComponent},                 
             {path:  'admin-users-panel', component:AdminUsersPanelComponent},
             {path:  'admin-project-panel', component:AdminProjectPanelComponent}
             

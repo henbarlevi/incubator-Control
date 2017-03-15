@@ -20,7 +20,7 @@ var requireLogin = methods.requireLogin; //Middleware that filters unauthenticat
 //project methods:
 var projectPostHandler = methods.projectPostHandler; /*Handle with project POST request*/
 var projectGetHandler = methods.projectGetHandler; /*Handle with project GET request*/
-var projectGetByIdHandler = methods.projectGetByIdHandler;
+var projectGetByIdHandler = methods.projectGetByIdHandler;/*Handle with project GET request with :id param*/
 var projectPatchHandler = methods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = methods.projectDeleteHandler; /*Handle project "DELETE" request  */
 //files methods:

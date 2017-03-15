@@ -66,12 +66,8 @@ export class ProjectSearchPageComponent {
             }
         });
     }
-    //when clicking on the "ערוך" button on one of the projects- reserve the project into the routingReservationData var and navigate to the project-edit component
+    //when clicking on the "ערוך" button on one of the projects- navigate to the project-edit route and sending projectid as route parameter
     edit(project) {
-       // this.globalVariablesService.routingReservationData = project;
-        this.projectService.getProjectById(project).then(res=>{
-            console.log(res);
-        })
-        //this.router.navigate(['dashboard/project-edit']);
+        this.router.navigate(['dashboard/project-edit',project._id]);
     }
 }

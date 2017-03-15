@@ -28,12 +28,14 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - get project by id  (with full details)
-  getProjectById(project){
-        //console.log(project);//DEBUG
+  getProjectById(projectId) {
+    //console.log(project);//DEBUG
     //console.log(json);//DEBUG    
     const headers = new Headers({ 'content-Type': 'application/json' });
-    return this.http.get(`${this.baseUrl}/${this.role()}/project/${project._id}`, { headers: headers })
-      .toPromise();
+    return this.http.get(`${this.baseUrl}/${this.role()}/project/${projectId}`, { headers: headers })
+      .toPromise()
+      .then(res => res.json())
+      .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - get projects by name
   getProjectsByName(name) {
@@ -56,8 +58,8 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //POST HTTP REQUEST -add new project  
-  addProject(project,eventReferences) {
-    const json = JSON.stringify({project:project , eventReferences:eventReferences}); //convert project to json
+  addProject(project, eventReferences) {
+    const json = JSON.stringify({ project: project, eventReferences: eventReferences }); //convert project to json
     console.log(json);//DEBUG
     const headers = new Headers({ 'content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/${this.role()}/project`, json, { headers: headers }).toPromise()
