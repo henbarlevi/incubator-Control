@@ -61,6 +61,7 @@ function projectPostHandler(req, res, next) {
         //insert record mongoDB:
         var projectReq = req.body; //the project posted
         var eventReferencesReq = req.body.eventReferences;//the eventReferences posted
+        var busninessDevelopmentReq = req.body.businessDevelopment;//the businessDevelopment posted
         ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG
             console.log(err);
@@ -72,7 +73,6 @@ function projectPostHandler(req, res, next) {
             else { //if new project saved in DB
                 //create folder for the uploaded files (folder name - project id):
                 var dir = path.join(__dirname, '../uploads/', proj._id.toString());
-
                 if (!fs.existsSync(dir)) {//if the foler not exist
                     fs.mkdirSync(dir);//create the folder
                 }
