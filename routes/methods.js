@@ -57,9 +57,9 @@ function requireLogin(req, res, next) {
 function projectPostHandler(req, res, next) {
     console.log('project as been posted:');
     console.log(req.body);
-    if (req.body && req.body.project) { //check if project exist in the request boy
+    if (req.body) { //check if project exist in the request boy
         //insert record mongoDB:
-        var projectReq = req.body.project; //the project posted
+        var projectReq = req.body; //the project posted
         var eventReferencesReq = req.body.eventReferences;//the eventReferences posted
         ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG

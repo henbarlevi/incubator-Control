@@ -67,12 +67,12 @@
         </template>
         <!--אם היזם בוחר בפיתוח עיסקי-->
         <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
-            <bussiness-development [businesses]="businessDevelopment"></bussiness-development>
+            <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
         </div>
         <!--אם היזם בוחר בהפנייה לארועים-->
         <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
             הפנייה לארועים
-            <events-reference [(events)]="eventReferences" ></events-reference>
+            <events-reference [(events)]="project.eventReferences" ></events-reference>
         </div>
         <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
         <template [ngIf]="isProjectProgramContains('סיוע בגיוס השקעות')">

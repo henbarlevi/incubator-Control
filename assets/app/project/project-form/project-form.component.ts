@@ -31,8 +31,6 @@ import { Router } from '@angular/router'; //to navigate to other page when Post 
 export class ProjectFormComponent implements OnInit {
 
     project: Project;// project model, will contain all the submit values
-    eventReferences = [];//event references of the project
-    businessDevelopment = [];//business development of the project
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
     constructor(private projectService: ProjectService,
@@ -55,7 +53,10 @@ export class ProjectFormComponent implements OnInit {
             filledQuestions: { filled: false, filledReminder: '' },// object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled questions)
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
-        }
+            eventReferences : [],//event references of the project
+            businessDevelopment :[]//business development of the project
+
+    }
      
     }
     //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
@@ -104,7 +105,7 @@ export class ProjectFormComponent implements OnInit {
         console.log(this.project); //DEBUG
 
         //post project to server
-        this.projectService.addProject(this.project,this.eventReferences).then(res => {
+        this.projectService.addProject(this.project).then(res => {
             console.log('project added :')
             console.log(res.json());//DEBUG
             if (res.ok) {//if the post project to server succeded:
