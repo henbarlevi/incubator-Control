@@ -72,7 +72,7 @@
         <!--אם היזם בוחר בהפנייה לארועים-->
         <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
             הפנייה לארועים
-            <events-reference [(events)]="project.eventReferences" ></events-reference>
+            <events-reference [(events)]="project.eventsReference" ></events-reference>
         </div>
         <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
         <template [ngIf]="isProjectProgramContains('סיוע בגיוס השקעות')">

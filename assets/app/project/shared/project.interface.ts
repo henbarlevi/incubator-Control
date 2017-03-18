@@ -15,7 +15,7 @@ export interface Project{
     filledQuestions :Object; // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled questions)
     signedFinder :Object; // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
     programSuggested :string[];// multiple select
-    eventReferences :Object[];//event references of the project
+    eventsReference :Object[];//event references of the project
     businessDevelopment :Object[];//business development of the project
 
 }

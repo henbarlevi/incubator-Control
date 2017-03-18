@@ -47,6 +47,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
             filledQuestions: { filled: false, filledReminder: '' },// object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled questions)
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
+            eventsReference : [],//event references of the project
+            businessDevelopment :[]//business development of the project
         }
         //getting the projectid route param and sending getProjectById http req to get project full details
         this.paramsSubscription = this.route.params.subscribe(params => {

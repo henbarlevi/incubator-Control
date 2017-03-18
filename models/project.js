@@ -17,8 +17,8 @@ var schema = new Schema({
     programSuggested :{type:[String] , required:true} ,
     
     files: [{type: Schema.Types.ObjectId, ref: 'File'}], //The ref option is what tells Mongoose which model to use during population (Join in sql terms)
-    eventsRef: [{type: Schema.Types.ObjectId, ref: 'Event-Ref'}],
-    businessDev:[{type: Schema.Types.ObjectId, ref: 'Business-Dev'}],
+    eventsReference: [{type: Schema.Types.ObjectId, ref: 'Event-Ref'}],
+    businessDevelopment:[{type: Schema.Types.ObjectId, ref: 'Business-Dev'}],
     seedAid: [{type: Schema.Types.ObjectId, ref: 'Seed-Aid'}]
     
 });//array fields with mongoose http://stackoverflow.com/questions/26423508/mongoose-assign-field-of-type-array-of-strings

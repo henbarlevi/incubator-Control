@@ -60,7 +60,7 @@ function projectPostHandler(req, res, next) {
     if (req.body) { //check if project exist in the request boy
         //insert record mongoDB:
         var projectReq = req.body; //the project posted
-        var eventReferencesReq = req.body.eventReferences;//the eventReferences posted
+        var eventReferencesReq = req.body.eventsReference;//the eventReferences posted
         var busninessDevelopmentReq = req.body.businessDevelopment;//the businessDevelopment posted
         ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG
@@ -83,7 +83,7 @@ function projectPostHandler(req, res, next) {
 
                             console.log('even-ref added');
                         }
-                        ProjectRep.pushEventsRef(proj._id, event);
+                        ProjectRep.pushEventRef(proj._id, event);
                     })
                 }
                 res.status(201).json(proj);

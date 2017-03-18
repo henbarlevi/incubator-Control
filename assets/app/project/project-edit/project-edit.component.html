@@ -71,10 +71,12 @@
         <!--אם היזם בוחר בפיתוח עיסקי-->
         <template [ngIf]="isProjectProgramContains('פיתוח עסקי')">
             פיתוח עסקי
+              <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
         </template>
         <!--אם היזם בוחר בהפנייה לארועים-->
         <template [ngIf]="isProjectProgramContains('הפנייה לארועים')">
             הפנייה לארועים
+             <events-reference [(events)]="project.eventsReference" ></events-reference>
         </template>
         <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
         <template [ngIf]="isProjectProgramContains('סיוע בגיוס השקעות')">

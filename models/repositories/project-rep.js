@@ -23,7 +23,7 @@ function findAll(callback){
 }
 /*Find projects by id: and populate all its related details - eventsRef, business devlopment etc */
 function findById(projectId,callback){
-    Project.findById(projectId).populate('eventsRef')
+    Project.findById(projectId).populate('eventsReference')
         .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */
@@ -49,10 +49,10 @@ function DeleteById(projectId, callback) {
         callback);
 }
 
-//------------------------------
-function pushEventsRef(projectId,eventRef){
+//push event-ref to project model
+function pushEventRef(projectId,eventRef){
     Project.findById(projectId,function(err,proj){
-        proj.eventsRef.push(eventRef)
+        proj.eventsReference.push(eventRef)
         proj.save();
     })
 }
@@ -65,6 +65,6 @@ module.exports = {
     findByDomain : findByDomain,
     UpdateById : UpdateById,
     DeleteById :  DeleteById,
-    pushEventsRef :pushEventsRef
+    pushEventRef :pushEventRef
 
 };
