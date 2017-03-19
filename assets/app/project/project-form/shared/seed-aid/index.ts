@@ -2,4 +2,5 @@
 export * from './seed-edit.component';
 export * from './seed-list.component';
 export * from './seed-status-select.component';
+export * from './seed-result-select.component';
 export * from './seed-aid.component';

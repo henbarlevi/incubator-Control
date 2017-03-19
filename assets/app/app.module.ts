@@ -46,7 +46,7 @@ import {InboxComponent } from './inbox/inbox.component';
             //project-form shared/bussines-development/:
             import { BusinessesComponent,BusinessEditComponent,BusinessListComponent,BusinessStatusSelectComponent} from './project/project-form/shared/business-development';
             //project-form shard/seed-aid:
-            import {SeedAidComponent, SeedEditComponent, SeedListComponent,SeedStatusSelectComponent} from './project/project-form/shared/seed-aid';
+            import {SeedAidComponent, SeedEditComponent, SeedListComponent,SeedStatusSelectComponent,SeedResultSelectComponent} from './project/project-form/shared/seed-aid';
     //project shared:
     import { ProjectService} from './project/shared/project.service';
 //control-panel:
@@ -101,10 +101,16 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
                         BusinessEditComponent,
                         BusinessListComponent,
                         BusinessStatusSelectComponent,
-                    SourceSelectComponent,
-                    StatusSelectComponent,
-                    DomainSelectComponent,
-                    ProgramSelectComponent,
+                        //seed-aid:
+                        SeedAidComponent,
+                        SeedStatusSelectComponent,
+                        SeedResultSelectComponent,
+                        SeedEditComponent,
+                        SeedListComponent,
+                 SourceSelectComponent,
+                 StatusSelectComponent,
+                 DomainSelectComponent,
+                 ProgramSelectComponent,
                 //project-search:
                 ProjectSearchPageComponent,
                 SearchSelectComponent,

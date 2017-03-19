@@ -17,5 +17,5 @@ export interface Project{
     programSuggested :string[];// multiple select
     eventsReference :Object[];//event references of the project
     businessDevelopment :Object[];//business development of the project
-
+    seedAid:Object[];//seed aid of the project
 }

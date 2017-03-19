@@ -15,15 +15,15 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
       <table class="table table-striped table-hover">
         <thead>
         <tr>
-          <th>שם הלקוח</th>
+          <th>מקור הגיוס</th>
           <th>תאריך התחלה\סיום</th>
-          <th>סטטוס הפעילות</th>
+          <th>סטטוס האירוע</th>
           <th>ערוך/מחק</th>
         </tr>
        </thead>
        <tbody>
         <tr *ngFor="let seed of seeds">
-         <td> {{seed.customerName}}</td>
+         <td> {{seed.source}}</td>
          <td>{{seed.startDate}} - {{seed.endDate}}</td>
          <td> {{seed.status}}</td> 
          <td>

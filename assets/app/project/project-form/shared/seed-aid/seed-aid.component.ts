@@ -4,7 +4,7 @@ to inject seeds object into the seeds prop in order to display
 the seeds details, delete seeds and edit them (using 2 way binding)
 
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
 
 @Component({
     selector: 'seed-aid',
@@ -15,11 +15,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `,//(remove)="remove($event)" - 'remove' seed happend when delete btn is click, the eventEmitter of the seed-list
     //will raise the seed with the seed object ($event=seed obj) sending it to the remove method
 })
-export class SeedAidComponent {
+export class SeedAidComponent implements OnInit {
 
     @Input() seeds = []; //the members array object
     // @Output() eventsChange = new EventEmitter<Object[]>(); //event bind when
-
+    ngOnInit(){
+        console.log(this.seeds);
+    }
     editMode = false;
     editableSeed = {}; //used to inject the Seed from the list that clicked edit into the Seed-edit Component -Or- to create new Seed
     save(seed) {
@@ -28,6 +30,7 @@ export class SeedAidComponent {
         } else {
 
             this.seeds.push(seed);
+            console.log(this.seeds);
         }
         this.editableSeed = {};
     }

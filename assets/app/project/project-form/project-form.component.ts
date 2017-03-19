@@ -54,8 +54,8 @@ export class ProjectFormComponent implements OnInit {
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
             eventsReference : [],//event references of the project
-            businessDevelopment :[]//business development of the project
-
+            businessDevelopment :[],//business development of the project
+            seedAid:[]
     }
      
     }

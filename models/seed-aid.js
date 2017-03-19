@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var mongooseUniqueValidator = require('mongoose-unique-validator');
 //declare the Project files table structure TODOD:
 var schema = new Schema({
+    source:{type:String},
     investmentAmount:{ type: String},
     companyValue:{ type: String},    
     startDate:{ type: String},

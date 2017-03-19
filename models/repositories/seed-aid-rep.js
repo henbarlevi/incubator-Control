@@ -7,6 +7,7 @@ function addMulti(newSeedAids,projectId, callback) {
 
     //creating a eventref record
     var seedAid = new SeedAid({
+        source: newSeedAid.source,
         investmentAmount: newSeedAid.investmentAmount,
         companyValue : newSeedAid.companyValue,
         startDate: newSeedAid.startDate,

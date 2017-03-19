@@ -12,6 +12,9 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
   template: `
    <div class="panel panel-primary">
       <div class="panel-body">
+        מקור הגיוס
+        <input type="text" [(ngModel)]="seed.source"
+          placeholder="גובה ההשקעה " >
         גובה ההשקעה
         <input type="number" [(ngModel)]="seed.investmentAmount"
           placeholder="גובה ההשקעה " required #investmentAmountField="ngModel">
@@ -28,6 +31,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
         <input type="text" [(ngModel)]="seed.eventName"
           placeholder="שם האירוע " required #customerNameField="ngModel">
         <seed-status-select [(selected)] = "seed.status"></seed-status-select>
+        <seed-result-button [(selected)] ="seed.result"></seed-result-button>
         <button type="button" [disabled]="investmentAmountField.invalid" (click)="onSave()" class="btn btn-primary">שמור</button>
       </div>
     </div>
