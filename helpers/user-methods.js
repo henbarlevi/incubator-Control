@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
 //-------------------------------Users Functions---------------------
 //---------------------------------------------------------------------------
-/*User GET,POST,DELETE,PATCH functions*/
+/*User GET,POST,DELETE,PATCH request handlers*/
+
 var UserRep = require('../models/repositories/user-rep'); //import 'User' schema model
 
 /*Handle with GET users Request*/

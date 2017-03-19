@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
 //------------------------------project functions----------------------------
 //---------------------------------------------------------------------------
-   /*project GET,POST,DELETE,PATCH functions*/
+   /*project GET,POST,DELETE,PATCH requests Handlers*/
+   
 var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
 var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
@@ -115,6 +116,7 @@ function projectPatchHandler(req, res, next) {
     console.log('project as been patched:');
     console.log(req.body);
      var eventReferences = req.body.eventsReference;
+     var businessDevelopment = req.body.businessDevelopment;
       req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     if (projectId) {
 
@@ -128,6 +130,9 @@ function projectPatchHandler(req, res, next) {
                 } else {
                     EventRefRep.reInsertByprojectId(eventReferences,proj._id,(err,event)=>{
                         ProjectRep.pushEventRef(proj._id, event);
+                    })
+                    businessDevelopmentRep.reInsertByprojectId(businessDevelopment,proj._id,(err,busDev)=>{
+                        ProjectRep.pushBusinessDev(proj._id, busDev);
                     })
                     console.log(proj);
                     console.log('the update result %s.', proj);
