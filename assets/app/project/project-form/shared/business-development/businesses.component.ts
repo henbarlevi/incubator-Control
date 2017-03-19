@@ -1,7 +1,7 @@
 /*
-Component that wrap 'event-edit' and 'event-list' and enable
-to inject events object into the events prop in order to display
-the events details, delete events and edit them (using 2 way binding)
+Component that wrap 'business-edit' and 'business-list' and enable
+to inject businesses object into the businesses prop in order to display
+the businesses details, delete businesses and edit them (using 2 way binding)
 
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';

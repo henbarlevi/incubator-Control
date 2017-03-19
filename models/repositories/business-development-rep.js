@@ -3,7 +3,7 @@ var BusinessDev = require('../business-development'); //import 'Business-Dev' sc
 
 //add event record to db:
 function addMulti(newBusinessDevs,projectId, callback) {
-   newBusinessDevs.forEach((busDev)=>{//create event-ref record foreach eventRef
+   newBusinessDevs.forEach((busDev)=>{//create bussiness-dev record foreach busDev
 
     //creating a eventref record
     var businessDev = new BusinessDev({
@@ -14,7 +14,7 @@ function addMulti(newBusinessDevs,projectId, callback) {
         project:projectId
     });
     //saving the user to db:
-    eventRef.save(callback);
+    businessDev.save(callback);
    })
 }
 

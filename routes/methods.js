@@ -5,6 +5,7 @@ var Member = require('../models/member'); //import 'Member' schema model
 var UserRep = require('../models/repositories/user-rep'); //import 'User' schema model
 var ProjectFile = require('../models/project-files'); //import 'File' schema model that contain the path and the fieldname of a project's file
 var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
+var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
 var SourcesOptionsRep = require('../models/repositories/project-enums/source-options-rep');//repository of schema that contain the options in the source 'מקור' comboboxe
 var StatusOptionsRep = require('../models/repositories/project-enums/status-options-rep');//repository of schema that contain the options in the status 'סטטוס' comboboxe
 var DomainOptionsRep = require('../models/repositories/project-enums/domain-options-rep');//repository of schema that contain the options in the domain 'תחום' comboboxe
@@ -79,11 +80,21 @@ function projectPostHandler(req, res, next) {
                 //adding event references to db:
                 if (eventReferencesReq) {
                     EventRefRep.addMulti(eventReferencesReq, proj._id, function (err, event) {
-                        if (!err) {
+                        if (err) {
 
-                            console.log('even-ref added');
                         }
+                        console.log('even-ref added');
                         ProjectRep.pushEventRef(proj._id, event);
+                    })
+                }
+                //adding business dev to db:
+                if (busninessDevelopmentReq) {
+                    businessDevelopmentRep.addMulti(busninessDevelopmentReq, proj._id, function (err, busDev) {
+                        if (err) {
+
+                        }
+                        console.log('busniess-dev added');
+                        ProjectRep.pushBusinessDev(proj._id, busDev);
                     })
                 }
                 res.status(201).json(proj);
@@ -147,16 +158,21 @@ function projectPatchHandler(req, res, next) {
     console.log('project id is ' + req.params.id);//DEBUG
     console.log('project as been patched:');
     console.log(req.body);
+     var eventReferences = req.body.eventsReference;
+      req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     if (projectId) {
 
         ProjectRep.UpdateById(projectId, req.body,
             function (err, proj) {
                 //if (err) return handleError(err);
                 if (err) {
+                    console.log(err);
                     res.status(502).send('error in DB! ,couldnt find project by id');
 
                 } else {
-
+                    EventRefRep.reInsertByprojectId(eventReferences,proj._id,(err,event)=>{
+                        ProjectRep.pushEventRef(proj._id, event);
+                    })
                     console.log(proj);
                     console.log('the update result %s.', proj);
                     res.status(200).json(proj);

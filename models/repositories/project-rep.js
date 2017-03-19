@@ -23,7 +23,9 @@ function findAll(callback){
 }
 /*Find projects by id: and populate all its related details - eventsRef, business devlopment etc */
 function findById(projectId,callback){
-    Project.findById(projectId).populate('eventsReference')
+    Project.findById(projectId)
+    .populate('eventsReference')
+    .populate('businessDevelopment')
         .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */
@@ -56,6 +58,20 @@ function pushEventRef(projectId,eventRef){
         proj.save();
     })
 }
+//push business-devlopment to project model
+function pushBusinessDev(projectId,businessDevelopment){
+    Project.findById(projectId,function(err,proj){
+        proj.businessDevelopment.push(businessDevelopment)
+        proj.save();
+    })
+}
+//push seed-aid to project model
+function pushSeedAid(projectId,seedAid){
+    Project.findById(projectId,function(err,proj){
+        proj.seedAid.push(seedAid)
+        proj.save();
+    })
+}
 
 module.exports = {
     add: add,
@@ -65,6 +81,8 @@ module.exports = {
     findByDomain : findByDomain,
     UpdateById : UpdateById,
     DeleteById :  DeleteById,
-    pushEventRef :pushEventRef
+    pushEventRef :pushEventRef,
+    pushBusinessDev: pushBusinessDev,
+    pushSeedAid: pushSeedAid
 
 };
