@@ -1,14 +1,14 @@
 /*reusable methods that get used by the routes folder files (app.js , admin.js etc..)*/
 
-var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var Member = require('../models/member'); //import 'Member' schema model
 var UserRep = require('../models/repositories/user-rep'); //import 'User' schema model
 var ProjectFile = require('../models/project-files'); //import 'File' schema model that contain the path and the fieldname of a project's file
-var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
-var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
 var SourcesOptionsRep = require('../models/repositories/project-enums/source-options-rep');//repository of schema that contain the options in the source 'מקור' comboboxe
 var StatusOptionsRep = require('../models/repositories/project-enums/status-options-rep');//repository of schema that contain the options in the status 'סטטוס' comboboxe
 var DomainOptionsRep = require('../models/repositories/project-enums/domain-options-rep');//repository of schema that contain the options in the domain 'תחום' comboboxe
+
+var projectMethods = require('./project-methods');    /*contain project GET,POST,DELETE,PATCH Request Handlers*/
+var userMethods = require('./user-methods');   /*contain User GET,POST,DELETE,PATCH Request Handlers*/
 
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
@@ -54,163 +54,14 @@ function requireLogin(req, res, next) {
 //------------------------------project functions----------------------------
 //---------------------------------------------------------------------------
 
-/*Handle with project POST request*/
-function projectPostHandler(req, res, next) {
-    console.log('project as been posted:');
-    console.log(req.body);
-    if (req.body) { //check if project exist in the request boy
-        //insert record mongoDB:
-        var projectReq = req.body; //the project posted
-        var eventReferencesReq = req.body.eventsReference;//the eventReferences posted
-        var busninessDevelopmentReq = req.body.businessDevelopment;//the businessDevelopment posted
-        ProjectRep.add(projectReq, function (err, proj) { //saving new project record
-            console.log('the error:');//DEBUG
-            console.log(err);
-            console.log('the doc');
-            console.log(proj);
-            if (err) { //if db failed to save the new project
-                res.status(400).json({ message: ' project fileds filled uncorrectly' }); //bad request response
-            }
-            else { //if new project saved in DB
-                //create folder for the uploaded files (folder name - project id):
-                var dir = path.join(__dirname, '../uploads/', proj._id.toString());
-                if (!fs.existsSync(dir)) {//if the foler not exist
-                    fs.mkdirSync(dir);//create the folder
-                }
-                //adding event references to db:
-                if (eventReferencesReq) {
-                    EventRefRep.addMulti(eventReferencesReq, proj._id, function (err, event) {
-                        if (err) {
-
-                        }
-                        console.log('even-ref added');
-                        ProjectRep.pushEventRef(proj._id, event);
-                    })
-                }
-                //adding business dev to db:
-                if (busninessDevelopmentReq) {
-                    businessDevelopmentRep.addMulti(busninessDevelopmentReq, proj._id, function (err, busDev) {
-                        if (err) {
-
-                        }
-                        console.log('busniess-dev added');
-                        ProjectRep.pushBusinessDev(proj._id, busDev);
-                    })
-                }
-                res.status(201).json(proj);
-            }
-        });
+//project methods:
+var projectPostHandler = projectMethods.projectPostHandler; /*Handle with project POST request*/
+var projectGetHandler = projectMethods.projectGetHandler; /*Handle with project GET request*/
+var projectGetByIdHandler = projectMethods.projectGetByIdHandler;/*Handle with project GET request with :id param*/
+var projectPatchHandler = projectMethods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
+var projectDeleteHandler = projectMethods.projectDeleteHandler; /*Handle project "DELETE" request  */
 
 
-    }
-    else { //new project doesnt exist in  the request body
-        res.status(400).json({ message: ' bad project post' }); //bad request response
-    }
-}
-/*Handle with project GET request*/
-function projectGetHandler(req, res, next) {
-    console.log('client asking for all projects details, querystring prms:');//DEBUG
-    console.log(req.query);
-    var queryString = req.query; //contain the query stirng values
-    if (queryString.name) {
-
-        ProjectRep.findByName(queryString.name,
-            function (err, proj) {
-                if (err) return handleError(err);
-                console.log(proj);
-                console.log('the serach result %s.', proj);
-                res.status(200).json({ projects: proj });
-
-            });
-    }
-    else if (queryString.domain) {
-        ProjectRep.findByDomain(queryString.domain,
-            function (err, proj) {
-                if (err) return handleError(err);
-                console.log(proj);
-                console.log('the serach result %s.', proj);
-                res.status(200).json({ projects: proj });
-
-            });
-    }
-    else {
-
-        ProjectRep.findAll(function (err, projects) {
-            console.log(projects);
-            if (err) {
-                return res.status(502).send('error in DB!');
-            }
-            res.status(200).json({ projects: projects });
-        });
-    }
-}
-/*Handle with project GET by Id request*/
-function projectGetByIdHandler(req, res, next) {
-    console.log(req.params.id);
-    ProjectRep.findById(req.params.id, function (err, proj) {
-        console.log(proj);
-        res.status(200).json(proj);
-    })
-}
-/*Handle project "Patch" request , modify existing project */
-function projectPatchHandler(req, res, next) {
-    var projectId = req.params.id;//getting the id paramter from url
-    console.log('project id is ' + req.params.id);//DEBUG
-    console.log('project as been patched:');
-    console.log(req.body);
-     var eventReferences = req.body.eventsReference;
-      req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
-    if (projectId) {
-
-        ProjectRep.UpdateById(projectId, req.body,
-            function (err, proj) {
-                //if (err) return handleError(err);
-                if (err) {
-                    console.log(err);
-                    res.status(502).send('error in DB! ,couldnt find project by id');
-
-                } else {
-                    EventRefRep.reInsertByprojectId(eventReferences,proj._id,(err,event)=>{
-                        ProjectRep.pushEventRef(proj._id, event);
-                    })
-                    console.log(proj);
-                    console.log('the update result %s.', proj);
-                    res.status(200).json(proj);
-                }
-            });
-    } else {
-        //response 400 Bad Request
-        return res.status(400).send('client didnt send projectid as parameter in the url');
-    }
-}
-/*Handle project "DELETE" request  */
-function projectDeleteHandler(req, res, next) {
-    var projectId = req.params.id;//getting the id paramter from url
-    console.log('project id is ' + req.params.id + ' , and trying to delete it');//DEBUG
-    if (projectId) {
-
-        ProjectRep.DeleteById(projectId,
-            function (err, proj) {
-                //if (err) return handleError(err);
-                if (err) {
-                    res.status(502).send('couldnt find that project in db')
-                } else {
-
-                    console.log(proj);
-                    console.log('the delete result %s.', proj);
-                    //deleting project files folder:
-                    var projectDir = path.join(__dirname, '../uploads/', proj._id.toString());
-                    rimraf(projectDir, function () {
-                        console.log('project folder deleted');
-                        res.status(200).json(proj);
-                    });
-                }
-            });
-    } else {
-        //response 400 Bad Request
-        return res.status(400).send('client didnt send projectid as parameter in the url');
-    }
-}
 //---------------------------------------------------------------------------
 //-------------------------------Project Files Functions---------------------
 //---------------------------------------------------------------------------
@@ -444,81 +295,11 @@ function comboOptionsDeleteHandler(req, res, next) {
 //---------------------------------------------------------------------------
 //-------------------------------Users Functions---------------------
 //---------------------------------------------------------------------------
-
-/*Handle with GET users Request*/
-function usersGetHandler(req, res, next) {
-    console.log('client get users');//DEBUG
-    UserRep.findAllExceptAdmin(function (err, users) { //get all users records except users with the 'role' 'admin'
-        if (err) {
-            res.status(502).send('couldnt find users records');
-        } else {
-
-            res.status(200).json({ users: users });
-        }
-    })
-}
-/*Handle with POST new user Request*/
-function userPostHandler(req, res, next) {
-
-    UserRep.add(req.body, function (err) {
-        if (err) {//if error acquired
-            let error;
-            console.log(err.code);
-            if (err.code === 11000) { //11000 - the email input is already exist in DB
-                error = 'this email is already taken';//TODO NOT WORKING the user never get that error
-            } else {
-                error = 'user fields didnt filled correctly , try again';
-            }
-            res.status(400).send(error);//bad request
-        } else {
-            res.status(201).send('user created')
-        }
-    });
-}
-/*Handle with DELETE user Request*/
-function userDeleteHandler(req, res, next) {
-    var userId = req.params.id;//getting the id paramter from url
-    console.log('user id is ' + req.params.id + ' , and trying to delete it');//DEBUG
-    if (userId) {
-
-        UserRep.deleteById(userId,
-            function (err, user) {
-                //if (err) return handleError(err);
-                if (err) {
-                    res.status(502).send('couldnt find that user in db')
-                } else {
-                    console.log('the delete result %s.', user);
-                    res.status(200).json(user);
-                }
-            });
-    } else {
-        //response 400 Bad Request
-        return res.status(400).send('client didnt send projectid as parameter in the url');
-    }
-}
-/*Handle with PATCH user Request*/
-function userPatchHandler(req, res, next) {
-    var userId = req.params.id;//getting the id paramter from url
-    console.log('user id is ' + req.params.id);//DEBUG
-    console.log('trying to update user..');
-    if (userId) {
-
-        UserRep.updateById(userId, req.body,
-            function (err, user) {
-                //if (err) return handleError(err);
-                if (err) {
-                    res.status(502).send('error in DB! ,couldnt find user by id');
-                } else {
-                    console.log(user);
-                    console.log('the update result %s.', user);
-                    res.status(200).json(user);
-                }
-            });
-    } else {
-        //response 400 Bad Request
-        return res.status(400).send('client didnt send user id as parameter in the url');
-    }
-}
+//user methods:
+var usersGetHandler = userMethods.usersGetHandler; /*Handle with GET users Request*/
+var userPostHandler = userMethods.userPostHandler; /*Handle with POST new user Request*/
+var userDeleteHandler = userMethods.userDeleteHandler;  /*Handle with DELETE user Request*/
+var userPatchHandler = userMethods.userPatchHandler; /*Handle with PATCH user Request*/
 
 //-----------------------------------EXPORT---------------------------------
 module.exports = {

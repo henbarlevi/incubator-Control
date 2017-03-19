@@ -15,7 +15,7 @@ var DomainOptions = comboboxesModels.DomainOptions;//schema that contain the opt
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
 var path = require('path');//help with files path
 
-var methods = require('../methods.js') //contain a resuable Middlewares and other functions (requireLogin etc..)
+var methods = require('../../helpers/methods.js') //contain a resuable Middlewares and other functions (requireLogin etc..)
 var requireLogin = methods.requireLogin; //Middleware that filters unauthenticated users
 //project methods:
 var projectPostHandler = methods.projectPostHandler; /*Handle with project POST request*/
