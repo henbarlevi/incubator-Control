@@ -11,8 +11,9 @@ import { GlobalVariablesService } from '../../../../shared/global-variables.serv
     selector: 'seed-result-button',
     template: `
     <div class="form-div form-group">
-    <button type="button" (click)="onSelectedChange('אי הצלחה')" [class.hidden]="selected==='אי הצלחה' || selected===''" class="btn btn-danger">Failed</button>
-    <button type="button" (click)="onSelectedChange('הצלחה')" [class.hidden]="selected==='הצלחה'" class="btn btn-success" >Succes</button>    
+    <button type="button" (click)="onSelectedChange('הצלחה')" [class.hidden]="selected!=='לא ידוע' && selected!==''" class="btn btn-warning">Unknown</button>    
+    <button type="button" (click)="onSelectedChange('אי הצלחה')" [class.hidden]="selected!=='הצלחה'" class="btn btn-success" >Succes</button>    
+    <button type="button" (click)="onSelectedChange('לא ידוע')" [class.hidden]="selected!=='אי הצלחה'" class="btn btn-danger">Failed</button>
     </div>
   `
 })
@@ -27,7 +28,8 @@ export class SeedResultSelectComponent {
     constructor(private globalVariables: GlobalVariablesService) {
     }
     ngOnInit() {
-        this.selected='הצלחה';
+        this.selected='לא ידוע';
+        
     }
     //on each selection change the value of the combo box will raise to the outside (event binding)
     onSelectedChange(selected: string) {
