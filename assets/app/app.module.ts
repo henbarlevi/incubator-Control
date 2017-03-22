@@ -65,9 +65,12 @@ import{ AdminNavBarComponent}from './shared/navbar/admin-nav-bar.component';
 import{ EditorNavBarComponent}from './shared/navbar/editor-nav-bar.component';
 import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
 
+
+import { Ng2CompleterModule } from "ng2-completer";
+import { CustomData} from './project/project-search/auto-complete.service';
 @NgModule({
     //modules
-    imports: [BrowserModule, FormsModule , HttpModule,routing],
+    imports: [BrowserModule, FormsModule , HttpModule,routing,Ng2CompleterModule],
     //Components and pipes
     declarations: [ 
         AppComponent,
@@ -136,7 +139,8 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
          LoggedInGuard,
          DashboardService,
          ProjectService, 
-         ControlPanelService 
+         ControlPanelService,
+         CustomData//TEST 
          
     ],
     bootstrap: [AppComponent]

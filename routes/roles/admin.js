@@ -23,6 +23,7 @@ var projectGetHandler = methods.projectGetHandler; /*Handle with project GET req
 var projectGetByIdHandler = methods.projectGetByIdHandler;/*Handle with project GET request with :id param*/
 var projectPatchHandler = methods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = methods.projectDeleteHandler; /*Handle project "DELETE" request  */
+var projectAutoCompleteNameHandler = methods.projectAutoCompleteNameHandler;
 //files methods:
 var projctUploadedFilesHandler = methods.projctUploadedFilesHandler; /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 var projectDownloadFilesHandler = methods.projectDownloadFilesHandler;
@@ -55,17 +56,25 @@ router.post('/add-user',userPostHandler );
 router.delete('/user/:id',userDeleteHandler);
 /*Handle user "Patch" request , modify existing user */
 router.patch('/user/:id', userPatchHandler);
+//-----------------------------------------------------------------
 
 /*Handle Project "POST" requests */
 router.post('/project', projectPostHandler);
-/*Handle project "GET" request (asking for all projects/projects by name) */
+/*Handle project "GET" request (asking for all projects/projects by name/projects by domain) */
 router.get('/project', projectGetHandler);
 //-----------------------
 router.get('/project/:id',projectGetByIdHandler);
 /*Handle project "Patch" request , modify existing project */
 router.patch('/project/:id', projectPatchHandler);
 /*Handle project "DELETE" request  */
-router.delete('/project/:id', projectDeleteHandler)
+router.delete('/project/:id', projectDeleteHandler);
+/*Handle with autocomplete serach request - return an optional project names searches that match to the input serach from client
+input search - name querystring (?name=...)*/
+router.get('/project/auto-complete', function(req,res,next){
+    console.log('got to auto complete request handler');
+    res.status(202).json('succes response');
+});
+//-------------------------------------------------------------------
 
 /*handle with uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 router.post('/project/uploadfile/:id', projctUploadedFilesHandler); //id - project id
@@ -77,7 +86,7 @@ router.get('/project/download/:id', projectDownloadFilesHandler);// id - project
 /*handle with download a project specific file (pitchfile/finderfile etc..)*/
 router.get('/project/file/:id',projectDownloadSpecificFileHandler);
 
-
+//--------------------------------------------------------------------
 /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
 router.get('/comboboxes-options', comboOptionsGetHandler);
 /*Handle with POST comboboxes-options request - changing form structure requests - the admin can change the new project form structure

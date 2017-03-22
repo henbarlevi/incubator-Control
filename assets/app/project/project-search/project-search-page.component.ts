@@ -8,8 +8,8 @@ import { Component, Input } from '@angular/core';
 import { ProjectService } from '../shared/project.service';
 import { GlobalVariablesService } from '../../shared/global-variables.service'; //service that contain the combobox options and other global vars
 import { Router } from '@angular/router';
-
-
+import { CompleterService, CompleterData } from 'ng2-completer';
+import { CustomData} from './auto-complete.service';
 @Component({
     template: `
         <div class="form-group">
@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
         
         <button class="btn btn-primary btn-lg slk center-block" (click)="getAllprojects()">הראה הכל</button>
         <project-list (delete)="delete($event)" (edit)="edit($event)" (download)="download($event)" [projects]="projects"></project-list>
+        <ng2-completer [(ngModel)]="captain" [datasource]="CustomData" [minSearchLength]="0"></ng2-completer>
     `,//button desgin from : http://bootsnipp.com/snippets/80GAn
     styleUrls: ['./project-search.component.css','../../shared/buttons-style.css']
 })
@@ -32,10 +33,15 @@ export class ProjectSearchPageComponent {
     searchfield = '';//bind to the search field text input
     searchBy = 'name';//search by paraneter
     projects = []; //contain the projects search result, bind to the project-list component in order to display them
-    constructor(private projectService: ProjectService,
+   //TEST Autocomplete
+   protected captain: string;
+   protected captains = ['James T. Kirk', 'Benjamin Sisko', 'Jean-Luc Picard', 'Spock', 'Jonathan Archer', 'Hikaru Sulu', 'Christopher Pike', 'Rachel Garrett' ];
+   constructor(private CustomData :CustomData,
+       private projectService: ProjectService,
         private router: Router,
         private globalVariablesService: GlobalVariablesService) { //inject services
-    }
+    
+}
 
     //send to server request to get all projects and bind result to the  'projects' prop
     getAllprojects() {

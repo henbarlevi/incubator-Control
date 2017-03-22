@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 //------------------------------project functions----------------------------
 //---------------------------------------------------------------------------
-   /*project GET,POST,DELETE,PATCH requests Handlers*/
-   
+/*project GET,POST,DELETE,PATCH requests Handlers*/
+
 var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
 var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
@@ -10,7 +10,7 @@ var businessDevelopmentRep = require('../models/repositories/business-developmen
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
 var rimraf = require('rimraf'); //module that can delete folder with all its files
-   
+
 /*Handle with project POST request*/
 function projectPostHandler(req, res, next) {
     console.log('project as been posted:');
@@ -115,9 +115,9 @@ function projectPatchHandler(req, res, next) {
     console.log('project id is ' + req.params.id);//DEBUG
     console.log('project as been patched:');
     console.log(req.body);
-     var eventReferences = req.body.eventsReference;
-     var businessDevelopment = req.body.businessDevelopment;
-      req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    var eventReferences = req.body.eventsReference;
+    var businessDevelopment = req.body.businessDevelopment;
+    req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     if (projectId) {
 
         ProjectRep.UpdateById(projectId, req.body,
@@ -128,10 +128,10 @@ function projectPatchHandler(req, res, next) {
                     res.status(502).send('error in DB! ,couldnt find project by id');
 
                 } else {
-                    EventRefRep.reInsertByprojectId(eventReferences,proj._id,(err,event)=>{
+                    EventRefRep.reInsertByprojectId(eventReferences, proj._id, (err, event) => {
                         ProjectRep.pushEventRef(proj._id, event);
                     })
-                    businessDevelopmentRep.reInsertByprojectId(businessDevelopment,proj._id,(err,busDev)=>{
+                    businessDevelopmentRep.reInsertByprojectId(businessDevelopment, proj._id, (err, busDev) => {
                         ProjectRep.pushBusinessDev(proj._id, busDev);
                     })
                     console.log(proj);
@@ -172,14 +172,30 @@ function projectDeleteHandler(req, res, next) {
         return res.status(400).send('client didnt send projectid as parameter in the url');
     }
 }
+//project autocomplete name Handler: - returns an array of matched project names to the name querystring
+function projectAutoCompleteNameHandler(req, res, next) {
+    console.log('TESTSSSSS');
+    var name = req.query.name;
+    if (name) {
+        ProjectRep.findByName(name, (err, projs) => {
+            //getting array that contian the projects names:
+            var projectNamesArr = arr.map(function (p) {
+                return p.projectName;
+            });
 
+        })
+        console.log(projectNamesArr);
+        console.log('ssssssssssss');
+        res.status(200).json(projectNamesArr);
+    }
+}
 //-----------------------------------EXPORT---------------------------------
 module.exports = {
-  /*project GET,POST,DELETE,PATCH functions*/
+    /*project GET,POST,DELETE,PATCH functions*/
     projectPostHandler: projectPostHandler, /*Handle with project POST request*/
     projectGetHandler: projectGetHandler,   /*Handle with project GET request*/
     projectGetByIdHandler: projectGetByIdHandler, /*Handle with project GET by Id request*/
     projectPatchHandler: projectPatchHandler, /*Handle project "Patch" request , modify existing project */
     projectDeleteHandler: projectDeleteHandler, /*Handle project "DELETE" request  */
-
+    projectAutoCompleteNameHandler : projectAutoCompleteNameHandler
 }

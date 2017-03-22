@@ -22,7 +22,7 @@
 15.adding repository to each db model
 16.adding .gitignore file by writing - touch .gitignore in the git BASH
 17.installing rimraf - module that can delete folder with all its files in it (used in the projectDeleteHandler) - npm install rimraf --save
-
+18.TESTING ng completer - npm install ng2-completer --save
 //---------rememberToFIx---------------
 -use the globalvariables service where it should
 -fix the issue with users that 
