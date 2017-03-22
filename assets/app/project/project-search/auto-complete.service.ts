@@ -6,7 +6,7 @@ import { CompleterData, CompleterItem } from "ng2-completer";
 
 @Injectable()
 export class CustomData extends Subject<CompleterItem[]> implements CompleterData {
-
+    //http://stackoverflow.com/questions/40172248/angular-2-ng2-completer-avoid-http-dependency-injection-in-service-from-compo
     constructor(private http: Http) {
         super();
     }
@@ -16,8 +16,8 @@ export class CustomData extends Subject<CompleterItem[]> implements CompleterDat
         params.set('name', searchTerm);
         this.http.get('http://localhost:3000/admin/project/auto-complete',{ search: params })
             .map((res: Response) => {
-                console.log(res);
                 let data = res.json();
+                console.log(data);
                 this.next(data);
             })
             .subscribe();

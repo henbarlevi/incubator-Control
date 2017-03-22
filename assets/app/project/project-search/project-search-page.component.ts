@@ -25,7 +25,8 @@ import { CustomData} from './auto-complete.service';
         <button class="btn btn-primary btn-lg slk center-block" (click)="getAllprojects()">הראה הכל</button>
         <project-list (delete)="delete($event)" (edit)="edit($event)" (download)="download($event)" [projects]="projects"></project-list>
         <ng2-completer [(ngModel)]="captain" [datasource]="CustomData" [minSearchLength]="0"></ng2-completer>
-    `,//button desgin from : http://bootsnipp.com/snippets/80GAn
+    `,//ng2-completer https://www.npmjs.com/package/ng2-completer
+    //button desgin from : http://bootsnipp.com/snippets/80GAn
     styleUrls: ['./project-search.component.css','../../shared/buttons-style.css']
 })
 export class ProjectSearchPageComponent {
