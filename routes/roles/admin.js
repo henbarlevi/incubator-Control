@@ -23,7 +23,7 @@ var projectGetHandler = methods.projectGetHandler; /*Handle with project GET req
 var projectGetByIdHandler = methods.projectGetByIdHandler;/*Handle with project GET request with :id param*/
 var projectPatchHandler = methods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = methods.projectDeleteHandler; /*Handle project "DELETE" request  */
-var projectAutoCompleteNameHandler = methods.projectAutoCompleteNameHandler;
+var projectAutoCompleteHandler = methods.projectAutoCompleteHandler;
 //files methods:
 var projctUploadedFilesHandler = methods.projctUploadedFilesHandler; /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 var projectDownloadFilesHandler = methods.projectDownloadFilesHandler;
@@ -70,7 +70,7 @@ router.patch('/project/:id', projectPatchHandler);
 router.delete('/project/:id', projectDeleteHandler);
 /*Handle with autocomplete serach request - return an optional project names searches that match to the input serach from client
 input search - name querystring (?name=...)*/
-router.get('/project/auto-complete', function(req,res,next){
+router.get('/project/search', function(req,res,next){
     console.log('got to auto complete request handler');
     res.status(202).json('succes response');
 });

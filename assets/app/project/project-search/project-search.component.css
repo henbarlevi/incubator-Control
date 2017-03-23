@@ -1,3 +1,8 @@
 .center-block{
     margin: auto;
 }
+
+
+.completer-holder{
+    display: inline-block;
+}

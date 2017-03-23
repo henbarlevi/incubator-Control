@@ -173,21 +173,27 @@ function projectDeleteHandler(req, res, next) {
     }
 }
 //project autocomplete name Handler: - returns an array of matched project names to the name querystring
-function projectAutoCompleteNameHandler(req, res, next) {
+function projectAutoCompleteHandler(req, res, next) {
     console.log('TESTSSSSS');
     var name = req.query.name;
     if (name) {
         ProjectRep.findByName(name, (err, projs) => {
             //getting array that contian the projects names:
-            var projectNamesArr = arr.map(function (p) {
+         var  projectNamesArr = projs.map(function (p) {
                 return p.projectName;
             });
 
-        })
+        //console.log(projectNamesArr);
         console.log(projectNamesArr);
-        console.log('ssssssssssss');
-        res.status(200).json(projectNamesArr);
+//        res.status(200).json(projectNamesArr);
+        res.status(200).json(projs);
+        
+     })
     }
+    else{
+        res.status(400).send('client didnt specify a search querystring parameter');
+    }
+    
 }
 //-----------------------------------EXPORT---------------------------------
 module.exports = {
@@ -197,5 +203,5 @@ module.exports = {
     projectGetByIdHandler: projectGetByIdHandler, /*Handle with project GET by Id request*/
     projectPatchHandler: projectPatchHandler, /*Handle project "Patch" request , modify existing project */
     projectDeleteHandler: projectDeleteHandler, /*Handle project "DELETE" request  */
-    projectAutoCompleteNameHandler : projectAutoCompleteNameHandler
+    projectAutoCompleteHandler : projectAutoCompleteHandler
 }

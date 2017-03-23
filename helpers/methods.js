@@ -57,7 +57,7 @@ var projectGetHandler = projectMethods.projectGetHandler; /*Handle with project 
 var projectGetByIdHandler = projectMethods.projectGetByIdHandler;/*Handle with project GET request with :id param*/
 var projectPatchHandler = projectMethods.projectPatchHandler; /*Handle project "Patch" request , modify existing project */
 var projectDeleteHandler = projectMethods.projectDeleteHandler; /*Handle project "DELETE" request  */
-var projectAutoCompleteNameHandler = projectMethods.projectAutoCompleteNameHandler;
+var projectAutoCompleteHandler = projectMethods.projectAutoCompleteHandler;
 
 //---------------------------------------------------------------------------
 //-------------------------------Project Files Functions---------------------
@@ -189,7 +189,7 @@ module.exports = {
     projectGetByIdHandler: projectGetByIdHandler, /*Handle with project GET by Id request*/
     projectPatchHandler: projectPatchHandler, /*Handle project "Patch" request , modify existing project */
     projectDeleteHandler: projectDeleteHandler, /*Handle project "DELETE" request  */
-    projectAutoCompleteNameHandler : projectAutoCompleteNameHandler,
+    projectAutoCompleteHandler : projectAutoCompleteHandler,
     /*Project Files Functions*/
     projctUploadedFilesHandler: projctUploadedFilesHandler, /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
     projectDownloadFilesHandler: projectDownloadFilesHandler, /*handle with download project files requests*/
