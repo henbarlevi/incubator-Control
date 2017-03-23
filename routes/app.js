@@ -6,12 +6,13 @@ var express = require('express'); //import express
 var router = express.Router(); //use router module
 var User = require('../models/user'); //import 'User' schema model
 
-
+var projectAutoCompleteHandler = require('../helpers/methods').projectAutoCompleteHandler;//TEST
 //handle the root request - send back the angular app (views/index.hbs(html))
 router.get('/', function (req, res, next) {
     res.render('index'); //send the angular2 app
 });
-
+//TEST - for autocomplete feature
+router.get('/admin/project/search', projectAutoCompleteHandler);
 /*Handle Login Requests  - check if they correct and if so - save the user to session*/
 router.post('/login', function (req, res, next) {
     console.log(req.body);
@@ -74,8 +75,10 @@ router.use(function (req, res, next) {
             }
             else{ //user is authenticated:
                 req.user = user;
-                req.user.password = null; //delete password from session for security reasons              
+                req.user.password = null; //delete password from session for security reasons 
+                console.log('-------------------USER SESSION INFO----------------------------');             
                 console.log("THE SESSION:" +req.user);//DEBUG
+                console.log('----------------------------------------------------------------');
                 next();
             }
         });
