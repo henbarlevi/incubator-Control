@@ -26,6 +26,7 @@ function findById(projectId,callback){
     Project.findById(projectId)
     .populate('eventsReference')
     .populate('businessDevelopment')
+    .populate('seedAid')
         .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */
