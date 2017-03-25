@@ -47,6 +47,8 @@ import {InboxComponent } from './inbox/inbox.component';
             import { BusinessesComponent,BusinessEditComponent,BusinessListComponent,BusinessStatusSelectComponent} from './project/project-form/shared/business-development';
             //project-form shard/seed-aid:
             import {SeedAidComponent, SeedEditComponent, SeedListComponent,SeedStatusSelectComponent,SeedResultSelectComponent} from './project/project-form/shared/seed-aid';
+            //project-form shared/
+            import { IncubationModule } from './project/project-form/shared/Incubation/incubation.module';
     //project shared:
     import { ProjectService} from './project/shared/project.service';
 //control-panel:
@@ -70,7 +72,10 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { CustomData} from './project/project-search/auto-complete.service';
 @NgModule({
     //modules
-    imports: [BrowserModule, FormsModule , HttpModule,routing,Ng2CompleterModule],
+    imports: [BrowserModule, FormsModule , HttpModule,routing,
+            Ng2CompleterModule,
+            //project form incubation module
+            IncubationModule],
     //Components and pipes
     declarations: [ 
         AppComponent,

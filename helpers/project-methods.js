@@ -129,8 +129,10 @@ function projectPatchHandler(req, res, next) {
     console.log(req.body);
     var eventReferences = req.body.eventsReference;
     var businessDevelopment = req.body.businessDevelopment;
-    req.body.businessDevelopment = []; //if there is new businessDevelopment they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    var seedAid = req.body.seedAid;
     req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    req.body.businessDevelopment = []; //if there is new businessDevelopment they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    req.body.seedAid = []; //if there is new seedaid they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually    
     if (projectId) {
 
         ProjectRep.UpdateById(projectId, req.body,
@@ -141,11 +143,15 @@ function projectPatchHandler(req, res, next) {
                     res.status(502).send('error in DB! ,couldnt find project by id');
 
                 } else {
+                    //update project populated refs 
                     EventRefRep.reInsertByprojectId(eventReferences, proj._id, (err, event) => {
                         ProjectRep.pushEventRef(proj._id, event);
                     })
                     businessDevelopmentRep.reInsertByprojectId(businessDevelopment, proj._id, (err, busDev) => {
                         ProjectRep.pushBusinessDev(proj._id, busDev);
+                    })
+                    seedAidRep.reInsertByprojectId(seedAid, proj._id, (err, seed) => {
+                        ProjectRep.pushSeedAid(proj._id, seed);
                     })
                     console.log(proj);
                     console.log('the update result %s.', proj);
@@ -178,6 +184,7 @@ function projectDeleteHandler(req, res, next) {
                         console.log('project folder deleted');
                         res.status(200).json(proj);
                     });
+                    //TODO -delete all referd shcemas of project (eventsref, businessdevs etc..)
                 }
             });
     } else {

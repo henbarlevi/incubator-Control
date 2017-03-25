@@ -51,7 +51,10 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                     <tr *ngFor="let seed of seeds">
                         <td class="col-sm-8 col-md-6">
                         <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <div class="thumbnail pull-left">
+                            <a  href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <h5>{{seed.source}}</h5>
+                            </div>
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="#">$ {{seed.investmentAmount}}</a></h4>
                                 <h5 class="media-heading">{{seed.eventName}} : {{seed.startDate}} - {{seed.endDate}}</h5>
@@ -61,9 +64,14 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                             </div>
                         </div></td>
                         <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger" (click)="onRemove(seed)">
                             <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
+                        </button>
+                         <button type="button" class="btn btn-primary" (click)="onEdit(seed)">
+                            <span class="glyphicon glyphicon-pencil"></span> EDIT
+                        </button>
+                      
+                        </td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -80,6 +88,9 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
   styles:[`
   th,td{
     text-align:center;
+  }
+ button{
+      width:90%;
   }
   `]
   //required - the field is required

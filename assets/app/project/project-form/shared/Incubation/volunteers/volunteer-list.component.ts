@@ -51,7 +51,7 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
 }) //button type="button" IMPORTANT -in order to prevent the defualt behavior of submiting when clicking on any button in the form 
   //(event if its not type="submit") we declared it as type="button"
 
-export class MemberListComponent implements OnInit{
+export class VolunteerListComponent implements OnInit{
 
 
 

@@ -25,7 +25,20 @@ function addMulti(newSeedAids,projectId, callback) {
 function findByProjId(projectId,callback){
      SeedAid.find({project:projectId}, callback);
 }
+//delete all seed-aids related to projectid and insert new ones (update project array ref)
+function reInsertByprojectId(newSeedAids,projectId,callback){
+        //delete all seed-aids by projectid
+        SeedAid.remove({project:projectId},function(err){
+            //add new seed-aids with proj id
+            if(!err){
+                console.log('removed succesfully');
+            addMulti(newSeedAids,projectId,callback);
+            }
+        });
+
+}
 module.exports = {
     addMulti: addMulti,
-    findByProjId:findByProjId
+    findByProjId:findByProjId,
+    reInsertByprojectId : reInsertByprojectId
 };
