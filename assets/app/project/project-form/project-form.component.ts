@@ -33,6 +33,9 @@ export class ProjectFormComponent implements OnInit {
     project: Project;// project model, will contain all the submit values
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
+   
+    //testing date-and-files component:
+    startDate="2017-03-13";
     constructor(private projectService: ProjectService,
         private globalVariablesService: GlobalVariablesService,
         private comboboxesOptionsService: ComboboxesOptionsService,
@@ -99,6 +102,8 @@ export class ProjectFormComponent implements OnInit {
        return false;
     }
     onSubmit(f) {
+        console.log('the start date is' + this.startDate);
+
         console.log('form details:');
         console.log(f);
         console.log('should submit:');
