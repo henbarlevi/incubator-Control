@@ -33,9 +33,9 @@ export class ProjectFormComponent implements OnInit {
     project: Project;// project model, will contain all the submit values
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
-   
+
     //testing date-and-files component:
-    startDate="2017-03-13";
+    startDate = "2017-03-13";
     constructor(private projectService: ProjectService,
         private globalVariablesService: GlobalVariablesService,
         private comboboxesOptionsService: ComboboxesOptionsService,
@@ -56,16 +56,16 @@ export class ProjectFormComponent implements OnInit {
             filledQuestions: { filled: false, filledReminder: '' },// object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled questions)
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
-            eventsReference : [],//event references of the project
-            businessDevelopment :[],//business development of the project
-            seedAid:[]
-    }
-     
+            eventsReference: [],//event references of the project
+            businessDevelopment: [],//business development of the project
+            seedAid: []
+        }
+
     }
     //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
     // Myself using node.js and multipart handler middleware multer get the data as follows:
     //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
-    
+
     //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
     pitchFileChange(event) {
         this.saveFileToFormData('pitchFile', event);
@@ -87,6 +87,8 @@ export class ProjectFormComponent implements OnInit {
     }
     /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
+        //delete previoues file if exist:
+        //this.formData.set(name,event,event.name);
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var file = target.files[0];
         //appending file into formdata:
@@ -94,12 +96,23 @@ export class ProjectFormComponent implements OnInit {
         console.log('file' + file.name + ' appended to formdata');//DEBUG
 
     }
+    private saveMultiFilesToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
+        var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
+        var filesLength = target.files.length; //getting the amount of files in order to iterate them
+        //appending files into formdata:
+        for (var i = 0; i < filesLength; i++) {
+            let file = target.files[i];
+            this.formData.append(name, file, file.name);
+            console.log('file' + file.name + ' appended to formdata');//DEBUG
+        }
+
+    }
     //get a program name and check if it exist in the project.programSuggested (if user chosed this program from combobox)
-    isProjectProgramContains(program){
-       if(this.project.programSuggested.indexOf(program) > -1){
-           return true;
-       } 
-       return false;
+    isProjectProgramContains(program) {
+        if (this.project.programSuggested.indexOf(program) > -1) {
+            return true;
+        }
+        return false;
     }
     onSubmit(f) {
         console.log('the start date is' + this.startDate);
@@ -118,14 +131,14 @@ export class ProjectFormComponent implements OnInit {
                 console.log(this.formData);
                 this.projectService.uploadFiles(this.formData, res.json()) //send the project related files
                     .then(res => {
-                            console.log('response for uploading files');
-                            console.log(res);
+                        console.log('response for uploading files');
+                        console.log(res);
                         if (res.ok) {//if the post project files to server succeded:
                             this.router.navigate(['dashboard/project-search-page']); //navigate the app to search page   
                         }
                     })
             }
         });
-       
+
     }
 }

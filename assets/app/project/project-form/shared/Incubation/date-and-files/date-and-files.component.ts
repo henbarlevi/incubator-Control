@@ -2,6 +2,11 @@
 -start date calendar
 -end date calendar
 =input multi files
+
+usage of this component:
+-[(startDate)] to bind to the start date calendar input
+-[(endDate)] to bind to the end date calendar input
+-(filesChange) to bind to (change) input file event and get files content
 */
 
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
@@ -19,7 +24,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
                  <div class="col-xs-6 col-sm-6  col-md-6">  
                 <h5> תאריך סיום   </h5>
                 
-                <input type="date"  [(ngModel)]="endDate"   >  
+                <input type="date"  [ngModel]="endDate" (ngModelChange)=" endDateChange.emit($event)"  >  
                 </div>              
                 <input multiple type="file" (change)="onFilesChange($event)" placeholder="Upload files"
                     accept=".pdf,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
@@ -36,22 +41,8 @@ export class DateAndFilesComponent implements OnInit {
     @Output() startDateChange = new EventEmitter<string>();
 
     @Input() endDate;
-    //     get userDetails() {
-    //     debugger;
-    //     if(!localStorage.getItem('userDetails')){ //if userDetails doesnt exist in storage
-    //         return undefined;
-    //     }
-    //     return JSON.parse(localStorage.getItem('userDetails'));;
-    // }
-    // set userDetails(value) {
-    //     debugger;
-    //     if(!value){//if value is undefiend/null
-    //         localStorage.removeItem('userDetails'); // remove user details from storage
-    //     }else{
+    @Output() endDateChange = new EventEmitter<string>();    
 
-    //     localStorage.setItem('userDetails',JSON.stringify(value));
-    //     }
-    // } //contain user details (without password)
     @Output() filesChange = new EventEmitter<any>();
     ngOnInit() {
 
