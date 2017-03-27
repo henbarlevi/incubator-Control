@@ -66,6 +66,7 @@
             <!--אם היזם בוחר באינקובציה-->
             <template [ngIf]="isProjectProgramContains('אינקובציה')">
                 אינקובציה
+                <incubation></incubation>
             </template>
             <!--אם היזם בוחר בפיתוח עיסקי-->
             <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
