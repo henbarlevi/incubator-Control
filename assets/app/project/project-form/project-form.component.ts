@@ -87,8 +87,6 @@ export class ProjectFormComponent implements OnInit {
     }
     /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
-        //delete previoues file if exist:
-        //this.formData.set(name,event,event.name);
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var file = target.files[0];
         //appending file into formdata:

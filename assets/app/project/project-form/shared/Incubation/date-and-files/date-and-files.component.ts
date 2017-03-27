@@ -15,6 +15,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
     selector: 'date-and-files',
     template: `    
     <div>
+        <h3><b><ng-content></ng-content></b></h3>
         <div class="panel panel-primary">               
             <div class="form-group">
                 <div class="col-xs-6 col-sm-6  col-md-6">  
@@ -32,7 +33,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
         </div>
     </div>
   `,//dont forget to use  <ng-content> TODO
-    styleUrls: []
+    styleUrls: ['./date-and-files.component.css']
 
 })
 

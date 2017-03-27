@@ -8,7 +8,7 @@ function add(projectReq, callback) {
         petitionDate: projectReq.petitionDate,
         crew: projectReq.crew,
         status: projectReq.status,
-        projectDomain: projectReq.projectDomain, //TODO should be get multi vals
+        projectDomain: projectReq.projectDomain, 
         filledPitch: projectReq.filledPitch,
         filledQuestions: projectReq.filledQuestions,
         signedFinder: projectReq.signedFinder,
