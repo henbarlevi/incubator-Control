@@ -61,26 +61,43 @@
         </div>
         <!--התוכנית המוצעת ליזם-->
         <program-multi-select [(selected)]="project.programSuggested"></program-multi-select>
-        <!--אם היזם בוחר באינקובציה-->
-        <template [ngIf]="isProjectProgramContains('אינקובציה')">
-            אינקובציה
-        </template>
-        <!--אם היזם בוחר בפיתוח עיסקי-->
-        <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
-            <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
-        </div>
-        <!--אם היזם בוחר בהפנייה לארועים-->
-        <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
-            הפנייה לארועים
-            <events-reference [(events)]="project.eventsReference" ></events-reference>
-        </div>
-        <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
-        <div [class.hidden]="!isProjectProgramContains('סיוע בגיוס השקעות')">
-            סיוע בגיוס השקעות
-            <seed-aid [seeds]="project.seedAid"></seed-aid>
+        <div id="accordion" role="tablist" aria-multiselectable="true"><!--To create accordion collapse tabs/divs : https://v4-alpha.getbootstrap.com/components/collapse/-->
+
+            <!--אם היזם בוחר באינקובציה-->
+            <template [ngIf]="isProjectProgramContains('אינקובציה')">
+                אינקובציה
+            </template>
+            <!--אם היזם בוחר בפיתוח עיסקי-->
+            <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        תוכנית פיתוח עיסקי
+                        </a>
+                    </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="card-block">
+                         <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!--אם היזם בוחר בהפנייה לארועים-->
+            <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
+                הפנייה לארועים
+                <events-reference [(events)]="project.eventsReference" ></events-reference>
+            </div>
+            <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
+            <div [class.hidden]="!isProjectProgramContains('סיוע בגיוס השקעות')">
+                סיוע בגיוס השקעות
+                <seed-aid [seeds]="project.seedAid"></seed-aid>
+            </div>
         </div>
         <!--TEST-->
               {{errors}}
+              <date-and-files [(startDate)]="startDate" (filesChange)="saveMultiFilesToFormData('somefiles',$event)">asdasasasd</date-and-files>
     </div>
     <crew [(members)]="project.crew"></crew>
     <div class="form-actions">

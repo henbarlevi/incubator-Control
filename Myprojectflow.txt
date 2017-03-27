@@ -51,3 +51,4 @@ nested component of the form bind directly to the globalvariablesService.option 
 -TODO add to globalvariablesService geters and setters for the combooptions
 -crew , bussiness development and  event ref features have a similar structure. should create a common abstract components for them
 -TODO - when deleting project from db - dont forget to delete also related models from related schemas - eventsReference, bussinessDevelopment
+-TODO - need to fix issue that in project-form when user change file to upload it doesnt delete the previous file from the formData

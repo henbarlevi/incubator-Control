@@ -8,7 +8,7 @@ function add(projectReq, callback) {
         petitionDate: projectReq.petitionDate,
         crew: projectReq.crew,
         status: projectReq.status,
-        projectDomain: projectReq.projectDomain, //TODO should be get multi vals
+        projectDomain: projectReq.projectDomain, 
         filledPitch: projectReq.filledPitch,
         filledQuestions: projectReq.filledQuestions,
         signedFinder: projectReq.signedFinder,
@@ -26,6 +26,7 @@ function findById(projectId,callback){
     Project.findById(projectId)
     .populate('eventsReference')
     .populate('businessDevelopment')
+    .populate('seedAid')
         .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */

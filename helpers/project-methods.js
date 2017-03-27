@@ -6,6 +6,7 @@
 var ProjectRep = require('../models/repositories/project-rep'); //import 'Project' repository
 var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
 var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
+var seedAidRep = require('../models/repositories/seed-aid-rep');//import 'seed-aid repository
 
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
@@ -20,6 +21,7 @@ function projectPostHandler(req, res, next) {
         var projectReq = req.body; //the project posted
         var eventReferencesReq = req.body.eventsReference;//the eventReferences posted
         var busninessDevelopmentReq = req.body.businessDevelopment;//the businessDevelopment posted
+        var seedAidReq  =req.body.seedAid; //the seedAid posted
         ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG
             console.log(err);
@@ -52,6 +54,16 @@ function projectPostHandler(req, res, next) {
                         }
                         console.log('busniess-dev added');
                         ProjectRep.pushBusinessDev(proj._id, busDev);
+                    })
+                }
+                //adding seed aid to db:
+                if (seedAidReq) {
+                    seedAidRep.addMulti(seedAidReq, proj._id, function (err, seedAid) {
+                        if (err) {
+
+                        }
+                        console.log('busniess-dev added');
+                        ProjectRep.pushSeedAid(proj._id, seedAid);
                     })
                 }
                 res.status(201).json(proj);
@@ -117,7 +129,10 @@ function projectPatchHandler(req, res, next) {
     console.log(req.body);
     var eventReferences = req.body.eventsReference;
     var businessDevelopment = req.body.businessDevelopment;
+    var seedAid = req.body.seedAid;
     req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    req.body.businessDevelopment = []; //if there is new businessDevelopment they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
+    req.body.seedAid = []; //if there is new seedaid they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually    
     if (projectId) {
 
         ProjectRep.UpdateById(projectId, req.body,
@@ -128,11 +143,15 @@ function projectPatchHandler(req, res, next) {
                     res.status(502).send('error in DB! ,couldnt find project by id');
 
                 } else {
+                    //update project populated refs 
                     EventRefRep.reInsertByprojectId(eventReferences, proj._id, (err, event) => {
                         ProjectRep.pushEventRef(proj._id, event);
                     })
                     businessDevelopmentRep.reInsertByprojectId(businessDevelopment, proj._id, (err, busDev) => {
                         ProjectRep.pushBusinessDev(proj._id, busDev);
+                    })
+                    seedAidRep.reInsertByprojectId(seedAid, proj._id, (err, seed) => {
+                        ProjectRep.pushSeedAid(proj._id, seed);
                     })
                     console.log(proj);
                     console.log('the update result %s.', proj);
@@ -165,6 +184,7 @@ function projectDeleteHandler(req, res, next) {
                         console.log('project folder deleted');
                         res.status(200).json(proj);
                     });
+                    //TODO -delete all referd shcemas of project (eventsref, businessdevs etc..)
                 }
             });
     } else {
@@ -183,10 +203,8 @@ function projectAutoCompleteHandler(req, res, next) {
                 return p.projectName;
             });
 
-        //console.log(projectNamesArr);
         console.log(projectNamesArr);
-//        res.status(200).json(projectNamesArr);
-        res.status(200).json(projs);
+        res.status(200).json(projectNamesArr);
         
      })
     }

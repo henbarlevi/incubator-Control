@@ -41,7 +41,7 @@ export class ProjectSearchPageComponent {
         private projectService: ProjectService,
         private router: Router,
         private globalVariablesService: GlobalVariablesService) { //inject services
-        this.suggetions = CompleterService.remote('http://localhost:3000/admin/project/search?name=', 'projectName', 'projectName');//getting from server suggestions for Autocomplete
+        this.suggetions = CompleterService.remote('http://localhost:3000/admin/project/search?name=', null, null);//getting from server suggestions for Autocomplete
     }
 
     //send to server request to get all projects and bind result to the  'projects' prop
