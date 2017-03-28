@@ -48,6 +48,6 @@ export class EventsComponent {
         this.editMode = true;//this is how we now if to create a new event or to edit existing one
     }
     onEventsChange() { //buble  the events to the outside enivorment when they change
-        this.eventsChange.emit(this.events);//event bind the members
+        this.eventsChange.emit(this.events);
     }
 }

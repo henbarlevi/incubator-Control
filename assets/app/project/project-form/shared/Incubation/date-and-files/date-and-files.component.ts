@@ -30,14 +30,14 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
          <ng-content select="div.body"></ng-content>
             <div class="form-group">
                 <div class="col-xs-6 col-sm-6  col-md-6">  
-                <h5> תאריך התחלה   </h5>
-                <input type="date"  [ngModel]="startDate" (ngModelChange)=" startDateChange.emit($event)" >
-                </div>
-                 <div class="col-xs-6 col-sm-6  col-md-6">  
                 <h5> תאריך סיום   </h5>
                 
                 <input type="date"  [ngModel]="endDate" (ngModelChange)=" endDateChange.emit($event)"  >  
                 </div>   
+                <div class="col-xs-6 col-sm-6  col-md-6">  
+                <h5> תאריך התחלה   </h5>
+                <input type="date"  [ngModel]="startDate" (ngModelChange)=" startDateChange.emit($event)" >
+                </div>
                
                            
            </div>        
@@ -63,6 +63,10 @@ export class DateAndFilesComponent implements OnInit {
     }
 
     onFilesChange(filesInput){
+        //DEBUG
+        console.log('the files');
+        console.log(filesInput);
+        
         this.filesChange.emit(filesInput);
     }
 }

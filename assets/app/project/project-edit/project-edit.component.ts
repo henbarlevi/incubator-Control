@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, ViewChild } from '@angular/core';
 import { Project } from '../shared/project.interface'; //project model interface
 import { GlobalVariablesService } from '../../shared/global-variables.service'; //service that contains global vars like baseUrl and more
 import { ProjectService } from '../shared/project.service';
@@ -24,6 +24,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
     paramsSubscription: Subscription;
+
+    @ViewChild('incubationChangeDetection') incubationComponent;
+
     constructor(private globalVariablesService: GlobalVariablesService,
         private projectService: ProjectService,
         private comboboxesOptionsService: ComboboxesOptionsService,
@@ -47,8 +50,19 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
             filledQuestions: { filled: false, filledReminder: '' },// object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled questions)
             signedFinder: { filled: false, filledReminder: '' }, // object contain to fields : filled -bool (checkbox YES/NO) and filledReminder - string date (in case he didnt filled finder)
             programSuggested: [],// multiple select
-            eventsReference : [],//event references of the project
-            businessDevelopment :[]//business development of the project
+            eventsReference: [],//event references of the project
+            businessDevelopment: [],//business development of the project
+            incubation: {
+                verificationAnalysis: {},
+                volunteers: [],
+                businessProgram: {},
+                marketingStrategy: {},
+                productCharacterization: {},
+                productDesign: {},
+                productDevelopment: {},
+                poc: {},
+                marketing: {},
+            }
         }
         //getting the projectid route param and sending getProjectById http req to get project full details
         this.paramsSubscription = this.route.params.subscribe(params => {
@@ -70,25 +84,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     // Myself using node.js and multipart handler middleware multer get the data as follows:
     //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
 
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    pitchFileChange(event) {
-        this.saveFileToFormData('pitchFile', event);
-    }
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    questionsFileChange(event) {
-        this.saveFileToFormData('questionsFile', event);
-    }
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    finderFileChange(event) {
-        this.saveFileToFormData('finderFile', event);
-    }
     //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData
-    fileChange(event) {
-        // console.log(event.srcElement);        
-        // var files = event.srcElement.files;
-        this.saveFileToFormData('uploadedfile', event);
-        //this.projectService.uploadFiles(this.formData);
-    }
     /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
@@ -98,6 +94,18 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         console.log('file' + file.name + ' appended to formdata');//DEBUG
 
     }
+    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formData 
+    private saveMultiFilesToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
+        var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
+        var filesLength = target.files.length; //getting the amount of files in order to iterate them
+        //appending files into formdata:
+        for (var i = 0; i < filesLength; i++) {
+            let file = target.files[i];
+            this.formData.append(name, file, file.name);
+            console.log('file' + file.name + ' appended to formdata');//DEBUG
+        }
+
+    }
     //get a program name and check if it exist in the project.programSuggested (if user chosed this program from combobox)
     isProjectProgramContains(program) {
         if (this.project.programSuggested.indexOf(program) > -1) {
@@ -105,12 +113,24 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         }
         return false;
     }
+    printIncubation() {
+
+        console.log('this is the incubation inside incubation component');
+        console.log(this.incubationComponent.incubation);
+        console.log('this is the incubation inside project object');
+        console.log(this.project.incubation);
+
+
+    }
     //when clicking on one of the "צפה בקובץ" button - will download the relevant file
     downloadfile(fieldName) {
         this.projectService.downloadFile(fieldName, this.project);
     }
 
     onSubmit(f) {
+        if (this.isProjectProgramContains('אינקובציה')) {
+            this.project.incubation = this.incubationComponent.incubation; //update the incubation
+        }
         console.log('form details:');
         console.log(f);
         console.log('should submit:');

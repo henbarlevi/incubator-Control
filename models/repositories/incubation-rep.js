@@ -32,6 +32,7 @@ function reInsertByprojectId(newIncubation,projectId,callback){
             }
         });
 }
+
 module.exports = {
     add: add,
     findByProjId:findByProjId,
