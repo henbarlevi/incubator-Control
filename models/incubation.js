@@ -16,7 +16,8 @@ var schema = new Schema({
     marketing:{startDate:String,endDate:String,campaignName:String,pilotResult:String,usersAmount:String,pricePerUser:String},
     project: {type: Schema.Types.ObjectId, ref: 'Project'}
 
-});//array fields with mongoose http://stackoverflow.com/questions/26423508/mongoose-assign-field-of-type-array-of-strings
+},{ minimize: false }); //minimize - false make empty objects fields be saved as empty object instead of undefiend in order to prevent undefiend error in client - http://stackoverflow.com/questions/29188131/mongoose-set-default-as-empty-object
+//array fields with mongoose http://stackoverflow.com/questions/26423508/mongoose-assign-field-of-type-array-of-strings
 
 schema.plugin(mongooseUniqueValidator);
 

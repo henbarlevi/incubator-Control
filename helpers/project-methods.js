@@ -130,6 +130,8 @@ function projectGetByIdHandler(req, res, next) {
     })
 }
 /*Handle project "Patch" request , modify existing project */
+/*how to Automatically remove referencing objects on deletion in MongoDB might be useful for refactor:
+http://stackoverflow.com/questions/11904159/automatically-remove-referencing-objects-on-deletion-in-mongodb*/
 function projectPatchHandler(req, res, next) {
     var projectId = req.params.id;//getting the id paramter from url
     console.log('project id is ' + req.params.id);//DEBUG
@@ -138,6 +140,7 @@ function projectPatchHandler(req, res, next) {
     var eventReferences = req.body.eventsReference;
     var businessDevelopment = req.body.businessDevelopment;
     var seedAid = req.body.seedAid;
+    var incubation = req.body.incubation;
     req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     req.body.businessDevelopment = []; //if there is new businessDevelopment they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     req.body.seedAid = []; //if there is new seedaid they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually    
@@ -160,6 +163,9 @@ function projectPatchHandler(req, res, next) {
                     })
                     seedAidRep.reInsertByprojectId(seedAid, proj._id, (err, seed) => {
                         ProjectRep.pushSeedAid(proj._id, seed);
+                    })
+                    incubationRep.reInsertByprojectId(incubation, proj._id, (err, inc) => {
+                        ProjectRep.pushIncubation(proj._id, inc);
                     })
                     console.log(proj);
                     console.log('the update result %s.', proj);

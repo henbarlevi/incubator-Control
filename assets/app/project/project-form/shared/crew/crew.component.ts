@@ -9,11 +9,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
     selector: 'crew',
     template: `
+     <h3><b> צוות ראשי </b></h3>
     <member-edit [member]="editableMember" (save)="save($event)" ></member-edit>
     <member-list [members]="members"
       (remove)="remove($event)" (edit)="edit($event)"></member-list>
   `,//(remove)="remove($event)" - 'remove' event happend when delete btn is click, the eventEmitter of the member-list
     //will raise the event with the member object ($event=member) sending it to the remove method
+styles:[`
+h3{
+    text-align:center;
+}
+
+`]
 })
 export class CrewComponent {
 
