@@ -23,10 +23,15 @@ function projctUploadedFilesHandler(req, res, next) {
         var fstream;
         req.pipe(req.busboy);//pipe request to busboy in order that busboy will get uploaded files from req
         req.busboy.on('file', function (fieldname, file, filename) {//for each uploaded file:
+            //create folder named after the file fieldname if not exist (multi files can be related to the same fieldName):
+            var fieldNameFolder = path.join(projectFilesFolder, '/', fieldname);
+            if (!fs.existsSync(fieldNameFolder)) {//if the foler not exist
+                fs.mkdirSync(fieldNameFolder);//create the folder
+            }
             console.log(file);//DEBUG
             console.log('the field name : %s filename : %s', fieldname, filename);//DEBUG
             console.log("Uploading: " + filename);//DEBUG.
-            fstream = fs.createWriteStream(projectFilesFolder + '/' + filename);//create write stream to project folder
+            fstream = fs.createWriteStream(fieldNameFolder + '/' + filename);//create write stream to project folder
             file.pipe(fstream);//pipe the uploaded file into the project folder
             fstream.on('close', function () {
                 console.log('File [' + fieldname + '] Finished');
@@ -62,9 +67,7 @@ http://stackoverflow.com/questions/9321027/how-to-send-files-with-node-js
 http://stackoverflow.com/questions/25463423/res-sendfile-absolute-path - how to use path to get file path
 */
 function projectDownloadFilesHandler(req, res, next) {
-    // var path = require('path');
-    // res.sendFile(path.join(__dirname, '../../uploads', 'קורות חיים חן  בר לוי 060217.docx'));
-    //test:
+
     var projectId = req.params.id;//getting the id paramter from url
     console.log('sending project files, id: ' + projectId);
     var projectFilesFolder = path.join(__dirname, '../uploads/', projectId.toString());
@@ -96,7 +99,7 @@ function projectDownloadSpecificFileHandler(req, res, next) {
                     console.log('the file path:')
                     console.log(file);
                     //sending the requested file:
-                    var filePath = path.join(__dirname, '/../uploads/', projectId.toString(), '/', file.fileName);
+                    var filePath = path.join(__dirname, '/../uploads/', projectId.toString(), '/', file.fieldName, '/', file.fileName);
                     res.sendFile(filePath);
                 } else {
                     res.status(400).send('sory that file doesnt exist');
@@ -107,10 +110,47 @@ function projectDownloadSpecificFileHandler(req, res, next) {
         res.status(400).send('client didnt send the project id or the file fieldname');
     }
 }
+/*handle with download a project specific multifiles (marekting/poc etc..)*/
+function projectDownloadSpecificMultiFilesHandler(req, res, next) {
+
+    var projectId = req.params.id;//getting the id paramter from url
+    var fieldName = req.query.fieldname;//geting the files fieldName from the query string
+
+    if (projectId && fieldname) { //check if projectid param and fieldname exist
+        ProjectFile.findOne({ project: projectId, fieldName: fieldname })
+            .exec(function (err, file) {
+                if (file) {
+                    console.log('the file path:')
+                    console.log(file);
+                    //sending the requested file:
+                    var projectFilesFolder = path.join(__dirname, '../uploads/', projectId.toString());
+                    var filesFolderPath = path.join(projectFilesFolder, file.fieldName);
+                    var zipFolder = require('zip-folder');
+                    zipFolder(filesFolderPath, path.join(__dirname, '../archive.zip'), function (err) {
+                        if (err) {
+                            console.log('oh no!', err);
+                        } else {
+                            console.log('EXCELLENT');
+                            res.sendFile(path.join(__dirname, '../archive.zip'));
+
+                        }
+                    });
+                } else {
+                    res.status(400).send('sory that file doesnt exist');
+                }
+            })
+    }
+    else {
+        res.status(400).send('client didnt send the project id or the file fieldname');
+    }
+
+
+
+}
 
 //-----------------------------------EXPORT---------------------------------
 module.exports = {
-  /*Project Files Functions*/
+    /*Project Files Functions*/
     projctUploadedFilesHandler: projctUploadedFilesHandler, /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
     projectDownloadFilesHandler: projectDownloadFilesHandler, /*handle with download project files requests*/
     projectDownloadSpecificFileHandler: projectDownloadSpecificFileHandler, /*handle with download a project specific file (pitchfile/finderfile etc..)*/

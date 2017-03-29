@@ -7,6 +7,7 @@ var ProjectRep = require('../models/repositories/project-rep'); //import 'Projec
 var EventRefRep = require('../models/repositories/event-reference-rep');//import 'event-reference' repository
 var businessDevelopmentRep = require('../models/repositories/business-development-rep');//import 'business-development repository
 var seedAidRep = require('../models/repositories/seed-aid-rep');//import 'seed-aid repository
+var incubationRep = require('../models/repositories/incubation-rep');//import 'incubation' repository
 
 var path = require('path');//help with files path
 var fs = require('fs'); // load the file system module in order to read/write uploaded files/create folders etc..
@@ -22,6 +23,7 @@ function projectPostHandler(req, res, next) {
         var eventReferencesReq = req.body.eventsReference;//the eventReferences posted
         var busninessDevelopmentReq = req.body.businessDevelopment;//the businessDevelopment posted
         var seedAidReq  =req.body.seedAid; //the seedAid posted
+        var incubationReq = req.body.incubation;//the incubation posted
         ProjectRep.add(projectReq, function (err, proj) { //saving new project record
             console.log('the error:');//DEBUG
             console.log(err);
@@ -64,6 +66,12 @@ function projectPostHandler(req, res, next) {
                         }
                         console.log('busniess-dev added');
                         ProjectRep.pushSeedAid(proj._id, seedAid);
+                    })
+                }
+                //adding incubation to db:
+                if(incubationReq){
+                    incubationRep.add(incubationReq,proj._id,function(err,inc){
+                        ProjectRep.pushIncubation(proj._id, inc);
                     })
                 }
                 res.status(201).json(proj);
@@ -122,6 +130,8 @@ function projectGetByIdHandler(req, res, next) {
     })
 }
 /*Handle project "Patch" request , modify existing project */
+/*how to Automatically remove referencing objects on deletion in MongoDB might be useful for refactor:
+http://stackoverflow.com/questions/11904159/automatically-remove-referencing-objects-on-deletion-in-mongodb*/
 function projectPatchHandler(req, res, next) {
     var projectId = req.params.id;//getting the id paramter from url
     console.log('project id is ' + req.params.id);//DEBUG
@@ -130,6 +140,7 @@ function projectPatchHandler(req, res, next) {
     var eventReferences = req.body.eventsReference;
     var businessDevelopment = req.body.businessDevelopment;
     var seedAid = req.body.seedAid;
+    var incubation = req.body.incubation;
     req.body.eventsReference = [];//if there is new eventsrefs they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     req.body.businessDevelopment = []; //if there is new businessDevelopment they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually
     req.body.seedAid = []; //if there is new seedaid they not containing objId - will cause an error when updating project in db - therfore we need to reinsert them manually    
@@ -152,6 +163,9 @@ function projectPatchHandler(req, res, next) {
                     })
                     seedAidRep.reInsertByprojectId(seedAid, proj._id, (err, seed) => {
                         ProjectRep.pushSeedAid(proj._id, seed);
+                    })
+                    incubationRep.reInsertByprojectId(incubation, proj._id, (err, inc) => {
+                        ProjectRep.pushIncubation(proj._id, inc);
                     })
                     console.log(proj);
                     console.log('the update result %s.', proj);

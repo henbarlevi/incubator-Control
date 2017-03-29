@@ -18,4 +18,5 @@ export interface Project{
     eventsReference :Object[];//event references of the project
     businessDevelopment :Object[];//business development of the project
     seedAid:Object[];//seed aid of the project
+    incubation:Object//incubation info
 }

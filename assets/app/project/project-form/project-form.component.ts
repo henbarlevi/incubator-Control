@@ -11,7 +11,7 @@ to handle nested component validation in form -might help :ngOnChanges
 https://angular.io/docs/ts/latest/api/core/index/OnChanges-class.html
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../shared/project.interface'; //project model interface
 import { GlobalVariablesService } from '../../shared/global-variables.service'; //service that contains global vars like baseUrl and more
 import { ProjectService } from '../shared/project.service';
@@ -34,8 +34,8 @@ export class ProjectFormComponent implements OnInit {
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
 
-    //testing date-and-files component:
-    startDate = "2017-03-13";
+    @ViewChild('incubationChangeDetection') incubationComponent;
+
     constructor(private projectService: ProjectService,
         private globalVariablesService: GlobalVariablesService,
         private comboboxesOptionsService: ComboboxesOptionsService,
@@ -58,33 +58,16 @@ export class ProjectFormComponent implements OnInit {
             programSuggested: [],// multiple select
             eventsReference: [],//event references of the project
             businessDevelopment: [],//business development of the project
-            seedAid: []
+            seedAid: [],
+            incubation: {}
         }
 
     }
     //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
     // Myself using node.js and multipart handler middleware multer get the data as follows:
     //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
-
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    pitchFileChange(event) {
-        this.saveFileToFormData('pitchFile', event);
-    }
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    questionsFileChange(event) {
-        this.saveFileToFormData('questionsFile', event);
-    }
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData    
-    finderFileChange(event) {
-        this.saveFileToFormData('finderFile', event);
-    }
+    
     //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData
-    fileChange(event) {
-        // console.log(event.srcElement);        
-        // var files = event.srcElement.files;
-        this.saveFileToFormData('uploadedfile', event);
-        //this.projectService.uploadFiles(this.formData);
-    }
     /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
@@ -94,6 +77,7 @@ export class ProjectFormComponent implements OnInit {
         console.log('file' + file.name + ' appended to formdata');//DEBUG
 
     }
+    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formData 
     private saveMultiFilesToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var filesLength = target.files.length; //getting the amount of files in order to iterate them
@@ -112,9 +96,18 @@ export class ProjectFormComponent implements OnInit {
         }
         return false;
     }
-    onSubmit(f) {
-        console.log('the start date is' + this.startDate);
+    printIncubation() {
 
+        console.log('this is the incubation');
+
+        console.log(this.incubationComponent.incubation);
+
+
+    }
+    onSubmit(f) {
+        if (this.isProjectProgramContains('אינקובציה')) {
+            this.project.incubation = this.incubationComponent.incubation; //update the incubation
+        }
         console.log('form details:');
         console.log(f);
         console.log('should submit:');

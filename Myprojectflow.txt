@@ -52,3 +52,7 @@ nested component of the form bind directly to the globalvariablesService.option 
 -crew , bussiness development and  event ref features have a similar structure. should create a common abstract components for them
 -TODO - when deleting project from db - dont forget to delete also related models from related schemas - eventsReference, bussinessDevelopment
 -TODO - need to fix issue that in project-form when user change file to upload it doesnt delete the previous file from the formData
+-TODO - let shared module export all 'shared' folder features and no only resultButton component
+-Fix - site doesnt handle right when refreshing pages (edit-project page)
+-TODO - maybe the issue with timeout error in server is because the scenario when someone ask to download file that not exist in server
+(when clicking "צפה בקובץ")

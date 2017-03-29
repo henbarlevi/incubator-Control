@@ -17,6 +17,8 @@
         <source-select [(selected)]="project.source"></source-select>
         <!--סטטוס-->
         <status-select [(selected)]="project.status"></status-select>
+            <!--צוות-->
+         <crew [(members)]="project.crew"></crew>
         <!-- תחום\דומיין הפרוייקט-->
         <domain-multi-select [(selected)]="project.projectDomain"></domain-multi-select>
 
@@ -32,7 +34,7 @@
 
         <div class="form-group ">               
             <div class="input-group">
-                <input *ngIf="project.filledPitch.filled" type="file" (change)="pitchFileChange($event)" name="pitchfile" placeholder="Upload file"
+                <input *ngIf="project.filledPitch.filled" type="file" (change)="saveFileToFormData('pitchFile',$event)" name="pitchfile" placeholder="Upload file"
                     accept=".pdf,.doc,.docx">
                 <input *ngIf="!project.filledPitch.filled" type="date"  [(ngModel)]="project.filledPitch.filledReminder" name="pitchReminder">
            </div>        
@@ -42,7 +44,7 @@
 
         <div class="form-group ">
             <div class="input-group">
-            <input *ngIf="project.filledQuestions.filled" type="file" (change)="questionsFileChange($event)" name="questionsfile" placeholder="Upload file"
+            <input *ngIf="project.filledQuestions.filled" type="file" (change)="saveFileToFormData('questionsFile',$event)" name="questionsfile" placeholder="Upload file"
                 accept=".pdf,.doc,.docx">
             <input *ngIf="!project.filledQuestions.filled" type="date" [(ngModel)]="project.filledQuestions.filledReminder" name="questionsReminder">
             </div>
@@ -54,7 +56,7 @@
         </label>
         <div class="form-group ">
             <div class="input-group">
-            <input *ngIf="project.signedFinder.filled" type="file" (change)="finderFileChange($event)" name="finderfile" placeholder="Upload file"
+            <input *ngIf="project.signedFinder.filled" type="file" (change)="saveFileToFormData('finderFile',$event)" name="finderfile" placeholder="Upload file"
                 accept=".pdf,.doc,.docx">
             <input *ngIf="!project.signedFinder.filled" type="date" [(ngModel)]="project.signedFinder.filledReminder" name="finderReminder">
             </div>
@@ -66,6 +68,8 @@
             <!--אם היזם בוחר באינקובציה-->
             <template [ngIf]="isProjectProgramContains('אינקובציה')">
                 אינקובציה
+                <incubation #incubationChangeDetection [incubation]="project.incubation" (filesChange)="saveMultiFilesToFormData($event.name,$event.files)"></incubation>
+                <button type = "button" (click)="printIncubation()">print incubation object</button>
             </template>
             <!--אם היזם בוחר בפיתוח עיסקי-->
             <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
@@ -97,9 +101,8 @@
         </div>
         <!--TEST-->
               {{errors}}
-              <date-and-files [(startDate)]="startDate" (filesChange)="saveMultiFilesToFormData('somefiles',$event)">asdasasasd</date-and-files>
     </div>
-    <crew [(members)]="project.crew"></crew>
+
     <div class="form-actions">
     <button [disabled]="f.invalid" type="submit" class="btn btn-primary  btn-lg slk center-block ">הוסף מיזם</button>
     </div>

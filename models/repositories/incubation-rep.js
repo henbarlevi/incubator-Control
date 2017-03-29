@@ -10,7 +10,7 @@ function add(incubationReq,projectId, callback) {
         productCharacterization:incubationReq.productCharacterization,
         productDesign: incubationReq.productDesign,
         productDevelopment: incubationReq.productDevelopment,
-        Poc: incubationReq.Poc,
+        poc: incubationReq.poc,
         marketing: incubationReq.marketing,
         project:projectId
     });
@@ -28,10 +28,14 @@ function reInsertByprojectId(newIncubation,projectId,callback){
             //add new seed-aids with proj id
             if(!err){
                 console.log('removed succesfully');
+                console.log('the updated incubation');
+                console.log(newIncubation);
+                
             add(newIncubation,projectId,callback);
             }
         });
 }
+
 module.exports = {
     add: add,
     findByProjId:findByProjId,

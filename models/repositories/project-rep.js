@@ -27,6 +27,7 @@ function findById(projectId,callback){
     .populate('eventsReference')
     .populate('businessDevelopment')
     .populate('seedAid')
+    .populate('incubation')    
         .exec(callback);;
 }
 /*Find projects that their names include the name arg string DB: */
@@ -73,7 +74,13 @@ function pushSeedAid(projectId,seedAid){
         proj.save();
     })
 }
-
+//push incubation to project model
+function pushIncubation(projectId,incubation){
+    Project.findById(projectId,function(err,proj){
+        proj.incubation =incubation;
+        proj.save();
+    })
+}
 module.exports = {
     add: add,
     findAll : findAll,
@@ -84,6 +91,7 @@ module.exports = {
     DeleteById :  DeleteById,
     pushEventRef :pushEventRef,
     pushBusinessDev: pushBusinessDev,
-    pushSeedAid: pushSeedAid
+    pushSeedAid: pushSeedAid,
+    pushIncubation : pushIncubation
 
 };

@@ -2,7 +2,7 @@
 <!--How to Deal with Different Form Controls in Angular 2 USE REACTIVE FORMS  https://scotch.io/tutorials/how-to-deal-with-different-form-controls-in-angular-2-->
 <form (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
    <div class="form-group">
-        <!-- שם המיזם-->
+            <!-- שם המיזם-->
         <div class="form-group ">
             <label for="projectName" class="cols-sm-2 control-label">שם המיזם</label>
             <div class="cols-sm-10">
@@ -17,6 +17,8 @@
         <source-select [(selected)]="project.source"></source-select>
         <!--סטטוס-->
         <status-select [(selected)]="project.status"></status-select>
+            <!--צוות-->
+         <crew [(members)]="project.crew"></crew>
         <!-- תחום\דומיין הפרוייקט-->
         <domain-multi-select [(selected)]="project.projectDomain"></domain-multi-select>
 
@@ -32,9 +34,9 @@
 
         <div class="form-group ">               
             <div class="input-group">
-                <input *ngIf="project.filledPitch.filled" type="file" (change)="pitchFileChange($event)" name="pitchfile" placeholder="Upload file"
+                <input *ngIf="project.filledPitch.filled" type="file" (change)="saveFileToFormData('pitchFile',$event)" name="pitchfile" placeholder="Upload file"
                     accept=".pdf,.doc,.docx">
-                <button *ngIf="project.filledPitch.filled" type="button" (click)="downloadfile('pitchFile')" class="btn btn-success btn-md">צפה בקובץ</button>                       
+                <button *ngIf="project.filledPitch.filled" type="button" (click)="downloadfile('pitchFile')" class="btn btn-success btn-md">צפה בקובץ</button>                                       
                 <input *ngIf="!project.filledPitch.filled" type="date"  [(ngModel)]="project.filledPitch.filledReminder" name="pitchReminder">
            </div>        
         </div>
@@ -43,10 +45,10 @@
 
         <div class="form-group ">
             <div class="input-group">
-                <input *ngIf="project.filledQuestions.filled" type="file" (change)="questionsFileChange($event)" name="questionsfile" placeholder="Upload file"
-                    accept=".pdf,.doc,.docx">
-                <button *ngIf="project.filledQuestions.filled" type="button" (click)="downloadfile('questionsFile')" class="btn btn-success btn-md">צפה בקובץ</button>                                  
-                <input *ngIf="!project.filledQuestions.filled" type="date" [(ngModel)]="project.filledQuestions.filledReminder" name="questionsReminder">
+            <input *ngIf="project.filledQuestions.filled" type="file" (change)="saveFileToFormData('questionsFile',$event)" name="questionsfile" placeholder="Upload file"
+                accept=".pdf,.doc,.docx">
+                <button *ngIf="project.filledQuestions.filled" type="button" (click)="downloadfile('questionsFile')" class="btn btn-success btn-md">צפה בקובץ</button>                                   
+            <input *ngIf="!project.filledQuestions.filled" type="date" [(ngModel)]="project.filledQuestions.filledReminder" name="questionsReminder">
             </div>
         </div>
         <!-- חתם על הסכם finder-->
@@ -56,36 +58,53 @@
         </label>
         <div class="form-group ">
             <div class="input-group">
-            <input *ngIf="project.signedFinder.filled" type="file" (change)="finderFileChange($event)" name="finderfile" placeholder="Upload file"
+            <input *ngIf="project.signedFinder.filled" type="file" (change)="saveFileToFormData('finderFile',$event)" name="finderfile" placeholder="Upload file"
                 accept=".pdf,.doc,.docx">
-            <button *ngIf="project.signedFinder.filled" type="button" (click)="downloadfile('finderFile')" class="btn btn-success btn-md">צפה בקובץ</button>                                             
+            <button *ngIf="project.signedFinder.filled" type="button" (click)="downloadfile('finderFile')" class="btn btn-success btn-md">צפה בקובץ</button>                                               
             <input *ngIf="!project.signedFinder.filled" type="date" [(ngModel)]="project.signedFinder.filledReminder" name="finderReminder">
             </div>
         </div>
         <!--התוכנית המוצעת ליזם-->
-         <program-multi-select [(selected)]="project.programSuggested"></program-multi-select>
-        <!--אם היזם בוחר באינקובציה-->
-        <template [ngIf]="isProjectProgramContains('אינקובציה')">
-            אינקובציה
-        </template>
-        <!--אם היזם בוחר בפיתוח עיסקי-->
-        <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
-            פיתוח עסקי
-              <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
-        </div>
-        <!--אם היזם בוחר בהפנייה לארועים-->
-        <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
-            הפנייה לארועים
-             <events-reference [(events)]="project.eventsReference" ></events-reference>
-        </div>
-        <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
-        <div [class.hidden]="!isProjectProgramContains('סיוע בגיוס השקעות')">
-            סיוע בגיוס השקעות
-            <seed-aid [seeds]="project.seedAid"></seed-aid>
+        <program-multi-select [(selected)]="project.programSuggested"></program-multi-select>
+        <div id="accordion" role="tablist" aria-multiselectable="true"><!--To create accordion collapse tabs/divs : https://v4-alpha.getbootstrap.com/components/collapse/-->
+
+            <!--אם היזם בוחר באינקובציה-->
+            <div [class.hidden]="!isProjectProgramContains('אינקובציה')">
+                אינקובציה
+                <incubation #incubationChangeDetection [incubation]="project.incubation" (filesChange)="saveMultiFilesToFormData($event.name,$event.files)"></incubation>
+                <button type = "button" (click)="printIncubation()">print incubation object</button>
+            </div>
+            <!--אם היזם בוחר בפיתוח עיסקי-->
+            <div [class.hidden]="!isProjectProgramContains('פיתוח עסקי')">
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        תוכנית פיתוח עיסקי
+                        </a>
+                    </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="card-block">
+                         <bussiness-development [businesses]="project.businessDevelopment"></bussiness-development>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!--אם היזם בוחר בהפנייה לארועים-->
+            <div [class.hidden]="!isProjectProgramContains('הפנייה לארועים')">
+                הפנייה לארועים
+                <events-reference [(events)]="project.eventsReference" ></events-reference>
+            </div>
+            <!--אם היזם בוחר בסיוע לגיוס משקיעים-->
+            <div [class.hidden]="!isProjectProgramContains('סיוע בגיוס השקעות')">
+                סיוע בגיוס השקעות
+                <seed-aid [seeds]="project.seedAid"></seed-aid>
+            </div>
         </div>
         <!--TEST-->
-             {{errors}}
+              {{errors}}
     </div>
-    <crew [(members)]="project.crew"></crew>
+  
     <button [disabled]="f.invalid" type="submit" class="btn btn-primary  btn-lg slk center-block">ערוך מיזם</button>
 </form>
