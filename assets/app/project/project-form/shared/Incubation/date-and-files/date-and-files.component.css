@@ -1,4 +1,17 @@
 h3{
-    text-align:center;
+      vertical-align:middle;
+ margin:auto;
+    line-height:51px;
+}
+div{
+vertical-align:middle;
+ margin:10px,auto;
 
+}
+.date-and-files-container{
+    display: flex;
+    justify-content: space-between;
+     flex-wrap: wrap;
+     text-align: center;
+  
 }

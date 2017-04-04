@@ -28,6 +28,7 @@ var projectAutoCompleteHandler = methods.projectAutoCompleteHandler;
 var projctUploadedFilesHandler = methods.projctUploadedFilesHandler; /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 var projectDownloadFilesHandler = methods.projectDownloadFilesHandler;
 var projectDownloadSpecificFileHandler = methods.projectDownloadSpecificFileHandler;/*handle with download a project specific file (pitchfile/finderfile etc..)*/
+var projectDownloadSpecificMultiFilesHandler = methods.projectDownloadSpecificMultiFilesHandler;
 //combo-box methods
 var comboOptionsPostHandler = methods.comboOptionsPostHandler; /*Handle with POST new combobox-option request*/
 var comboOptionsDeleteHandler = methods.comboOptionsDeleteHandler; /*Handle with DELETE comboboxes-options request*/   
@@ -85,7 +86,8 @@ http://stackoverflow.com/questions/25463423/res-sendfile-absolute-path - how to 
 router.get('/project/download/:id', projectDownloadFilesHandler);// id - project id
 /*handle with download a project specific file (pitchfile/finderfile etc..)*/
 router.get('/project/file/:id',projectDownloadSpecificFileHandler);
-
+//TEST:
+router.get('/project/files/:id',projectDownloadSpecificMultiFilesHandler);
 //--------------------------------------------------------------------
 /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
 router.get('/comboboxes-options', comboOptionsGetHandler);

@@ -122,11 +122,14 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
 
     }
-    //when clicking on one of the "צפה בקובץ" button - will download the relevant file
+    //when clicking on one of the single file "צפה בקובץ" button - will download the relevant file
     downloadfile(fieldName) {
         this.projectService.downloadFile(fieldName, this.project);
     }
-
+    ///when clicking on one of the multi files "צפה בקובץ" button in the incubation component  - will download the relevant files
+    downloadMultiFiles(fieldName){
+        this.projectService.downloadMultiFiles(fieldName,this.project);
+    }
     onSubmit(f) {
         if (this.isProjectProgramContains('אינקובציה')) {
             this.project.incubation = this.incubationComponent.incubation; //update the incubation

@@ -71,7 +71,7 @@
             <!--אם היזם בוחר באינקובציה-->
             <div [class.hidden]="!isProjectProgramContains('אינקובציה')">
                 אינקובציה
-                <incubation #incubationChangeDetection [incubation]="project.incubation" (filesChange)="saveMultiFilesToFormData($event.name,$event.files)"></incubation>
+                <incubation #incubationChangeDetection (download)="downloadMultiFiles($event)" [editMode]='true' [incubation]="project.incubation" (filesChange)="saveMultiFilesToFormData($event.name,$event.files)"></incubation>
                 <button type = "button" (click)="printIncubation()">print incubation object</button>
             </div>
             <!--אם היזם בוחר בפיתוח עיסקי-->
