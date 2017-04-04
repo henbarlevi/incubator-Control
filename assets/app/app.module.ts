@@ -51,6 +51,7 @@ import {InboxComponent } from './inbox/inbox.component';
             import { IncubationModule } from './project/project-form/shared/Incubation/incubation.module';
     //project shared:
     import { ProjectService} from './project/shared/project.service';
+    import { FormDataHandlerService } from './project/shared/formDataHandler.service';
 //control-panel:
 import{AdminUsersPanelComponent} from './control-panel/admin-users-panel.component';
 import{AdminProjectPanelComponent} from './control-panel/admin-project-panel.component';
@@ -69,7 +70,6 @@ import{ WatcherNavBarComponent}from './shared/navbar/watcher-nav-bar.component';
 
 
 import { Ng2CompleterModule } from "ng2-completer";
-import { CustomData} from './project/project-search/auto-complete.service';
 @NgModule({
     //modules
     imports: [BrowserModule, FormsModule , HttpModule,routing,
@@ -143,9 +143,10 @@ import { CustomData} from './project/project-search/auto-complete.service';
          LoginService,
          LoggedInGuard,
          DashboardService,
-         ProjectService, 
+         ProjectService,
+         FormDataHandlerService, 
          ControlPanelService,
-         CustomData//TEST 
+         //TEST 
          
     ],
     bootstrap: [AppComponent]
