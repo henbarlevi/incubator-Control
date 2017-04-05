@@ -62,6 +62,8 @@ function projctUploadedFilesHandler(req, res, next) {
     }
 
 }
+
+
 /*handle with download project files requests
 http://stackoverflow.com/questions/9321027/how-to-send-files-with-node-js
 http://stackoverflow.com/questions/25463423/res-sendfile-absolute-path - how to use path to get file path
