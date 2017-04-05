@@ -1,13 +1,20 @@
-// service that save files with name to key valu pairs and 
+// service that save files with name to key value pairs dictionary and only 
 //append all files to formdata when calling the saveToFormData function
 // in order to prevent unessecary files appended to formdata (if the user changed decided to change the file to upload)
+//INFO:
+    /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
+    //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
+    // Myself using node.js and multipart handler middleware multer get the data as follows:
+    //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
+    
 import { Injectable } from '@angular/core';
 
 @Injectable() //in order to inject services - no need to do this when using @Component because @Component already implement the injection
 export class FormDataHandlerService {
 
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
-    filesDic = {};
+    filesDic = {};// dictionary that contain files (key = fieldname value  - if its single file input - object{ file :file , filename: filename}
+                  //                                                         if its multipile file input - array [] - [{file:file,filename:filename},{file:file,filename:filename}]   )
 
     constructor() {
         console.log('got into the FormDataHandlerService ctor');//DEBUG
@@ -32,6 +39,7 @@ export class FormDataHandlerService {
         delete this.filesDic[fieldname];
     }
     //saving all current saved files to form formdata
+    //NOTE - difference between foreach vs for in vs for of : http://qnimate.com/foreach-vs-for-of-vs-for-in-in-javascript/
     saveToFormData() {
         console.log('saving the filesDic files into formData');
         //iterate props in filesDic
