@@ -107,23 +107,3 @@ router.get('/test',requireLogin, function (req, res, next) {
 
 module.exports = router;
 
-//snippets:
-//insert record mongoDB:
-    // var email = req.body.email;
-    // var user = new User({
-    //     firstName: 'Max',
-    //     lastName: 'Schwarz',
-    //     password: 'super-secret',
-    //     email: email
-    // });
-    // user.save();
-    // res.redirect('/');
-
-//find records:
-    // User.find({}, function(err, doc) {
-    //     console.log(doc);
-    //     if (err) {
-    //         return res.send('Error!');
-    //     }
-    //     res.render('node', {email: doc});
-    // });

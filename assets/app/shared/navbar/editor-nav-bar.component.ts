@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'editor-nav-bar',
     template: `
-        <nav-bar [navLinks]="navLinks" [navElements]="navElements"></nav-bar>
+        <nav-bar [navLinks]="navLinks" ></nav-bar>
     `
 })
 export class EditorNavBarComponent {
@@ -20,9 +20,7 @@ export class EditorNavBarComponent {
         { content: "Inbox", routerLink: "inbox" }
         
     ]; //one way binding array object that declare the navigation bar links
-    navElements=[
-       {content:"<span class='glyphicon glyphicon-user'></span>ניהול יוזרים" ,routerLink: "/login"  } ,
-    ]
+    
     constructor() {
     }
 }

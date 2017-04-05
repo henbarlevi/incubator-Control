@@ -20,6 +20,7 @@ export class DashboardComponent {
         private comboboxesOptionsService: ComboboxesOptionsService) {
         this.DisplayRelevantDashboard();
         this.loadComboboxesOptions();
+        console.log('dashboard ctor called');//DEBUG
     }
     isRoleEquals(role) {
         if (this.role === role) {
