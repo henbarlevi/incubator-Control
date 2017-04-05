@@ -11,35 +11,11 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
 @Component({
   selector: 'seed-list',
   template: `
-     <div class="panel panel-default">
-      <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-          <th>מקור הגיוס</th>
-          <th>תאריך התחלה\סיום</th>
-          <th>סטטוס האירוע</th>
-          <th>ערוך/מחק</th>
-        </tr>
-       </thead>
-       <tbody>
-        <tr *ngFor="let seed of seeds">
-         <td> {{seed.source}}</td>
-         <td>{{seed.startDate}} - {{seed.endDate}}</td>
-         <td> {{seed.status}}</td> 
-         <td>
-            <button type="button" (click)="onEdit(seed)"
-              class="btn btn-primary">ערוך</button>
-            <button type="button" (click)="onRemove(seed)"
-              class="btn btn-danger">מחק</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+
    
    <div class="panel panel-default">
     <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <div class="col-sm-12 col-md-12 ">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -49,7 +25,7 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                 </thead>
                 <tbody>
                     <tr *ngFor="let seed of seeds">
-                        <td class="col-sm-8 col-md-6">
+                        <td class="col-sm-8 ">
                         <div class="media">
                             <div class="thumbnail pull-left">
                             <a  href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
@@ -76,8 +52,8 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><h5>Subtotal<br>Estimated shipping</h5><h3>Total</h3></td>
-                        <td class="text-right"><h5><strong>$24.59<br>$6.94</strong></h5><h3>$31.53</h3></td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3>$31.53</h3></td>
                     </tr>
                 </tfoot>
             </table>

@@ -16,7 +16,9 @@ import { Project } from '../shared/project.interface'; //project model interface
 import { GlobalVariablesService } from '../../shared/global-variables.service'; //service that contains global vars like baseUrl and more
 import { ProjectService } from '../shared/project.service';
 import { ComboboxesOptionsService } from '../../shared/combobox-options.service';//in order to load combobox options from the server
+import { FormDataHandlerService } from '../shared/formDataHandler.service';//handle formdata that contain files of project
 import { Router } from '@angular/router'; //to navigate to other page when Post project succeded
+
 @Component({
     selector: 'project-form',
     templateUrl: './project-form.component.html',
@@ -34,12 +36,14 @@ export class ProjectFormComponent implements OnInit {
     formData: FormData = new FormData(); //key value pairs for the uploaded files of the project https://developer.mozilla.org/en-US/docs/Web/API/FormData
     errors; //contain errors that coming back from the server (in case there are)
 
-    @ViewChild('incubationChangeDetection') incubationComponent;
+    //in order to prevent using 2 way binding on incubation component - we take the incubation info only when submiting:
+    @ViewChild('incubationChangeDetection') incubationComponent;//refered to the incubation component (to the temlpate variable -incubationChangeDetection (look at project-from.html))
 
     constructor(private projectService: ProjectService,
         private globalVariablesService: GlobalVariablesService,
         private comboboxesOptionsService: ComboboxesOptionsService,
-        private router: Router) {
+        private router: Router,
+        private formDataHandlerService: FormDataHandlerService) {
 
         this.projectService.errorHandler = error => this.errors = error;//assign errors that come from the server to the errors prop
     }
@@ -63,29 +67,25 @@ export class ProjectFormComponent implements OnInit {
         }
 
     }
-    //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
-    // Myself using node.js and multipart handler middleware multer get the data as follows:
-    //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
-    
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData
-    /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
+
+
+    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the FormDataHandlerService
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var file = target.files[0];
-        //appending file into formdata:
-        this.formData.append(name, file, file.name);
-        console.log('file' + file.name + ' appended to formdata');//DEBUG
+        //saves file into FormDataHandlerService:
+        this.formDataHandlerService.saveFile(name, file, file.name);
 
     }
-    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formData 
+    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formDataHandlerService 
     private saveMultiFilesToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var filesLength = target.files.length; //getting the amount of files in order to iterate them
-        //appending files into formdata:
+        this.formDataHandlerService.deleteFile(name);//delete previous saved files
+        //saving files into FormDataHandlerService:
         for (var i = 0; i < filesLength; i++) {
             let file = target.files[i];
-            this.formData.append(name, file, file.name);
-            console.log('file' + file.name + ' appended to formdata');//DEBUG
+            this.formDataHandlerService.saveMulti(name, file, file.name);
         }
 
     }
@@ -112,16 +112,18 @@ export class ProjectFormComponent implements OnInit {
         console.log(f);
         console.log('should submit:');
         console.log(this.project); //DEBUG
-
         //post project to server
         this.projectService.addProject(this.project).then(res => {
             console.log('project added :')
             console.log(res.json());//DEBUG
             if (res.ok) {//if the post project to server succeded:
+                //TEST the FormDataHandlerService
+                this.formDataHandlerService.saveToFormData();
                 console.log('uploading the formdata : ');
-                console.log(this.formData);
-                this.projectService.uploadFiles(this.formData, res.json()) //send the project related files
+                console.log(this.formDataHandlerService.formData);
+                this.projectService.uploadFiles(this.formDataHandlerService.formData, res.json()) //send the project related files
                     .then(res => {
+                        this.formDataHandlerService.refresh();
                         console.log('response for uploading files');
                         console.log(res);
                         if (res.ok) {//if the post project files to server succeded:

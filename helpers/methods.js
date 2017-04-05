@@ -67,7 +67,7 @@ var projectAutoCompleteHandler = projectMethods.projectAutoCompleteHandler;
    var projctUploadedFilesHandler = projectFilesMethods.projctUploadedFilesHandler; /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
    var projectDownloadFilesHandler = projectFilesMethods.projectDownloadFilesHandler; /*handle with download project files requests*/
    var projectDownloadSpecificFileHandler = projectFilesMethods.projectDownloadSpecificFileHandler; /*handle with download a project specific file (pitchfile/finderfile etc..)*/
- 
+   var projectDownloadSpecificMultiFilesHandler = projectFilesMethods.projectDownloadSpecificMultiFilesHandler; /*handle with download a project specific multifiles (marekting/poc etc..)*/
 // /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
 // function projctUploadedFilesHandler(req, res, next) {
 //     var projectId = req.params.id;//getting the id paramter from url
@@ -199,6 +199,7 @@ module.exports = {
     projctUploadedFilesHandler: projctUploadedFilesHandler, /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
     projectDownloadFilesHandler: projectDownloadFilesHandler, /*handle with download project files requests*/
     projectDownloadSpecificFileHandler: projectDownloadSpecificFileHandler, /*handle with download a project specific file (pitchfile/finderfile etc..)*/
+    projectDownloadSpecificMultiFilesHandler:projectDownloadSpecificMultiFilesHandler,/*handle with download a project specific multifiles (marekting/poc etc..)*/
     /**combobox options Functions */
     comboOptionsGetHandler: comboOptionsGetHandler, /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/
     comboOptionsPostHandler: comboOptionsPostHandler, /*Handle with POST new combobox-option request*/

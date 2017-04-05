@@ -9,7 +9,6 @@ import { ProjectService } from '../shared/project.service';
 import { GlobalVariablesService } from '../../shared/global-variables.service'; //service that contain the combobox options and other global vars
 import { Router } from '@angular/router';
 import { CompleterService, CompleterData } from 'ng2-completer';
-import { CustomData } from './auto-complete.service';
 import { ViewEncapsulation } from '@angular/core';
 @Component({
     template: `

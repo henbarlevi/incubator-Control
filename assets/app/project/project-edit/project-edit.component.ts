@@ -5,6 +5,7 @@ import { ProjectService } from '../shared/project.service';
 import { ComboboxesOptionsService } from '../../shared/combobox-options.service';//in order to load combobox options from the server
 import { Router, ActivatedRoute } from '@angular/router'; //to navigate to other page when Post project succeded
 import { Subscription } from 'rxjs/Subscription';
+import { FormDataHandlerService } from '../shared/formDataHandler.service';//handle formdata that contain files of project
 
 @Component({
     selector: 'project-edit',
@@ -32,6 +33,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         private comboboxesOptionsService: ComboboxesOptionsService,
         private router: Router,
         private route: ActivatedRoute, //represent the route that is currently in use
+        private formDataHandlerService: FormDataHandlerService
     ) {
         //this.project = this.globalVariablesService.routingReservationData;
 
@@ -80,29 +82,23 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         console.log('calling on OnDestroy in project-edit component');
         this.paramsSubscription.unsubscribe();//preventing memory leak
     }
-    //NOTICE   If you call data.append('file', file) multiple times your request will contain an array of your files.
-    // Myself using node.js and multipart handler middleware multer get the data as follows:
-    //http://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
-
-    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the formData
-    /**saves files into the FormData (formdata- key value pair https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) */
+    //in each change of choosing file in the <input type="file" it will call this func in order to change the file saved in the FormDataHandlerService
     private saveFileToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var file = target.files[0];
-        //appending file into formdata:
-        this.formData.append(name, file, file.name);
-        console.log('file' + file.name + ' appended to formdata');//DEBUG
+        //saves file into FormDataHandlerService:
+        this.formDataHandlerService.saveFile(name, file, file.name);
 
     }
-    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formData 
+    //in each change of choosing file in the <input multipile type="file" it will call this func in order to save the files in the formDataHandlerService 
     private saveMultiFilesToFormData(name, event) {//name - key , event - containing the file from the <input type=file>
         var target = event.target || event.srcElement;//for cross browser - http://stackoverflow.com/questions/5301643/how-can-i-make-event-srcelement-work-in-firefox-and-what-does-it-mean
         var filesLength = target.files.length; //getting the amount of files in order to iterate them
-        //appending files into formdata:
+        this.formDataHandlerService.deleteFile(name);//delete previous saved files
+        //saving files into FormDataHandlerService:
         for (var i = 0; i < filesLength; i++) {
             let file = target.files[i];
-            this.formData.append(name, file, file.name);
-            console.log('file' + file.name + ' appended to formdata');//DEBUG
+            this.formDataHandlerService.saveMulti(name, file, file.name);
         }
 
     }
@@ -122,11 +118,14 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
 
     }
-    //when clicking on one of the "צפה בקובץ" button - will download the relevant file
+    //when clicking on one of the single file "צפה בקובץ" button - will download the relevant file
     downloadfile(fieldName) {
         this.projectService.downloadFile(fieldName, this.project);
     }
-
+    ///when clicking on one of the multi files "צפה בקובץ" button in the incubation component  - will download the relevant files
+    downloadMultiFiles(fieldName) {
+        this.projectService.downloadMultiFiles(fieldName, this.project);
+    }
     onSubmit(f) {
         if (this.isProjectProgramContains('אינקובציה')) {
             this.project.incubation = this.incubationComponent.incubation; //update the incubation
@@ -136,7 +135,21 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         console.log('should submit:');
         console.log(this.project); //DEBUG
 
-        //suppose to send HTTP PATCH request to server:
-        this.projectService.updateProject(this.project).then(res => console.log(res))
+        //send HTTP PATCH request to server:
+        this.projectService.updateProject(this.project).then(res => {
+            console.log(res)
+            if (res.ok) {
+                this.formDataHandlerService.saveToFormData();
+                this.projectService.uploadFiles(this.formDataHandlerService.formData, res.json()) //send the project related files
+                    .then(res => {
+                        this.formDataHandlerService.refresh();
+                        console.log('response for uploading files');
+                        console.log(res);
+                        if (res.ok) {//if the post project files to server succeded:
+                            this.router.navigate(['dashboard/project-search-page']); //navigate the app to search page   
+                        }
+                    })
+            }
+        })
     }
 }

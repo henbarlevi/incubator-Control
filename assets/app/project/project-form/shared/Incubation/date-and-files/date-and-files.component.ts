@@ -25,7 +25,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 @Component({
     selector: 'date-and-files',
     template: `    
-    <div>
+    <div class="date-and-files-container">
         <h3><b><ng-content></ng-content></b></h3>
         <div class="panel panel-primary">               
          <ng-content select="div.body"></ng-content>
@@ -45,7 +45,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
                 <input multiple type="file" (change)="onFilesChange($event)" placeholder="Upload files"
                     accept=".pdf,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 
-                <button *ngIf="downloadable" type="button" (click)="onDownload()" class="btn btn-success btn-md">צפה בקובץ</button>                                       
+                <button *ngIf="downloadable" class="download-files-btn" type="button" (click)="onDownload()" class="btn btn-success btn-md">צפה בקובץ</button>                                       
     
         </div>
     </div>

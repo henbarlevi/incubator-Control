@@ -53,7 +53,7 @@ export class IncubationComponent implements OnInit {
     @Input() incubation = {};
     @Output() incubationChange = new EventEmitter<any>();
 
-    @Output() filesChange = new EventEmitter<any>();
+    @Output() filesChange = new EventEmitter<any>();//emit files from incubation to component to parent
 
     @Input() editMode = false; //wheter the form is editing existing project or adding new one
     
@@ -81,7 +81,7 @@ export class IncubationComponent implements OnInit {
         console.log('emit files from incubaton to parent');
         this.filesChange.emit({name:name,files:files});
     }
-
+    //when on of the incubation "צפה בקובץ" clicked
     onDownload(fileFieldName){
         console.log('incubation getting download event and raise to parent')
         this.download.emit(fileFieldName);

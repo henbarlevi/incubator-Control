@@ -59,7 +59,7 @@ export class ProjectService {
   }
   //POST HTTP REQUEST -add new project  
   addProject(project) {
-    const json = JSON.stringify( project); //convert project to json
+    const json = JSON.stringify(project); //convert project to json
     console.log(json);//DEBUG
     const headers = new Headers({ 'content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/${this.role()}/project`, json, { headers: headers }).toPromise()
@@ -105,11 +105,21 @@ export class ProjectService {
   }
   //GET HTTP REQUEST - download a specific file of project (.doc/.docx/etc..)
   downloadFile(fieldName, project) {
-    //setting domain as a queryString parameter:
+    //setting fieldName as a queryString parameter:
     let params: URLSearchParams = new URLSearchParams();
     params.set('fieldname', fieldName);
     let options = new RequestOptions({ responseType: ResponseContentType.Blob, search: params });
     return this.http.get(`${this.baseUrl}/${this.role()}/project/file/${project._id}`, options)
+      .toPromise().then(res => this.extractContent(res, fieldName))
+      .catch(this.errorHandler);
+  }
+  //GET HTTP REQUEST - download a specific group of files (marketing,poc etc..) as zip
+  downloadMultiFiles(fieldName, project) {
+    //setting fieldName as a queryString parameter:
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('fieldname', fieldName);
+    let options = new RequestOptions({ responseType: ResponseContentType.Blob, search: params });
+    return this.http.get(`${this.baseUrl}/${this.role()}/project/files/${project._id}`, options)
       .toPromise().then(res => this.extractContent(res, fieldName))
       .catch(this.errorHandler);
   }

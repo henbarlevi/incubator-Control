@@ -62,6 +62,8 @@ function projctUploadedFilesHandler(req, res, next) {
     }
 
 }
+
+
 /*handle with download project files requests
 http://stackoverflow.com/questions/9321027/how-to-send-files-with-node-js
 http://stackoverflow.com/questions/25463423/res-sendfile-absolute-path - how to use path to get file path
@@ -114,8 +116,8 @@ function projectDownloadSpecificFileHandler(req, res, next) {
 function projectDownloadSpecificMultiFilesHandler(req, res, next) {
 
     var projectId = req.params.id;//getting the id paramter from url
-    var fieldName = req.query.fieldname;//geting the files fieldName from the query string
-
+    var fieldname = req.query.fieldname;//geting the files fieldName from the query string
+    console.log('the fieldname is' + fieldname);
     if (projectId && fieldname) { //check if projectid param and fieldname exist
         ProjectFile.findOne({ project: projectId, fieldName: fieldname })
             .exec(function (err, file) {
@@ -136,11 +138,13 @@ function projectDownloadSpecificMultiFilesHandler(req, res, next) {
                         }
                     });
                 } else {
+                    console.log('sory that file doesnt exist');
                     res.status(400).send('sory that file doesnt exist');
                 }
             })
     }
     else {
+        console.log('client didnt send the project id or the file fieldname');
         res.status(400).send('client didnt send the project id or the file fieldname');
     }
 
@@ -154,4 +158,5 @@ module.exports = {
     projctUploadedFilesHandler: projctUploadedFilesHandler, /*handle with Project related uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
     projectDownloadFilesHandler: projectDownloadFilesHandler, /*handle with download project files requests*/
     projectDownloadSpecificFileHandler: projectDownloadSpecificFileHandler, /*handle with download a project specific file (pitchfile/finderfile etc..)*/
+    projectDownloadSpecificMultiFilesHandler : projectDownloadSpecificMultiFilesHandler /*handle with download a project specific multifiles (marekting/poc etc..)*/
 }

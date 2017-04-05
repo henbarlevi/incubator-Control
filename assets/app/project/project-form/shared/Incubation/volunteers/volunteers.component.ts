@@ -9,11 +9,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
     selector: 'volunteers',
     template: `
+      <h3><b> צוות מתנדבים </b></h3>
     <volunteer-edit [volunteer]="editableVolunteer" (save)="save($event)" ></volunteer-edit>
     <volunteer-list [volunteers]="volunteers"
       (remove)="remove($event)" (edit)="edit($event)"></volunteer-list>
   `,//(remove)="remove($event)" - 'remove' event happend when delete btn is click, the eventEmitter of the volunteer-list
     //will raise the event with the volunteer object ($event=volunteer) sending it to the remove method
+    styles:[`
+h3{
+    text-align:center;
+}
+
+`]
 })
 export class VolunteersComponent {
 

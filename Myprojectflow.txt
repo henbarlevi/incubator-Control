@@ -27,19 +27,14 @@
 -use the globalvariables service where it should
 -fix the issue with users that 
 change the login page so that it will login when pressing enter
--TODO the project db model
--TODO model project should contain files and multiDomains
 -TODO check the schemas validation
 -TODO prevent O(n) in the crew component by using member index O(1)
 -Fix - (currently MDB link and Jquery causing an error of  Cannot read property 'swing' of undefined
     at mdb.min.js:1)
--Fix issue with crew component, happens when playing unexpectedly with buttons - can fixed by using the angular 2 from ground up approach /HTTP folder
 -use barrels to minimize the imports lines
--add select options of project form to the globalvariables service
 -use password hashing in the server, check :https://www.youtube.com/watch?v=yvviEA1pOXw to see what package he use
 -add private to props where should
 -TODO did a checkLoign in the loginService but didnt use it to make already logged user to skip login from into the dashboard
--TODO make the search project input display auto complete
 -TODO check for memory leaks
 -TODO change the project-edit and project-form components to more reusable hierarchy
 -TODO maybe use the localstorage instead of globalvariablesService for userdetails etc?
