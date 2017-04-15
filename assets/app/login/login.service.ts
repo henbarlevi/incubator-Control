@@ -47,7 +47,7 @@ export class LoginService {
           console.log('login succes, response:');
           console.log(response)
         }
-        return response.json()
+        return response;
       })
       .catch(this.errorHandler);
   }

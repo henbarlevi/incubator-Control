@@ -208,7 +208,6 @@ function projectDeleteHandler(req, res, next) {
 }
 //project autocomplete name Handler: - returns an array of matched project names to the name querystring
 function projectAutoCompleteHandler(req, res, next) {
-    console.log('TESTSSSSS');
     var name = req.query.name;
     if (name) {
         ProjectRep.findByName(name, (err, projs) => {

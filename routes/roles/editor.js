@@ -66,10 +66,7 @@ router.patch('/project/:id', projectPatchHandler);
 router.delete('/project/:id', projectDeleteHandler);
 /*Handle with autocomplete serach request - return an optional project names searches that match to the input serach from client
 input search - name querystring (?name=...)*/
-router.get('/project/search', function(req,res,next){
-    console.log('got to auto complete request handler');
-    res.status(202).json('succes response');
-});
+router.get('/autocomplete', projectAutoCompleteHandler);
 //-------------------------------------------------------------------
 
 /*handle with uploaded files : http://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined */
@@ -81,7 +78,7 @@ http://stackoverflow.com/questions/25463423/res-sendfile-absolute-path - how to 
 router.get('/project/download/:id', projectDownloadFilesHandler);// id - project id
 /*handle with download a project specific file (pitchfile/finderfile etc..)*/
 router.get('/project/file/:id',projectDownloadSpecificFileHandler);
-//TEST:
+/*handle with download a project specific multifiles requests (marekting/poc etc..)*/
 router.get('/project/files/:id',projectDownloadSpecificMultiFilesHandler);
 //--------------------------------------------------------------------
 /*Handle with GET comboboxes-options request- client want to load the comboboxes options in the project form*/

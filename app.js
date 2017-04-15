@@ -50,7 +50,7 @@ app.use('/', function (req,res,next) {
 server permission to types of HTTP requests 
 */
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*'); //accept not authenticated requests
+  //  res.setHeader('Access-Control-Allow-Origin', '*'); //accept not authenticated requests
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); //headers allowed by the server
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS'); //allow Http 'POST, GET, PATCH, DELETE, OPTIONS' requests
     next();

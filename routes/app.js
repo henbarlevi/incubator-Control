@@ -6,13 +6,11 @@ var express = require('express'); //import express
 var router = express.Router(); //use router module
 var User = require('../models/user'); //import 'User' schema model
 
-var projectAutoCompleteHandler = require('../helpers/methods').projectAutoCompleteHandler;//TEST
+
 //handle the root request - send back the angular app (views/index.hbs(html))
 router.get('/', function (req, res, next) {
     res.render('index'); //send the angular2 app
 });
-//TEST - for autocomplete feature
-router.get('/admin/project/search', projectAutoCompleteHandler);
 /*Handle Login Requests  - check if they correct and if so - save the user to session*/
 router.post('/login', function (req, res, next) {
     console.log(req.body);

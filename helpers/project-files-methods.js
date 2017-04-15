@@ -87,7 +87,7 @@ function projectDownloadFilesHandler(req, res, next) {
 
 }
 
-/*handle with download a project specific file (pitchfile/finderfile etc..)*/
+/*handle with download a project specific file requests (pitchfile/finderfile etc..)*/
 function projectDownloadSpecificFileHandler(req, res, next) {
     var projectId = req.params.id;//getting the id paramter from url    
     var fieldname = req.query.fieldname; //contain the query stirng values    
@@ -112,7 +112,7 @@ function projectDownloadSpecificFileHandler(req, res, next) {
         res.status(400).send('client didnt send the project id or the file fieldname');
     }
 }
-/*handle with download a project specific multifiles (marekting/poc etc..)*/
+/*handle with download a project specific multifiles requests (marekting/poc etc..)*/
 function projectDownloadSpecificMultiFilesHandler(req, res, next) {
 
     var projectId = req.params.id;//getting the id paramter from url
