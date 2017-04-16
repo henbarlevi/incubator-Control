@@ -15,7 +15,7 @@ export class CustomData extends Subject<CompleterItem[]> implements CompleterDat
         //setting domain as a queryString parameter:
         let params: URLSearchParams = new URLSearchParams();
         params.set('name', searchTerm);
-        this.http.get('http://localhost:3000/admin/project/search',{ search: params })
+        this.http.get('http://localhost:3000/admin/autocomplete',{ search: params })
             .map((res: Response) => {
                 let data = res.json();
                 console.log(data);

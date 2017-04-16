@@ -51,3 +51,7 @@ nested component of the form bind directly to the globalvariablesService.option 
 -Fix - site doesnt handle right when refreshing pages (edit-project page)
 -TODO - maybe the issue with timeout error in server is because the scenario when someone ask to download file that not exist in server
 (when clicking "צפה בקובץ")
+-change "exclude": [
+        "node_modules",
+        "public/js" - change to "public/app"
+    ]
