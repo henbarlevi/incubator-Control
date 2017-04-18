@@ -9,7 +9,7 @@
     margin: auto;
     }
 #login {
-    padding-top: 100px;
+
      background-color: #444;
         background: url(http://www.solidbackgrounds.com/images/1920x1080/1920x1080-white-smoke-solid-color-background.jpg);
         
@@ -98,4 +98,8 @@
 }
 #footer a {
     color: inherit;
+}
+
+section{
+    margin-top: 15%;
 }

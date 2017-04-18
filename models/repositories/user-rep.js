@@ -3,9 +3,7 @@ var User = require('../user'); //import 'Project' schema model
 function add(userReq, callback) {
     //creating a user record
     var user = new User({
-        firstName: userReq.firstName,
-        lastName: userReq.lastName,
-        password: userReq.password,
+        name: userReq.name,
         email: userReq.email,
         role: userReq.role
     });

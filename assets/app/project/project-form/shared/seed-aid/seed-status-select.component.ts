@@ -12,7 +12,7 @@ import { GlobalVariablesService } from '../../../../shared/global-variables.serv
     selector: 'seed-status-select',
     template: `
     <div class="form-div form-group">
-    <label for="seedStatuses" class="cols-sm-2 control-label form-label"> :  תוצאות הפעילות </label>
+    <label for="seedStatuses" class="cols-sm-2 control-label form-label"> סטטוס </label>
     <select class="form-control" name="seedStatuses" [ngModel]="selected" (ngModelChange)="onSelectedChange($event)" >
       <option *ngFor="let status of seedStatuses" [value]="status">
         {{status}} 

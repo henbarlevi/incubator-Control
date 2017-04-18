@@ -14,7 +14,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
       <div class="panel-body">
         מקור הגיוס
         <input type="text" [(ngModel)]="seed.source"
-          placeholder="גובה ההשקעה " >
+          placeholder=" מקור הגיוס  " >
         גובה ההשקעה
         <input type="number" [(ngModel)]="seed.investmentAmount"
           placeholder="גובה ההשקעה " required #investmentAmountField="ngModel">
