@@ -13,7 +13,8 @@ export class LoggedInGuard implements CanActivate { //CanActivate - called when 
               private loginService: LoginService,
               private globalVariablesService : GlobalVariablesService
     ) { }
-
+    //TODO : to-implement-authguard-waiting-a-connection-in-angualr-2
+    //http://stackoverflow.com/questions/38120673/how-to-implement-authguard-waiting-a-connection-in-angualr-2
   //return bool if the route can be activate + navigate to the /login if it cant:
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     //if the user not loggedIn && and user details doesnt exist in localStorage 

@@ -14,12 +14,9 @@ import { GlobalVariablesService } from '../../shared/global-variables.service'; 
       <div class="panel panel-primary">
          <div class="panel-body">
             <div class="col-xs-12 col-sm-6 col-md-3">  
-                <input type="text"  [(ngModel)]="user.firstName" placeholder="first Name" class="form-control">
+                <input type="text"  [(ngModel)]="user.name" placeholder="User Name" class="form-control">
             </div>
-            <div class="col-xs-12 col-sm-6  col-md-3">  
-            <input type="text"  [(ngModel)]="user.lastName" placeholder="last Name" class="form-control">
-            </div>
-           
+
             <div class="col-xs-12 col-sm-6  col-md-3">  
             <input type="text"  [(ngModel)]="user.email" placeholder="Email" class="form-control">    
             </div>

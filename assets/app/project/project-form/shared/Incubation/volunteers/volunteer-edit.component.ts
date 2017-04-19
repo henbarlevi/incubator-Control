@@ -21,8 +21,8 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
           placeholder=" אימייל">
         <input type="text" [(ngModel)]="volunteer.job"
           placeholder=" שם תפקיד ">
-        <button type="button" (click)="onSave()" class="btn btn-primary">שמור</button>
         <volunteer-status-select [(selected)]="volunteer.status"></volunteer-status-select>
+        <button type="button" (click)="onSave()" class="btn btn-primary">שמור</button>
       </div>
     </div>
   `,

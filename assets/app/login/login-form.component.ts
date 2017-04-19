@@ -16,8 +16,12 @@ export class LoginFormComponent implements OnInit {
     console.log('is user logged in :' + loginService.loggedIn);//DEBUG
   }
   ngOnInit() {
+    this.loginService.checklogin().then(loggedin => {
+      if (loggedin) {
+        this.router.navigate(['/dashboard']);
+      }
+    })
   }
-
 
   login() {
 

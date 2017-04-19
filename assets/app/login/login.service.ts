@@ -1,6 +1,6 @@
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { GlobalVariablesService} from '../shared/global-variables.service';
+import { GlobalVariablesService } from '../shared/global-variables.service';
 
 @Injectable() //in order to inject http service - no need to do this when using @Component because @Component already implement the injection
 export class LoginService {
@@ -11,27 +11,30 @@ export class LoginService {
   errorHandler = error => console.error('Login Service error', error);
 
   constructor(private http: Http,
-              private globalvarsService:GlobalVariablesService) {//inject http and globalvarsService services
-                  this.baseUrl = this.globalvarsService.baseUrl; //assign the base url
-               }
+    private globalvarsService: GlobalVariablesService) {//inject http and globalvarsService services
+    this.baseUrl = this.globalvarsService.baseUrl; //assign the base url
+  }
 
   //check if the user already logged in (in order to skip login page) 
   //and return boolean
-  checklogin(){ 
+  checklogin() {
     let loggedIn = false;
     //get as response to props: loggedin-true/false , user- user details
-     return this.http.get(`${this.baseUrl}/login`).toPromise()
-     .then(response => {
-          console.log(response);
-          if (response.status == 200 && response.json().loggedin === true ) {          
-               loggedIn = true;
-               console.log('loggedin from server true');
-               //TODO save the user response details in the globalvarsService
-          }       
-        })
-    .catch(this.errorHandler);
-   
-    
+    return this.http.get(`${this.baseUrl}/login`).toPromise()
+      .then(res => {
+        let resJson = res.json();
+        if (resJson.loggedin) {
+          loggedIn = true;
+          console.log(res.json())
+          console.log('loggedin from server true');
+          this.globalvarsService.userDetails = resJson.user;
+          //TODO save the user response details in the globalvarsService
+        }
+        return resJson.loggedin;
+      })
+      .catch(this.errorHandler);
+
+
   }
   login(email, password) { //will return a login response not imidetlly (async)  
 
@@ -51,16 +54,23 @@ export class LoginService {
       })
       .catch(this.errorHandler);
   }
+  loginGoogle() {
+    return this.http.get(`${this.baseUrl}/auth/google`).toPromise() //'Get Request to 'localhost:8080/auth/google
+      .then(res => {
+        console.log(res);
+      })
+      .catch(this.errorHandler);
+  }
 
   logout() {
-    return this.http.post(`${this.baseUrl}/logout`, {}).toPromise() 
+    return this.http.post(`${this.baseUrl}/logout`, {}).toPromise()
       .then(response => {
         console.log(response);
         if (response.status == 200) {
           this.loggedIn = false;//user is logged out
           this.globalvarsService.userDetails = null; //delete user details
           console.log('succes');
-        }       
+        }
       })
       .catch(this.errorHandler);
   }

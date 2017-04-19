@@ -11,6 +11,7 @@ import { GlobalVariablesService } from '../../../../shared/global-variables.serv
     selector: 'seed-result-button',
     template: `
     <div class="form-div form-group">
+    <label class="cols-sm-2 control-label form-label">  תוצאת הפעילות </label>
     <button type="button" (click)="onSelectedChange('הצלחה')" [class.hidden]="selected!=='לא ידוע' && selected!==''" class="btn btn-warning">Unknown</button>    
     <button type="button" (click)="onSelectedChange('אי הצלחה')" [class.hidden]="selected!=='הצלחה'" class="btn btn-success" >Succes</button>    
     <button type="button" (click)="onSelectedChange('לא ידוע')" [class.hidden]="selected!=='אי הצלחה'" class="btn btn-danger">Failed</button>

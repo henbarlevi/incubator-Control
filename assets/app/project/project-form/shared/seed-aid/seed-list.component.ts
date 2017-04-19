@@ -28,7 +28,7 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                         <td class="col-sm-8 ">
                         <div class="media">
                             <div class="thumbnail pull-left">
-                            <a  href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <a  > <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
                             <h5>{{seed.source}}</h5>
                             </div>
                             <div class="media-body">
@@ -53,7 +53,7 @@ import { Component, EventEmitter, Input, Output ,OnInit} from '@angular/core';
                 <tfoot>
                     <tr>
                         <td><h3>Total</h3></td>
-                        <td class="text-right"><h3>$31.53</h3></td>
+                        <td class="text-right"><h3>-----</h3></td>
                     </tr>
                 </tfoot>
             </table>

@@ -1,8 +1,9 @@
 #ignore the packages folder
-node_modules/
+node_modules
 
+npm-debug.log
 
 # exclude everything from uploads folder (folder that contain projects files)
 uploads/*
 # exception to the rule
-!uploads/.gitkeep
+#!uploads/.gitkeep

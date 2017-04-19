@@ -15,8 +15,7 @@ import { GlobalVariablesService } from '../../shared/global-variables.service'; 
   <thead>
     <tr>
       <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>User Name</th>
       <th>Email</th>      
       <th>Role</th>
       <th>Action</th>      
@@ -25,8 +24,7 @@ import { GlobalVariablesService } from '../../shared/global-variables.service'; 
   <tbody>
     <tr  *ngFor="let user of users; let i = index">
       <th scope="row">{{i}}</th>
-      <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td>
+      <td>{{user.name}}</td>
       <td>{{user.email}}</td>      
       <td>{{user.role}}</td>
     <td>
