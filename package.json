@@ -1,5 +1,5 @@
 {
-  "name": "udemy-nodejs-angular2",
+  "name": "incubation-control-app",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -56,6 +56,8 @@
     "typescript": "2.0.3",
     "webpack": "2.1.0-beta.21",
     "webpack-merge": "^0.14.1"
+  },
+  "engines": {
+    "node" :"6.9.1"
   }
- 
 }

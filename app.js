@@ -19,9 +19,10 @@ var passport = require('passport');
     require('./config/passport')(passport); // pass passport for configuration
 
 var app = express();
-mongoose.connect('mongodb://localhost/IncubatorDB');//setting connection to DB
-
-
+//development connection 
+//mongoose.connect('mongodb://localhost/IncubatorDB');//setting connection to DB
+//prod connection
+mongoose.connect('mongodb://hen:incubator-control@ds163340.mlab.com:63340/incubator-db');
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); //set for 'views' folder the default location
 app.set('view engine', 'hbs');//set hbs as the template engine, by default it will search the .hbs files in the 'views' folder
