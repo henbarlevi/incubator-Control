@@ -13,7 +13,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private router: Router,
     private loginService: LoginService) {
-    console.log('is user logged in :' + loginService.loggedIn);//DEBUG
+    console.log('is user logged in >>' + loginService.loggedIn);//DEBUG
   }
   ngOnInit() {
     this.loginService.checklogin().then(loggedin => {
