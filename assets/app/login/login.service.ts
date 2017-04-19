@@ -23,9 +23,9 @@ export class LoginService {
     return this.http.get(`${this.baseUrl}/login`).toPromise()
       .then(res => {
         let resJson = res.json();
+          console.log(res.json())
         if (resJson.loggedin) {
           this.loggedIn = true;
-          console.log(res.json())
           console.log('loggedin from server true');
           this.globalvarsService.userDetails = resJson.user;
           //TODO save the user response details in the globalvarsService
