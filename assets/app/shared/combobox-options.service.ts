@@ -22,7 +22,7 @@ export class ComboboxesOptionsService {
         this.role =()=>{return  this.globalvarsService.userDetails.role}; //assign the client user that currently using the service role
     }
     //HTTP 'DELETE' request - deleting option from the comboboxes of the project form (source/status/domain)
-    deleteOption(option, comboboxName) {
+    deleteOption(option, comboboxName)  : Promise<any> {
         //setting name as a queryString parameter:
         let params: URLSearchParams = new URLSearchParams();
         params.set('option', option);
@@ -30,7 +30,7 @@ export class ComboboxesOptionsService {
             .catch(this.errorHandler);
     }
     //HTTP 'POST' request - adding new option for one of the comboboxes of the project form (source/status/domain):
-    addOption(option, comboboxName) {
+    addOption(option, comboboxName)  : Promise<any> {
         console.log(option);
         console.log(comboboxName);
 
@@ -42,7 +42,7 @@ export class ComboboxesOptionsService {
 
     }
     //HTTP 'GET' request - get the oomboxes options that comboboxes in project form contain
-    loadOptions() {
+    loadOptions()   : Promise<any>{
         return this.http.get(`${this.baseUrl}/${this.role()}/comboboxes-options`).toPromise() //'Get Request to 'localhost:8080/quote.json'
             .then(response => response.json())
             .then(response => this.saveOptions(response))//save options to the globalVariablesService
@@ -50,7 +50,7 @@ export class ComboboxesOptionsService {
     }
 
     //save the options of the comboboxes loaded from the server into the globalVariablesService
-    private saveOptions(options) {
+    private saveOptions(options)  {
         //convert the response that contains the options into string arrays:
         //Array.prototype.map - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
         let domainOptions = options.DomainOptions.map(function (opObj) {

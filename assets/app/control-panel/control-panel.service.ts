@@ -16,7 +16,7 @@ export class ControlPanelService {
     this.role = this.globalvarsService.userDetails.role; //assign the client user that currently using the service role
   }
   //POST HTTP REQUEST -add new user  
-  addUser(user) {
+  addUser(user) : Promise<any> {
     const json = JSON.stringify(user); //convert user login to json
     console.log(json);//DEBUG
     const headers = new Headers({ 'content-Type': 'application/json' });
@@ -24,20 +24,20 @@ export class ControlPanelService {
       .catch(this.errorHandler);
   }
   //DELTE HTTP REQUEST - delete existing user
-  deleteUser(user) {
+  deleteUser(user) : Promise<any>  {
     return this.http.delete(`${this.baseUrl}/${this.role}/user/${user._id}`)
       .toPromise()
       .catch(this.errorHandler);
   }
   //PATCH HTTP REQUEST
-  updateUser(user) {
+  updateUser(user)  : Promise<any>{
     const json = JSON.stringify(user);
     console.log(json);//DEBUG    
     const headers = new Headers({ 'content-Type': 'application/json' });
     return this.http.patch(`${this.baseUrl}/${this.role}/user/${user._id}`, json, { headers: headers })
       .toPromise();
   }
-  getUsers() {
+  getUsers() : Promise<any> {
     return this.http.get(`${this.baseUrl}/${this.role}/users`).toPromise()
       .then(res => res.json())
       .catch(this.errorHandler);

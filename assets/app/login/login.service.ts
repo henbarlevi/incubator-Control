@@ -17,7 +17,7 @@ export class LoginService {
 
   //check if the user already logged in (in order to skip login page) 
   //and return boolean
-  checklogin() {
+  checklogin() :Promise<any>{
     let loggedIn = false;
     //get as response to props: loggedin-true/false , user- user details
     return this.http.get(`${this.baseUrl}/login`).toPromise()
@@ -36,7 +36,7 @@ export class LoginService {
 
 
   }
-  login(email, password) { //will return a login response not imidetlly (async)  
+  login(email, password) :Promise<any> { //will return a login response not imidetlly (async)  
 
     const json = JSON.stringify({ email: email, password: password }); //convert user login to json
     const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -62,7 +62,7 @@ export class LoginService {
       .catch(this.errorHandler);
   }
 
-  logout() {
+  logout() :Promise<any>{
     return this.http.post(`${this.baseUrl}/logout`, {}).toPromise()
       .then(response => {
         console.log(response);

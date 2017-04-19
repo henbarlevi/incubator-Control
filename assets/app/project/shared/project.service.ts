@@ -21,14 +21,14 @@ export class ProjectService {
   }
 
   //GET HTTP REQUEST -get all projects 
-  getProjects() {
+  getProjects() : Promise<any> {
     return this.http.get(`${this.baseUrl}/${this.role()}/project`)
       .toPromise()
       .then(response => response.json().projects)
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - get project by id  (with full details)
-  getProjectById(projectId) {
+  getProjectById(projectId) : Promise<any> {
     //console.log(project);//DEBUG
     //console.log(json);//DEBUG    
     const headers = new Headers({ 'content-Type': 'application/json' });
@@ -38,7 +38,7 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - get projects by name
-  getProjectsByName(name) {
+  getProjectsByName(name) : Promise<any> {
     //setting name as a queryString parameter:
     let params: URLSearchParams = new URLSearchParams();
     params.set('name', name);
@@ -48,7 +48,7 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - get projects by name
-  getProjectsByDomain(domain) {
+  getProjectsByDomain(domain) : Promise<any>{
     //setting domain as a queryString parameter:
     let params: URLSearchParams = new URLSearchParams();
     params.set('domain', domain);
@@ -58,7 +58,7 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //POST HTTP REQUEST -add new project  
-  addProject(project) {
+  addProject(project) : Promise<any> {
     const json = JSON.stringify(project); //convert project to json
     console.log(json);//DEBUG
     const headers = new Headers({ 'content-Type': 'application/json' });
@@ -66,13 +66,13 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //DELTE HTTP REQUEST - delete existing project
-  deleteProject(project) {
+  deleteProject(project)  : Promise<any> {
     return this.http.delete(`${this.baseUrl}/${this.role()}/project/${project._id}`)
       .toPromise()
       .catch(this.errorHandler);
   }
   //UPDATE HTTP REQUEST
-  updateProject(project) {
+  updateProject(project) : Promise<any>{
     console.log(project);//DEBUG
     const json = JSON.stringify(project);
     console.log(json);//DEBUG    
@@ -80,7 +80,7 @@ export class ProjectService {
     return this.http.patch(`${this.baseUrl}/${this.role()}/project/${project._id}`, json, { headers: headers })
       .toPromise();
   }
-  uploadFiles(formData, project) {
+  uploadFiles(formData, project) : Promise<any> {
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
@@ -89,7 +89,7 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - download all files of project (.zip)
-  downloadProjectFiles(project) {
+  downloadProjectFiles(project) : Promise<any> {
 
     let headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/zip' });
     let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
@@ -104,7 +104,7 @@ export class ProjectService {
     FileSaver['saveAs'](blob, filename);
   }
   //GET HTTP REQUEST - download a specific file of project (.doc/.docx/etc..)
-  downloadFile(fieldName, project) {
+  downloadFile(fieldName, project) : Promise<any>{
     //setting fieldName as a queryString parameter:
     let params: URLSearchParams = new URLSearchParams();
     params.set('fieldname', fieldName);
@@ -114,7 +114,7 @@ export class ProjectService {
       .catch(this.errorHandler);
   }
   //GET HTTP REQUEST - download a specific group of files (marketing,poc etc..) as zip
-  downloadMultiFiles(fieldName, project) {
+  downloadMultiFiles(fieldName, project) : Promise<any> {
     //setting fieldName as a queryString parameter:
     let params: URLSearchParams = new URLSearchParams();
     params.set('fieldname', fieldName);
