@@ -4,7 +4,7 @@
 export class GlobalVariablesService {
 
  
-  baseUrl = 'http://localhost:3000';
+  baseUrl = 'http://incubator-control-demo.herokuapp.com';
 
   sourcesOptions: string[] = ['אינטרנט', 'יועץ', 'ניר עופר', 'אחר']; //options of sources,from where the project owner came to the incubation, this prop used by combo boxes to display options
   

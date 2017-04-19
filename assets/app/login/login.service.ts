@@ -54,7 +54,7 @@ export class LoginService {
       })
       .catch(this.errorHandler);
   }
-  loginGoogle() {
+  loginGoogle() {//NOT IN USE
     return this.http.get(`${this.baseUrl}/auth/google`).toPromise() //'Get Request to 'localhost:8080/auth/google
       .then(res => {
         console.log(res);
