@@ -18,7 +18,10 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
     this.loginService.checklogin().then(loggedin => {
       if (loggedin) {
+        console.log('server saying user is authenticated - navigate to dash')
         this.router.navigate(['/dashboard']);
+      }else{
+        console.log('server saying user is NOT authenticated - stay in login')
       }
     })
   }
