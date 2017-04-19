@@ -18,13 +18,13 @@ export class LoginService {
   //check if the user already logged in (in order to skip login page) 
   //and return boolean
   checklogin() :Promise<any>{
-    let loggedIn = false;
+    console.log('sending checklogin to server');
     //get as response to props: loggedin-true/false , user- user details
     return this.http.get(`${this.baseUrl}/login`).toPromise()
       .then(res => {
         let resJson = res.json();
         if (resJson.loggedin) {
-          loggedIn = true;
+          this.loggedIn = true;
           console.log(res.json())
           console.log('loggedin from server true');
           this.globalvarsService.userDetails = resJson.user;
