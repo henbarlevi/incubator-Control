@@ -119,7 +119,7 @@ export class ProjectFormComponent implements OnInit {
             if (res.ok) {//if the post project to server succeded:
                 //TEST the FormDataHandlerService
                 this.formDataHandlerService.saveToFormData();
-                console.log('uploading the formdata : ');
+                console.log('uploading the formdata (project files) : ');
                 console.log(this.formDataHandlerService.formData);
                 this.projectService.uploadFiles(this.formDataHandlerService.formData, res.json()) //send the project related files
                     .then(res => {
