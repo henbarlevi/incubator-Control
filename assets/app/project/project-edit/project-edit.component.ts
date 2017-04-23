@@ -75,6 +75,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
                     this.project = res;
                     console.log('res from getProjectById');
                     console.log(res);
+                    console.log('the project');
+                    console.log(this.project);
+
                 });
         });
     }
