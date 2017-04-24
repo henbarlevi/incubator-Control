@@ -3,9 +3,11 @@
 
 export class GlobalVariablesService {
 
- 
-  baseUrl = 'http://incubator-control-demo.herokuapp.com';
-
+    //prod:
+  //baseUrl = 'http://incubator-control-demo.herokuapp.com';
+    //development:
+  baseUrl = 'http://localhost:3000';
+  
   sourcesOptions: string[] = ['אינטרנט', 'יועץ', 'ניר עופר', 'אחר']; //options of sources,from where the project owner came to the incubation, this prop used by combo boxes to display options
   
   _statusOptions: string[] = ['Pre Seed', 'Seed', 'Round A', 'חברה בוגרת עם מכירות']//options of status of the project, this prop used by combo boxes to display options

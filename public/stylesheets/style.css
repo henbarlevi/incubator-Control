@@ -42,3 +42,10 @@ form,article{
         margin: auto;
     }
 }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}

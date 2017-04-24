@@ -10,7 +10,8 @@ import { DashboardService } from './dashboard.service'; //service that send http
 import { ComboboxesOptionsService } from '../shared/combobox-options.service';
 @Component({
     selector: 'dashboard',
-    templateUrl: './dashboard.component.html'//nested <router-outlet> info: http://lishman.io/angular-2-router
+    templateUrl: './dashboard.component.html',//nested <router-outlet> info: http://lishman.io/angular-2-router
+    styleUrls:['./dashboard.component.css']
 })
 export class DashboardComponent {
 
